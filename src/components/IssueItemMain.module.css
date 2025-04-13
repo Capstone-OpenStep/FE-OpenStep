@@ -1,0 +1,202 @@
+.cardContainer {
+  width: 1000px;
+  height: 161px;
+  position: relative;
+  box-shadow: 4px 4px 2px rgba(0, 0, 0, 0.10);
+}
+
+.cardBackground {
+  width: 1000px;
+  height: 160px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: white;
+}
+
+.cardFooter {
+  width: 1000px;
+  height: 40px;
+  position: absolute;
+  left: 0;
+  top: 120px;
+  background: rgba(217, 217, 217, 0.43);
+}
+
+.statusIndicator {
+  width: 18px;
+  height: 17px;
+  position: absolute;
+  left: 285px;
+  top: 131px;
+  background: #FF9D48;
+  border-radius: 9999px;
+}
+
+.languageLabel {
+  width: 39px;
+  height: 40px;
+  position: absolute;
+  left: 310px;
+  top: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #737373;
+  font-size: 16px;
+  font-family: 'noto sans kr', sans-serif;
+  font-weight: 600;
+  word-wrap: break-word;
+}
+
+.starCount {
+  width: 47px;
+  height: 40px;
+  position: absolute;
+  left: 383px;
+  top: 121px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #7E7E7E;
+  font-size: 16px;
+  font-family: 'noto sans kr', sans-serif;
+  font-weight: 600;
+  word-wrap: break-word;
+}
+
+.issueFromLabel {
+  width: 86px;
+  height: 40px;
+  position: absolute;
+  left: 16px;
+  top: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #7E7E7E;
+  font-size: 16px;
+  font-family: 'noto sans kr', sans-serif;
+  font-weight: 600;
+  word-wrap: break-word;
+}
+
+.repositoryLabel {
+  width: 165px;
+  height: 40px;
+  position: absolute;
+  left: 102px;
+  top: 121px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #3B4BFF;
+  font-size: 16px;
+  font-family: 'noto sans kr', sans-serif;
+  font-weight: 600;
+  word-wrap: break-word;
+}
+
+.openedInfo {
+  width: 374px;
+  height: 40px;
+  position: absolute;
+  left: 18px;
+  top: 81px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #7E7E7E;
+  font-size: 16px;
+  font-family: 'noto sans kr', sans-serif;
+  font-weight: 600;
+  word-wrap: break-word;
+}
+
+.issueTitle {
+  width: 506px;
+  position: absolute;
+  left: 18px;
+  top: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #5353FF;
+  font-size: 18px;
+  font-family: 'noto sans kr', sans-serif;
+  font-weight: 600;
+  word-wrap: break-word;
+}
+
+.tagContainer {
+  position: absolute;
+  left: 18px;
+  top: 49px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 16px;
+}
+
+/* 공통 태그 스타일 */
+.tag {
+  height: 22px;
+  background: rgba(0, 116.23, 240.48, 0.54);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 5px; /* 기본 패딩 */
+}
+
+/* 태그별 width 및 패딩 오버라이드 */
+.tagDataManagement {
+  width: 183px;
+}
+
+.tagTestFailure {
+  width: 89px;
+  padding: 0 7px;
+}
+
+.tagTeam {
+  width: 156px;
+  padding: 0 4px;
+}
+
+.tagNeedsRisk {
+  width: 76px;
+  padding: 0 6px;
+}
+
+/* 공통 태그 텍스트 스타일 */
+.tagText {
+  height: 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: white;
+  font-size: 12px;
+  font-family: 'noto sans kr', sans-serif;
+  font-weight: 600;
+  word-wrap: break-word;
+}
+
+/* 태그 텍스트 별 width (원본 비율 유지) */
+.tagTextDataManagement {
+  width: 171px;
+}
+
+.tagTextTestFailure {
+  width: 75px;
+}
+
+.tagTextTeam {
+  width: 147px;
+}
+
+.tagTextNeedsRisk {
+  width: 63px;
+}
