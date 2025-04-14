@@ -24,7 +24,16 @@ const markdownContent: string = `
 
 `;
 
-const IssueDescription = () => {
+interface IssueDescriptionProps {
+    stage: number
+    setStage: React.Dispatch<React.SetStateAction<number>>;
+}
+
+const IssueDescription: React.FC<IssueDescriptionProps> = ({ stage, setStage }) => {
+    const onClickButton = () => {
+        setStage(stage + 1);
+    }
+
     return (
         <div style={{ width: 680, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 10, display: 'inline-flex' }}>
             <div style={{ alignSelf: 'stretch', height: 40, justifyContent: 'center', display: 'flex', flexDirection: 'column', color: '#5353FF', fontSize: 24, fontFamily: 'Inter', fontWeight: '600', wordWrap: 'break-word' }}>[CI] ILMHistoryItemTests testTruncateLongError failing</div>
@@ -52,11 +61,13 @@ const IssueDescription = () => {
                     />
                 </div>
             </div>
-            <div style={{ width: 680, height: 61, paddingTop: 13, paddingBottom: 13, paddingLeft: 565, paddingRight: 14, background: 'white', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.10)', borderRadius: 10, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 10, display: 'flex' }}>
-                <div style={{ width: 100, height: 35, paddingLeft: 15, paddingRight: 15, background: '#4366F2', borderRadius: 15, justifyContent: 'center', alignItems: 'center', gap: 10, display: 'inline-flex' }}>
-                    <div style={{ textAlign: 'center', justifyContent: 'center', display: 'flex', flexDirection: 'column', color: 'white', fontSize: 16, fontFamily: 'Inter', fontWeight: '400', wordWrap: 'break-word' }}>기여 시작</div>
-                </div>
-            </div>
+            {stage === 1 ?
+                (<div style={{ width: 680, height: 61, paddingTop: 13, paddingBottom: 13, paddingLeft: 565, paddingRight: 14, background: 'white', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.10)', borderRadius: 10, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 10, display: 'flex', cursor:'pointer' }}>
+                    <div style={{ width: 100, height: 35, paddingLeft: 15, paddingRight: 15, background: '#4366F2', borderRadius: 15, justifyContent: 'center', alignItems: 'center', gap: 10, display: 'inline-flex' }} onClick={onClickButton}>
+                        <div style={{ textAlign: 'center', justifyContent: 'center', display: 'flex', flexDirection: 'column', color: 'white', fontSize: 16, fontFamily: 'Inter', fontWeight: '400', wordWrap: 'break-word' }}>기여 시작</div>
+                    </div>
+                </div>) : (<></>)
+            }
         </div>
     );
 };
