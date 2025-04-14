@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './SignUp.module.css';
 import SelectableList from '../components/signUp/SeletableList';
 import WorkCounter from '../components/signUp/WorkCounter';
@@ -30,6 +31,8 @@ const SignUp: React.FC = () => {
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
   const [selectedDomains, setSelectedDomains] = useState<string[]>([]);
 
+  const navigate = useNavigate();
+
   const toggleLanguage = (lang: string) => {
     setSelectedLanguages((prev) =>
       prev.includes(lang) ? prev.filter((l) => l !== lang) : [...prev, lang]
@@ -47,6 +50,8 @@ const SignUp: React.FC = () => {
       setStep(SignUpStep.Domain);
     } else if (step === SignUpStep.Domain) {
       setStep(SignUpStep.WorkCount);
+    } else if (step === SignUpStep.WorkCount) {
+      navigate(`/`);
     }
     // WorkCount 단계에서는 추가 동작을 연결할 수 있습니다.
   };

@@ -7,7 +7,8 @@ import Milestone from '../components/issue/Milestone';
 import Guide from '../components/issue/Guide'
 
 const Project: React.FC = () => {
-
+    const [stage, setStage] = useState<number>(1);
+    
     return (
         <div className={styles.body}>
             <div className={`${styles.section} ${styles.sectionLeft}`}>
@@ -15,10 +16,10 @@ const Project: React.FC = () => {
                 <Summary/>
             </div>
             <div className={`${styles.section} ${styles.sectionMiddle}`}>
-                <Descrption/>
+                <Descrption stage={stage} setStage={setStage}/>
             </div>
             <div className={`${styles.section} ${styles.sectionRight}`}>
-                <Milestone currentStage={1}/>
+                <Milestone currentStage={stage}/>
                 <Guide title={''} text={''}/>
             </div>
         </div>

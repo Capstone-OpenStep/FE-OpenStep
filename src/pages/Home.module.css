@@ -2,11 +2,11 @@
     background-color: #F9FAFA;
     display: flex;
     justify-content: center;
-    align-items: center;
+    min-height: 100dvh;
 }
 
 .mainContent {
-    top: 135px;
+    top: 164px;
     position: relative;
 }
 

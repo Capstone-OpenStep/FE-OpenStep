@@ -12,23 +12,32 @@ const Container = styled.div<{ isFilter: boolean }>`
   border-bottom-right-radius: ${(props) => (props.isFilter ? '0' : '15px')};
   border: 1px #d0cece solid;
   position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `;
 
 const SearchIcon = styled.img`
+  position: relative;
   height: 24px;
-  position: absolute;
   left: 16px;
-  top: 10px;
 `;
 
 const FilterToggle = styled.div`
   width: 70px;
-  position: absolute;
-  right: 10px;
-  top: 11px;
+  position: relative;
+  left: 45px;
   display: flex;
   flex-direction: row;
   gap: 5px;
+  cursor: pointer;
+`;
+
+const InputFiled = styled.div`
+  width: 1000px;
+  height: 95%;
+  left: 30px;
+  position: relative;
   cursor: pointer;
 `;
 
@@ -198,16 +207,41 @@ const Filter = () => {
   );
 };
 
-const SearchBar = () => {
+interface SearchBarProps {
+  mode: number;
+  query: string;
+  setMode: React.Dispatch<React.SetStateAction<number>>;
+  setQuery: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const SearchBar: React.FC<SearchBarProps> = ({ mode, query, setMode, setQuery }) => {
   const [isFilter, setIsFilter] = useState<boolean>(false);
+  const [searchText, setSearchText] = useState<string>("");
   const toggle = () => {
     setIsFilter((prev) => !prev);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      setQuery(searchText);
+      setMode(2);
+    }
   };
 
   return (
     <>
       <Container isFilter={isFilter}>
         <SearchIcon src={search} />
+        <InputFiled>
+          <input
+            type={'text'}
+            onChange={(e) => setSearchText(e.target.value)}
+            onKeyDown={handleKeyDown}
+            value={searchText}
+            style={{ width: '100%', height: '100%', fontFamily: 'Noto Sans KR', fontSize: 20 }}
+            placeholder='검색어를 입력해주세요'
+          ></input>
+        </InputFiled>
         <FilterToggle onClick={toggle}>
           <ToggleText>+</ToggleText>
           <ToggleText>필터</ToggleText>

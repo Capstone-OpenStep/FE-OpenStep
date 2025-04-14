@@ -1,10 +1,16 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './IssueItem.module.css';
 import star from '../../assets/star.svg'
 
 const IssueItem = () => {
+  const navigate = useNavigate();
+  const onClickContainer = () => {
+    navigate(`/issue`);
+  };
+
   return (
-    <div className={styles.cardContainer}>
+    <div className={styles.cardContainer} onClick={onClickContainer}>
       <div className={styles.infoList}>
         <div className={styles.issueTitle}>[CI] ILMHistoryItemTests testTruncateLongError failing</div>
         <div className={styles.openedInfo}>elasticsearchmachine opened 18 minutes ago</div>

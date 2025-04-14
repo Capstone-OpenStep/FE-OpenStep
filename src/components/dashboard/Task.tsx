@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './Task.module.css';
 import check from '../../assets/check.svg'
 
 
 const Task: React.FC = () => {
+    const navigate = useNavigate();
+    const onClickTask = () => {
+        navigate(`/issue`);
+    };
 
     return (
-        <div>
+        <div onClick={onClickTask} style={{cursor:'pointer'}}>
             <div style={{ width: 220, height: 120, position: 'relative', background: 'white', overflow: 'hidden', borderRadius: 15, outline: '1px rgba(0, 0, 0, 0.17) solid', outlineOffset: '-1px' }}>
                 <div style={{ left: 18, top: 20, position: 'absolute', color: 'rgba(0, 0, 0, 0.64)', fontSize: 15, fontFamily: 'Noto Sans KR', fontWeight: '700', wordWrap: 'break-word' }}>README.md 작성</div>
                 <div style={{ left: 18, top: 51, position: 'absolute', color: 'black', fontSize: 10, fontFamily: 'Noto Sans KR', fontWeight: '500', wordWrap: 'break-word' }}>develop</div>
