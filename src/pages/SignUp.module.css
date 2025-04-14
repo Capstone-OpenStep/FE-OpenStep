@@ -1,0 +1,92 @@
+.body {
+    background-color: #F9FAFA;
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+}
+
+.board {
+    background-color: #ffffff;
+    width: 600px;
+    max-width: 600px;
+    height: 500px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.infoText {
+    position: relative;
+    top: 60px;
+    width: 337px;
+    height: 74px;
+    text-align: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    color: black;
+    font-size: 24px;
+    font-family: 'Noto Sans KR';
+    font-weight: 700;
+    word-wrap: break-word;
+}
+
+.languageSelector {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 9px;
+    position: relative;
+    top: 80px;
+    height: 200px;
+    width: 380px;
+}
+
+.domainSelector {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 9px;
+    position: relative;
+    top: 80px;
+    height: 200px;
+    width: 420px;
+}
+
+.nextButtonWrapper {
+    width: 60px;
+    height: 40px;
+    top: 158px;
+    left: 220px;
+    position: relative;
+}
+
+.nextButtonBackground {
+    width: 60px;
+    height: 40px;
+    left: 0;
+    top: 0;
+    position: absolute;
+    background: #000037;
+}
+
+.nextButtonText {
+    width: 60px;
+    height: 37px;
+    left: 0;
+    top: 0;
+    position: absolute;
+    text-align: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    font-size: 24px;
+    font-family: 'Inter';
+    font-weight: 700;
+    word-wrap: break-word;
+}

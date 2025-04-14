@@ -1,0 +1,145 @@
+.cardContainer {
+  width: 1056px;
+  height: 200px;
+  position: relative;
+  box-shadow: 4px 4px 2px rgba(0, 0, 0, 0.10);
+}
+
+.cardBackground {
+  width: 1056px;
+  height: 200px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: white;
+}
+
+/* 회색 박스 영역을 flex 컨테이너로 변경 */
+.cardFooter {
+  width: 1056px;
+  height: 40px;
+  position: absolute;
+  left: 0;
+  top: 160px;
+  background: rgba(217, 217, 217, 0.43);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+}
+
+/* 왼쪽 영역: Issue from, repository */
+.footerLeft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 가운데 영역: 상태 표시기 */
+.footerCenter {
+  margin-left:10px;
+  display: flex;
+  align-items: center;
+}
+
+/* 오른쪽 영역: 언어, star 개수 */
+.footerRight {
+  margin-left:8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 상태 표시기 */
+.statusIndicator {
+  width: 18px;
+  height: 17px;
+  background: #FF9D48;
+  border-radius: 9999px;
+}
+
+/* 텍스트 스타일 (absolute 위치 제거) */
+.issueFromLabel {
+  color: #7E7E7E;
+  font-size: 16px;
+  font-family: 'noto sans kr', sans-serif;
+  font-weight: 600;
+}
+
+.repositoryLabel {
+  color: #3B4BFF;
+  font-size: 16px;
+  font-family: 'noto sans kr', sans-serif;
+  font-weight: 600;
+}
+
+.languageLabel {
+  color: #737373;
+  font-size: 16px;
+  margin-left: 7px;
+  font-family: 'noto sans kr', sans-serif;
+  font-weight: 600;
+}
+
+.starCount {
+  color: #7E7E7E;
+  font-size: 16px;
+  font-family: 'noto sans kr', sans-serif;
+  font-weight: 600;
+}
+
+/* 기존 다른 요소들은 위치 유지 */
+.openedInfo {
+  position: absolute;
+  left: 18px;
+  top: 50px;
+  color: #000;
+  font-family: "Noto Sans KR";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 24px; /* 150% */
+}
+
+.issueTitle {
+  position: absolute;
+  left: 18px;
+  top: 14px;
+  color: #5353FF;
+  font-size: 18px;
+  font-family: 'noto sans kr', sans-serif;
+  font-weight: 600;
+}
+
+.tagContainer {
+  position: absolute;
+  left: 18px;
+  top: 122px;
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* 기존 태그 스타일 유지 */
+.tag {
+  height: 22px;
+  background: rgba(0, 116.23, 240.48, 0.54);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 5px;
+}
+
+.tagText {
+  height: 22px;
+  display: flex;
+  align-items: center;
+  color: white;
+  font-size: 12px;
+  font-family: 'noto sans kr', sans-serif;
+  font-weight: 600;
+}
+
+

@@ -1,0 +1,87 @@
+.workCounterContainer {
+  width: 263px;
+  height: 200px;
+  position: relative;
+  top: 140px;
+}
+
+.workCounterBackground {
+  width: 100%;
+  height: 77px;
+  position: absolute;
+  background: white;
+  border-radius: 5px;
+  border: 1px solid black;
+}
+
+.workCounterInputWrapper {
+  width: 148px;
+  height: 73px;
+  position: absolute;
+  left: 57px;
+  top: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.workCounterInput {
+  min-width: 30px;
+  height: 100%;
+  font-size: 40px;
+  text-align: center;
+  border: none;
+  outline: none;
+}
+
+.workCounterLeftButton {
+  width: 44px;
+  height: 75px;
+  position: absolute;
+  left: 1px;
+  top: 1px;
+  background: white;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-right: 1px solid black;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.workCounterLeftButtonText {
+  font-size: 24px;
+}
+
+.workCounterRightButton {
+  width: 44px;
+  height: 75px;
+  position: absolute;
+  left: 218px;
+  top: 1px;
+  background: white;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-left: 1px solid black;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.workCounterRightButtonText {
+  font-size: 24px;
+}
+
+/* input 스피너 제거 */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+}

@@ -1,0 +1,81 @@
+.container {
+    width: 210px;
+    height: 30px;
+    position: relative;
+    border-radius: 10px;
+    cursor: pointer;
+    user-select: none;
+  }
+  
+  .background {
+    width: 100%;
+    height: 30px;
+    background: #D9D9D9;
+    border-radius: 10px;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  
+  .slider {
+    width: 105px;
+    height: 30px;
+    position: absolute;
+    top: 0;
+    background: #3A7FFF;
+    border-radius: 10px;
+    transition: left 0.3s ease;
+  }
+  
+  .sliderInactive {
+    left: 0;
+  }
+  
+  .sliderActive {
+    left: 105px;
+  }
+  
+  .repoText {
+    position: absolute;
+    width: 80px;
+    height: 30px;
+    top: 0;
+    left: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+  }
+  
+  .repoActive {
+    color: #000;
+  }
+  
+  .repoInactive {
+    color: #fff;
+  }
+  
+  .issueText {
+    position: absolute;
+    width: 59px;
+    height: 30px;
+    top: 0;
+    left: 127px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+  }
+  
+  .issueActive {
+    color: #fff;
+  }
+  
+  .issueInactive {
+    color: #000;
+  }
+  

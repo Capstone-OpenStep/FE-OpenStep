@@ -1,0 +1,99 @@
+.infoTextContainer {
+    position: relative;
+    top: 34px;
+    left: 16px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .infoTextRow {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: relative;
+  }
+  
+  .infoTextContent {
+    display: block;
+  }
+  
+  .name {
+    color: #5353FF;
+    font-size: 36px;
+    font-family: 'Noto Sans KR';
+    font-weight: 400;
+    word-wrap: break-word;
+  }
+  
+  .greeting {
+    color: black;
+    font-size: 36px;
+    font-family: 'Noto Sans KR';
+    font-weight: 400;
+    word-wrap: break-word;
+  }
+  
+  .reactText {
+    color: #5353FF;
+    font-size: 36px;
+    font-family: 'Noto Sans KR';
+    font-weight: 900;
+    word-wrap: break-word;
+  }
+  
+  .comma {
+    color: black;
+    font-size: 36px;
+    font-family: 'Noto Sans KR';
+    font-weight: 900;
+    word-wrap: break-word;
+  }
+  
+  .webText {
+    color: #5353FF;
+    font-size: 36px;
+    font-family: 'Noto Sans KR';
+    font-weight: 900;
+    word-wrap: break-word;
+  }
+  
+  .serviceText {
+    color: black;
+    font-size: 36px;
+    font-family: 'Noto Sans KR';
+    font-weight: 400;
+    word-wrap: break-word;
+  }
+  
+  .switchIconImg {
+    position: absolute;
+    right: 125px;
+  }
+  
+  .switchIconText {
+    width: 92px;
+    height: 45px;
+    right: 16px;
+    position: absolute;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #4063FF;
+    font-size: 18px;
+    font-family: 'Noto Sans KR';
+    font-weight: 500;
+    word-wrap: break-word;
+  }
+  
+  .subText {
+    position: relative;
+    top: 37px;
+    color: #000;
+    font-family: 'Noto Sans KR';
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  }
+  

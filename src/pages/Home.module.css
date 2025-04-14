@@ -1,0 +1,18 @@
+.body {
+    background-color: #F9FAFA;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mainContent {
+    top: 135px;
+    position: relative;
+}
+
+.projectList {
+    position: relative;
+    top: 71px;
+    width: 230px;
+    min-height: 30px;
+}

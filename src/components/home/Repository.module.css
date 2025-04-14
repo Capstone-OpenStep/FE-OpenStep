@@ -1,0 +1,123 @@
+.container {
+  width: 1056px;
+  height: 177px;
+  position: relative;
+  box-shadow: 4px 4px 2px rgba(0, 0, 0, 0.10);
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.bg {
+  position: absolute;
+  width: 1056px;
+  height: 177px;
+  left: 0;
+  top: 0;
+  background: #FCFCFC;
+}
+
+/* 헤더 영역 */
+.header {
+  position: absolute;
+  width: 1056px;
+  height: 177px;
+}
+
+.title {
+  position: absolute;
+  left: 18px;
+  top: 16px;
+  width: 464px;
+  height: 29px;
+  color: #5353FF;
+  font-size: 20px;
+  font-family: 'Noto Sans KR';
+  font-weight: 700;
+  text-decoration: underline;
+  word-wrap: break-word;
+}
+
+.description {
+  position: absolute;
+  left: 18px;
+  top: 69px;
+  color: black;
+  font-size: 16px;
+  font-family: 'Noto Sans KR';
+  font-weight: 700;
+  word-wrap: break-word;
+}
+
+/* footer 영역 (회색 박스) */
+.footer {
+  position: absolute;
+  left: 0;
+  top: 137px;
+  width: 1064px;
+  height: 40px;
+  background: rgba(217, 217, 217, 0.43);
+  
+  display: flex;
+  align-items: center;
+  padding: 0 19px;
+}
+
+/* footer 내부 좌측 그룹 */
+.footerLeft {
+  display: flex;
+  align-items: center;
+}
+
+.languageIcon {
+  width: 19px;
+  height: 19px;
+  background: #4E48FF;
+  border-radius: 9999px;
+}
+
+.language {
+  margin-left: 6px;
+  color: #D0D0D0;
+  font-size: 16px;
+  font-family: 'Noto Sans KR';
+  font-weight: 700;
+}
+
+/* footer 내부 중앙 그룹 */
+.footerMiddle {
+  margin-left: 25px;
+  display: flex;
+  align-items: center;
+}
+
+.stars {
+  margin-right: 10px;
+  color: #D0D0D0;
+  font-size: 16px;
+  margin-left: 5px;
+  font-family: 'Noto Sans KR';
+  font-weight: 700;
+}
+
+.builtBy {
+  color: #D0D0D0;
+  margin-left: 36px;
+  font-size: 16px;
+  font-family: 'Noto Sans KR';
+  font-weight: 700;
+}
+
+/* footer 내부 우측 그룹 */
+.footerRight {
+  position: absolute;
+  right: 27px;
+  display: flex;
+  gap: 11px;
+}
+
+.circle {
+  width: 25px;
+  height: 25px;
+  background: #F38686;
+  border-radius: 9999px;
+}
