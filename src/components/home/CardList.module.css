@@ -1,0 +1,16 @@
+.cardListContainer {
+    display: flex;
+    width: 1139px;
+    min-height: 948px;
+    top: 100px;
+    padding: 25px 18px 15px 32px;
+    position: relative;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    border: 1px solid #DFDFDF;
+    background: #FFF;
+  }
+  

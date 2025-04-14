@@ -1,0 +1,29 @@
+.container {
+    position: relative;
+    top: 110px;
+    width: 420px;
+    height: 440px;
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    color: #000;
+    font-family: "Noto Sans KR";
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.content {
+    position: relative;
+    top : 30px;
+    color: #000;
+
+    font-family: "Noto Sans KR";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}

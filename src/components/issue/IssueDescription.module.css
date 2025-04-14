@@ -1,0 +1,12 @@
+.markdownBody {
+    background-color: #ffffff !important; /* 화이트 배경 */
+    color: #24292e !important;            /* GitHub 기본 텍스트 색상 */
+}
+
+/* 다크 모드 관련 미디어 쿼리 내 설정을 무시 */
+@media (prefers-color-scheme: dark) {
+    .markdownBody {
+        background-color: #ffffff !important;
+        color: #24292e !important;
+    }
+}

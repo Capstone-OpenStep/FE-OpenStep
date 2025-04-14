@@ -1,0 +1,17 @@
+.main {
+    background-color: #F9FAFA;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+}
+
+.contents {
+    width : 1230px;
+    height : 875px;
+    position: relative;
+    top : 141px;
+    display: flex;
+    flex-direction: row;
+    gap : 70px;
+}
+

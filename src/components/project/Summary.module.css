@@ -1,0 +1,94 @@
+.body {
+    /* 필요에 따라 추가 스타일 적용 가능 */
+  }
+  
+  .cardContainer {
+    width: 250px;
+    height: 246px;
+    position: relative;
+  }
+  
+  .cardBackground {
+    width: 250px;
+    height: 246px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: white;
+    border-radius: 10px;
+  }
+  
+  .cardContent {
+    width: 162px;
+    position: absolute;
+    left: 12px;
+    top: 13px;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .title {
+    align-self: stretch;
+    height: 20px;
+    color: #3A54FF;
+    font-size: 14px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 700;
+    word-wrap: break-word;
+  }
+  
+  .details {
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .detailRowStart {
+    display: inline-flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .detailRow {
+    display: inline-flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .detailRowSpaceBetween {
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 161px;
+  }
+  
+  .detailTextBlue {
+    width: 92px;
+    height: 22px;
+    align-items: center;
+    color: #3A54FF;
+    font-size: 14px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 500;
+    word-wrap: break-word;
+  }
+  
+  .detailTextGray {
+    width: 134px;
+    height: 20px;
+    align-items: center;
+    color: #4E4C4C;
+    font-size: 14px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 500;
+    word-wrap: break-word;
+  }
+  
