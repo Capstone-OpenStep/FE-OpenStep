@@ -8,6 +8,7 @@ import Project from "./pages/Project"
 import Issue from "./pages/Issue"
 import Dashboard from "./pages/Dashboard"
 import Ranking from "./pages/Ranking"
+import Login from "./pages/Login"
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
           <Route path="/issue" element={<Issue />}></Route>
           <Route path="/dashboard" element={<Dashboard />}></Route>
           <Route path="/ranking" element={<Ranking />}></Route>
+          <Route path="/login" element={<Login />}></Route>
         </Routes>
       </BrowserRouter>
     </div>
