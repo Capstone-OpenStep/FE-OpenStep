@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Header.module.css';
-import logo from '../assets/logo.png'
+import logo from '../assets/logo.png';
 import Sidebar from './Sidebar';
 
 const Header = () => {
@@ -9,25 +9,24 @@ const Header = () => {
   const toggleSidebar = () => setSidebarOpen(prev => !prev);
 
   const navigate = useNavigate();
-  const onClickImg = () => {
-    navigate(`/`);
-  };
+  const onClickImg = () => navigate(`/`);
+  const onClickRanking = () => navigate(`/ranking`);
 
   return (
-    <div className={styles.cusRectangle2}>
-      <div className={styles.cusFrame80}>
-        <div className={styles.cusDiv2}>도움말</div>
-        <div className={styles.cusEllipse3} onClick={toggleSidebar}></div>
+    <div className={styles.headerContainer}>
+      <div className={styles.headerRightSection}>
+        <div className={styles.helpText}>도움말</div>
+        <div className={styles.profileButton} onClick={toggleSidebar}></div>
       </div>
-      <div className={styles.cusFrame79}>
+      <div className={styles.headerLeftSection}>
         <img
-          className={styles.cusImage1}
+          className={styles.logoImage}
           src={logo}
           onClick={onClickImg}
-          style={{cursor:'pointer'}}
+          style={{ cursor: 'pointer' }}
         />
-        <div className={styles.cusDiv3}>커뮤니티</div>
-        <div className={styles.cusDiv4}>랭킹</div>
+        <div className={styles.menuCommunity}>커뮤니티</div>
+        <div className={styles.menuRanking} onClick={onClickRanking}>랭킹</div>
       </div>
       <Sidebar isOpen={isSidebarOpen} onClose={() => setSidebarOpen(false)} />
     </div>
