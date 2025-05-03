@@ -1,0 +1,80 @@
+.taskCard {
+    width: 220px;
+    height: 120px;
+    position: relative;
+    background: white;
+    overflow: hidden;
+    border-radius: 15px;
+    outline: 1px rgba(0, 0, 0, 0.17) solid;
+    outline-offset: -1px;
+}
+
+.taskCard:hover {
+    background: #5F44F8;
+    /* hover 시 배경 변경 */
+}
+
+.title {
+    position: absolute;
+    left: 18px;
+    top: 20px;
+    color: rgba(0, 0, 0, 0.64);
+    font-size: 15px;
+    font-family: 'Noto Sans KR';
+    font-weight: 700;
+    word-wrap: break-word;
+}
+
+.branch {
+    position: absolute;
+    left: 18px;
+    top: 51px;
+    color: black;
+    font-size: 10px;
+    font-family: 'Noto Sans KR';
+    font-weight: 500;
+    word-wrap: break-word;
+}
+
+.issueButton {
+    width: 198px;
+    height: 27px;
+    position: absolute;
+    left: 11px;
+    top: 84px;
+    background: white;
+    overflow: hidden;
+    border-radius: 10px;
+    outline: 1px rgba(0, 0, 0, 0.30) solid;
+    outline-offset: -1px;
+}
+
+.issueText {
+    position: absolute;
+    left: 15px;
+    top: 5px;
+    color: #474747;
+    font-size: 13px;
+    font-family: 'Noto Sans KR';
+    font-weight: 700;
+    word-wrap: break-word;
+}
+
+.checkIcon {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    left: 180px;
+    top: 88px;
+    background: white;
+    overflow: hidden;
+}
+
+.taskCard:hover .title,
+.taskCard:hover .branch {
+    color: #fff9e9;
+}
+
+.taskCard:hover .issueText {
+    color: #5F44F8;
+}
