@@ -1,0 +1,43 @@
+.boardBody {
+    position: absolute;
+    z-index: 3;
+    top : 50px;
+    background-color: #fff;
+    width: 860px;
+    border-radius: 15px;
+    height: 810px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.circleGraph {
+    width: 816px;
+    min-height: 260px;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    position: relative;
+    top : 70px;
+    display: flex;
+}
+
+.githubCalendar {
+    width: 816px;
+    height: 190px;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    position: relative;
+    top : 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.title {
+    width: 100%;
+    font-family: 'Noto Sans KR';
+    font-size: 14;
+    font-weight: 600;
+    position: relative;
+    left: 20px;
+}
