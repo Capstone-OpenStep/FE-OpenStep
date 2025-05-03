@@ -1,0 +1,149 @@
+.boardBody {
+    position: absolute;
+    z-index: 3;
+    top: 50px;
+    background-color: #fff;
+    width: 860px;
+    border-radius: 15px;
+    height: 810px;
+    display: flex;
+    justify-content: center;
+}
+
+.bookmarkList {
+    position: relative;
+    top: 35px;
+    width: 790px;
+    max-height: 740px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 20px;
+    overflow: auto;
+    overflow-x: hidden;
+    grid-auto-rows: 110px;
+    /* 각 row 최대 150px 제한 */
+}
+
+/* Bookmark */
+
+.card {
+    width: 381px;
+    height: 109px;
+    position: relative;
+    cursor: pointer;
+    background: white;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.card:hover {
+    background: #5F44F8;
+}
+
+.contentWrapper {
+    position: absolute;
+    top: 18px;
+    left: 18px;
+    width: 355px;
+    display: inline-flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.title {
+    align-self: stretch;
+    height: 22px;
+    color: #5353FF;
+    font-size: 18px;
+    font-family: Inter;
+    font-weight: 600;
+    word-wrap: break-word;
+}
+
+.subtitle {
+    align-self: stretch;
+    height: 20px;
+    color: #656565;
+    font-size: 18px;
+    font-family: Inter;
+    font-weight: 600;
+    word-wrap: break-word;
+}
+
+.bottomRow {
+    width: 360px;
+    height: 22px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.language {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 7px;
+    height: 22px;
+}
+
+.languageDot {
+    width: 12px;
+    height: 12px;
+    background: #72EA78;
+    border-radius: 9999px;
+}
+
+.languageText {
+    height: 22px;
+    color: #737373;
+    font-size: 16px;
+    font-family: Inter;
+    font-weight: 600;
+    word-wrap: break-word;
+}
+
+.stars {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 7px;
+    height: 22px;
+}
+
+.starIcon {
+    width: 17px;
+    height: 17px;
+}
+
+.starCount {
+    width: 40px;
+    height: 18px;
+    color: #7E7E7E;
+    font-size: 16px;
+    font-family: Inter;
+    font-weight: 600;
+    word-wrap: break-word;
+}
+
+.updated {
+    width: 151px;
+    height: 20px;
+    color: #5C5C5C;
+    font-size: 14px;
+    font-family: Inter;
+    font-weight: 600;
+    word-wrap: break-word;
+}
+
+.card:hover .title{
+    color: #FFFFFF;
+}
+
+.card:hover .subtitle,
+.card:hover .languageText,
+.card:hover .starCount,
+.card:hover .updated {
+  color: #d9d9d9;
+}
