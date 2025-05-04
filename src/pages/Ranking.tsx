@@ -33,11 +33,16 @@ const Ranking: React.FC = () => {
         <div className={styles.title}>랭킹</div>
       </div>
 
-      <div className={styles.questionBox}>
-        <img className={styles.checkIcon} src={questionMark}></img>
-        <div className={styles.helpText}>기여 포인트는 어떻게 얻나요?</div>
+      <div className={styles.tooltipContainer}>
+        <div className={styles.questionBox}>
+          <img className={styles.checkIcon} src={questionMark} />
+          <div className={styles.helpText}>기여 포인트는 어떻게 얻나요?</div>
+        </div>
+        <div className={styles.tooltipBox}>
+          메인페이지 혹은 프로젝트 페이지에서 이슈를 할당 받은 후 병합까지 성공하면 기여포인트를 얻고 레벨과 랭킹을 올릴 수 있어요
+        </div>
       </div>
-      
+
       <div className={styles.topThreeContainer}>
         <div className={styles.secondCard}>
           <div className={styles.topRank}>2nd</div>
@@ -71,7 +76,7 @@ const Ranking: React.FC = () => {
       <div className={styles.rankingCard}>
         <RankingRow rank={4} name="송마이노" xp={25000} />
         <RankingRow rank={5} name="송마이노" xp={25000} />
-        <RankingRow rank={6} name="상윤쓰" xp={25000} color="#967B7B" highlight me/>
+        <RankingRow rank={6} name="상윤쓰" xp={25000} color="#967B7B" highlight me />
         <RankingRow rank={7} name="상윤쓰" xp={25000} />
         <RankingRow rank={8} name="송마이노" xp={25000} />
         <RankingRow rank={9} name="송마이노" xp={25000} />
