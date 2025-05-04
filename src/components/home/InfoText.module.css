@@ -1,6 +1,6 @@
 .infoTextContainer {
   position: relative;
-  top: 34px;
+  margin-top: 34px;
   left: 16px;
   width: 1123px;
   display: flex;
@@ -103,7 +103,7 @@
 
 .subText {
   position: relative;
-  top: 37px;
+  margin-top: 37px;
   color: #000;
   font-family: 'Noto Sans KR';
   font-size: 24px;

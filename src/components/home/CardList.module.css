@@ -2,7 +2,8 @@
     display: flex;
     width: 1139px;
     min-height: 948px;
-    top: 100px;
+    margin-top: 16px;
+    margin-bottom: 30px;
     padding: 25px 18px 15px 32px;
     position: relative;
     flex-direction: column;
