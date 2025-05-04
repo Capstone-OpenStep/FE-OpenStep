@@ -1,6 +1,6 @@
 .body {
     background-color: #F9FAFA;
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     /* justify-content: center; */
     align-items: center;
@@ -17,7 +17,8 @@
     display: flex;
     flex-direction: column;
     padding: 12px 0;
-    margin-top: 130px;
+    margin-top: 68px;
+    margin-bottom: 30px;
 }
 
 .rankingRow,
@@ -34,10 +35,9 @@
     border-radius: 18px;
     box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.25);
     padding: 24px;
-    /* ✅ 핵심 */
-    transform: scale(1.02); /* 살짝 커지게 */
+    transform: scale(1.02);
     z-index: 10;
-    position: relative;     /* z-index 활성화 */
+    position: relative;
   }
 
 .highlightRow {
@@ -133,6 +133,7 @@
     width: 1228px;
     position: relative;
     margin-top: 81px;
+    margin-bottom: 81px;
 }
 
 .secondCard,
@@ -185,16 +186,20 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    margin-left: 48vw;
+    width: 1228px;
     margin-top: 10px;
 }
 
 .checkIcon {
     width: 24px;
     height: 24px;
+    margin-right: 0;
+    margin-left: auto;
 }
 
 .helpText {
+    position: relative;
+    margin-right: 0;
     font-size: 18px;
     color: #5353FF;
 }
