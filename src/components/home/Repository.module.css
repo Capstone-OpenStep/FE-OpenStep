@@ -19,15 +19,24 @@
 
 /* 헤더 영역 */
 .header {
-  position: absolute;
-  width: 1056px;
+  position: relative;
+  width: 100%;
   height: 177px;
 }
 
+.headerTop {
+  position: relative;
+  width: 98%;
+  height: 35px;
+  margin-top: 16px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
 .title {
-  position: absolute;
+  position:relative;
   left: 18px;
-  top: 16px;
   width: 464px;
   height: 29px;
   color: #5353FF;
@@ -39,10 +48,11 @@
 }
 
 .description {
-  position: absolute;
+  position: relative;
   left: 18px;
-  top: 69px;
+  margin-top: 20px;
   color: black;
+
   font-size: 16px;
   font-family: 'Noto Sans KR';
   font-weight: 700;
@@ -121,4 +131,70 @@
   height: 25px;
   background: #F38686;
   border-radius: 9999px;
+}
+
+
+.container {
+  width: 1056px;
+  height: 177px;
+  position: relative;
+  box-shadow: 4px 4px 2px rgba(0, 0, 0, 0.10);
+  overflow: hidden;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.container:hover {
+  /* background-color: #e8edff;  */
+  box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.25);
+  transform: translateY(-1px);
+}
+
+
+.container:hover .bg {
+  background-color: #5F44F8;
+}
+
+.container:hover .title,
+.container:hover .description,
+.container:hover .language,
+.container:hover .stars,
+.container:hover .builtBy {
+  color: #FFFFFF;
+}
+
+
+
+/* 북마크 svg */
+
+.svgWrapper {
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+  position: relative;
+  margin-left: auto;
+}
+
+.svgPath {
+  fill: transparent;
+  stroke: #1E1E1E;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: fill 0.3s ease;
+}
+
+/* hover 시 색상 변경 */
+.svgWrapper:hover .svgPath {
+  fill: #FFF2B2; /* 연하고 부드러운 hover 색 */
+}
+
+/* 클릭 상태일 때 색상 유지 */
+.filled .svgPath {
+  fill: #FFDC4E;
+}
+
+.filled:hover .svgPath {
+  fill: #FFDC4E;
 }

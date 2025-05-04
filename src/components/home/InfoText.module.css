@@ -1,6 +1,6 @@
 .infoTextContainer {
   position: relative;
-  top: 34px;
+  margin-top: 34px;
   left: 16px;
   width: 1123px;
   display: flex;
@@ -78,6 +78,21 @@
   word-wrap: break-word;
 }
 
+.switchModeButton {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+.switchModeButton:hover {
+  transform: scale(1.08);
+}
+
+
+
 .switchIconImg {
   position: relative;
   margin-right: 10px;
@@ -101,9 +116,13 @@
   word-wrap: break-word;
 }
 
+.switchModeButton:hover .switchIconText {
+  font-weight: 600;
+}
+
 .subText {
   position: relative;
-  top: 37px;
+  margin-top: 37px;
   color: #000;
   font-family: 'Noto Sans KR';
   font-size: 24px;
