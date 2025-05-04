@@ -9,13 +9,14 @@ const SvgToggleFill: React.FC = () => {
 
   return (
     <div
+      className={`${styles.svgWrapper} ${isFilled ? styles.filled : ''}`}
       onClick={(e) => {
-        e.stopPropagation(); // 클릭 이벤트 전파 방지
+        e.stopPropagation();
         setIsFilled((prev) => !prev);
       }}
-      style={{ cursor: 'pointer', width: '35px', height: '35px', marginLeft:'auto' }}
     >
       <svg
+        className={styles.svgIcon}
         width="35"
         height="35"
         viewBox="0 0 35 35"
@@ -24,12 +25,7 @@ const SvgToggleFill: React.FC = () => {
       >
         <path
           d="M27.7083 30.625L17.5 23.3333L7.29163 30.625V7.29167C7.29163 6.51812 7.59892 5.77625 8.1459 5.22927C8.69288 4.68229 9.43474 4.375 10.2083 4.375H24.7916C25.5652 4.375 26.307 4.68229 26.854 5.22927C27.401 5.77625 27.7083 6.51812 27.7083 7.29167V30.625Z"
-          fill={isFilled ? '#FFDC4E' : '#FFFFFF'}
-          stroke="#1E1E1E"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          style={{ transition: 'fill 0.5s ease' }}
+          className={styles.svgPath}
         />
       </svg>
     </div>

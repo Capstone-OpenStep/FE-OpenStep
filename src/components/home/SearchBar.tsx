@@ -36,7 +36,7 @@ const FilterToggle = styled.div`
   transition: all 0.2s ease;
 
   &:hover {
-    transform: scale(1.05);
+    transform: scale(1.07);
   }
 `;
 
@@ -53,7 +53,11 @@ const ToggleText = styled.div`
   color: black;
   font-size: 18px;
   font-family: Inter;
-  font-weight: 400;
+  font-weight: 500;
+
+  &:hover {
+    font-weight: 600;
+  }
 `;
 
 const FilterContainer = styled.div`
