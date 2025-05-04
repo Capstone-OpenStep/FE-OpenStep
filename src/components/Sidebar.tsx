@@ -16,7 +16,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
   };
   const onClickLogOut = () => {
     onClose();
-    navigate(`/signup`);
+    navigate(`/login`);
   };
 
 

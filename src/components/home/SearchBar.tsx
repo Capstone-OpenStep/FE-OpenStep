@@ -31,6 +31,13 @@ const FilterToggle = styled.div`
   flex-direction: row;
   gap: 5px;
   cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: scale(1.07);
+  }
 `;
 
 const InputFiled = styled.div`
@@ -46,7 +53,11 @@ const ToggleText = styled.div`
   color: black;
   font-size: 18px;
   font-family: Inter;
-  font-weight: 400;
+  font-weight: 500;
+
+  &:hover {
+    font-weight: 600;
+  }
 `;
 
 const FilterContainer = styled.div`
@@ -87,7 +98,7 @@ const Capsule = styled.div<{ selected?: boolean }>`
   height: 22px;
   padding: 11px 16px;
   background: ${({ selected }) =>
-    selected ? 'rgba(102, 110, 255, 0.75)' : '#D9D9D9'};
+    selected ? 'rgba(83, 83, 255, 0.85)' : '#D9D9D9'};
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
   border-radius: 20px;
   display: inline-flex;
@@ -95,6 +106,14 @@ const Capsule = styled.div<{ selected?: boolean }>`
   justify-content: center;
   gap: 10px;
   cursor: pointer;
+  transition: all 0.25s ease;
+
+  &:hover {
+    transform: scale(1.08);
+    background: ${({ selected }) =>
+    selected ? 'rgba(60, 60, 230, 1)' : '#B0B0B0'};
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+  }
 `;
 
 const CapsuleText = styled.div`
@@ -112,6 +131,12 @@ const ActiveFilter = styled(Capsule)`
   padding-right: 12px;
   gap: 5px;
   background: rgba(102, 110, 255, 0.75);
+
+  &:hover {
+    transform: scale(1.08);
+    background: rgba(60, 60, 230, 1);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+  }
 `;
 
 const RemoveIcon = styled.div`
@@ -234,13 +259,29 @@ const SearchBar: React.FC<SearchBarProps> = ({ mode, query, setMode, setQuery })
         <SearchIcon src={search} />
         <InputFiled>
           <input
-            type={'text'}
+            type="text"
             onChange={(e) => setSearchText(e.target.value)}
             onKeyDown={handleKeyDown}
             value={searchText}
-            style={{ width: '100%', height: '100%', fontFamily: 'Noto Sans KR', fontSize: 20 }}
-            placeholder='검색어를 입력해주세요'
-          ></input>
+            style={{
+              width: '100%',
+              height: '100%',
+              fontFamily: 'Noto Sans KR',
+              fontSize: 20,
+              paddingLeft: 10,
+              border: 'none',
+              outline: 'none',
+              transition: 'all 0.25s ease',
+              boxShadow: '0 0 0px rgba(83,83,255,0)', // 기본 상태
+            }}
+            onFocus={(e) =>
+            (e.currentTarget.style.boxShadow =
+              '0 0 0 3px rgba(83, 83, 255, 0.4)')
+            }
+            onBlur={(e) =>
+              (e.currentTarget.style.boxShadow = '0 0 0px rgba(83,83,255,0)')
+            }
+          />
         </InputFiled>
         <FilterToggle onClick={toggle}>
           <ToggleText>+</ToggleText>

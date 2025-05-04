@@ -1,0 +1,264 @@
+.body {
+    background-color: #F9FAFA;
+    min-height: 100vh;
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    margin-top: 64px;
+    flex-direction: column;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.rankingCard {
+    width: 1270px;
+    background: white;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.25);
+    border-radius: 24px;
+    display: flex;
+    flex-direction: column;
+    padding: 12px 0;
+    margin-top: 68px;
+    margin-bottom: 30px;
+}
+
+.rankingRow,
+.highlightRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px;
+}
+
+.highlightRow {
+    background: #5353FF;
+    color: white;
+    border-radius: 18px;
+    box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.25);
+    padding: 24px;
+    transform: scale(1.02);
+    z-index: 10;
+    position: relative;
+}
+
+.highlightRow {
+    background: #5353FF;
+    color: white;
+    border-radius: 18px;
+    box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.userInfo,
+.userHighlight {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 0 6px;
+}
+
+.rank {
+    font-size: 30px;
+    font-weight: 400;
+}
+
+.avatar {
+    width: 60px;
+    height: 60px;
+    background: #EEEEEE;
+    border-radius: 50%;
+}
+
+.avatarSpecial {
+    width: 60px;
+    height: 60px;
+    background: #967B7B;
+    border-radius: 50%;
+}
+
+.avatarLarge {
+    width: 120px;
+    height: 120px;
+    background: #967B7B;
+    border-radius: 50%;
+}
+
+.username {
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.usernameHighlight {
+    font-size: 18px;
+    font-weight: 500;
+    color: white;
+}
+
+.usernameLarge {
+    font-size: 36px;
+    font-weight: 400;
+}
+
+.score,
+.scoreHighlight {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.scoreHighlight {
+    color: white;
+}
+
+.scoreLarge {
+    font-size: 36px;
+    color: #636262;
+    font-weight: 600;
+}
+
+.meBadge {
+    padding: 6px 9px;
+    height: 34px;
+    width: 66px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #F8993A;
+    color: white;
+    font-size: 18px;
+    border-radius: 18px;
+    margin-left: auto;
+}
+
+.topThreeContainer {
+    display: flex;
+    justify-content: space-between;
+    width: 1228px;
+    position: relative;
+    margin-top: 81px;
+    margin-bottom: 81px;
+}
+
+.secondCard,
+.thirdCard {
+    width: 370px;
+    height: 280px;
+    background: white;
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.25);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    gap: 24px;
+}
+
+.thirdCard {
+    position: relative;
+}
+
+.firstCard {
+    width: 532px;
+    height: 403px;
+    background: #FBFBFB;
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.25);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 46px 24px;
+    gap: 46px;
+    position: absolute;
+    top: -61px;
+    left: 348px;
+}
+
+.userBlock {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.topRank,
+.topTitle {
+    font-size: 48px;
+    font-weight: 600;
+}
+
+.questionBox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 1228px;
+    margin-top: 10px;
+}
+
+.checkIcon {
+    width: 24px;
+    height: 24px;
+    margin-right: 0;
+    margin-left: auto;
+}
+
+.helpText {
+    position: relative;
+    margin-right: 0;
+    font-size: 18px;
+    color: #5353FF;
+}
+
+
+.tooltipContainer {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltipBox {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 40px;
+    left: 80%;
+    width: 500px;
+    height: 121px;
+    transform: translateX(-50%);
+    z-index: 10;
+    padding: 12px 30px;
+    border-radius: 12px;
+
+    background-color: #5353FF;
+    white-space: normal;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease-in-out;
+
+    color: #FFF;
+
+    font-family: "Noto Sans KR";
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+.tooltipContainer:hover .tooltipBox {
+    opacity: 1;
+}
+
+
+.titleBox {
+    background: #5353FF;
+    border-radius: 24px;
+    margin-top: 50px;
+    padding: 18px;
+    width: 280px;
+    height: 71px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: 700;
+    color: white;
+}
