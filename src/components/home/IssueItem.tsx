@@ -11,7 +11,7 @@ const IssueItem = () => {
 
   return (
     <div className={styles.cardContainer} onClick={onClickContainer}>
-      <div className={styles.cardBackground}></div>
+      
       <div className={styles.issueTitle}>
         [CI] ILMHistoryItemTests testTruncateLongError failing
       </div>
