@@ -5,6 +5,19 @@ import phrase from '../assets/loginPhrase.png'
 import githubLogo from '../assets/githubLoginLogo.svg'
 const Project: React.FC = () => {
 
+    const handleGitHubLogin = () => {
+        const clientId = import.meta.env.VITE_OAUTH_CLIENT_ID;
+        const redirectUri = import.meta.env.VITE_FRONTEND_URL;
+
+        if (!clientId || !redirectUri) {
+            console.error("환경변수 설정이 잘못되었습니다.");
+            return;
+        }
+
+        const url = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}`;
+        window.location.href = url;
+    };
+    
     return (
         <div className={styles.body}>
             <img style={{ width: 800, height: 800 }} src={background} />
@@ -16,7 +29,7 @@ const Project: React.FC = () => {
                 <span className={styles.loginText}>
                     소셜 계정으로 로그인
                 </span>
-                <div className={styles.githubButton}>
+                <div className={styles.githubButton} onClick={handleGitHubLogin}>
                     <img style={{ width: 45, height: 45 }} src={githubLogo} />
                     <div className={styles.githubText}>Continue with Github</div>
                 </div>
