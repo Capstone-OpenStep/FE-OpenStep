@@ -16,7 +16,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
   };
   const onClickLogOut = () => {
     onClose();
-    navigate(`/login`);
+    sessionStorage.removeItem('token'); // 세션 스토리지에 저장
   };
 
 
