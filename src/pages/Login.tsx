@@ -14,7 +14,7 @@ const Project: React.FC = () => {
             return;
         }
 
-        const url = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}`;
+        const url = `https://github.com/login/oauth/authorize?client_id=${clientId}&scope=repo read:user user:email&redirect_uri=${encodeURIComponent(redirectUri)}`;
         window.location.href = url;
     };
     
