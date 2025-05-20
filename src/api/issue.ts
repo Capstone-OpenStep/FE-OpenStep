@@ -15,5 +15,10 @@ export const getTrendingIssues = async (): Promise<Issue[]> => {
 
 export const getRecommendedIssues = async (): Promise<Issue[]> => {
   const response = await api.get<TrendingIssueResponse>("/issues/suggest");
+  if (!response.data.isSuccess) {
+    const err = new Error(response.data.message);
+    (err as any).code = response.data.code;
+    throw err;
+  }
   return response.data.result;
 };
