@@ -9,7 +9,6 @@ api.interceptors.request.use(
   (config) => {
     const excludedPaths = [
       "/github/auth/callback",
-      "/repo/trending",
       "/issues/trending",
     ];
 
@@ -18,7 +17,7 @@ api.interceptors.request.use(
     );
 
     if (!isExcluded) {
-      const token = sessionStorage.getItem("accessToken");
+      const token = sessionStorage.getItem("token");
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
