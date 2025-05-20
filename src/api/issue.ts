@@ -12,3 +12,8 @@ export const getTrendingIssues = async (): Promise<Issue[]> => {
   const response = await api.get<TrendingIssueResponse>("/issues/trending");
   return response.data.result;
 };
+
+export const getRecommendedIssues = async (): Promise<Issue[]> => {
+  const response = await api.get<TrendingIssueResponse>("/issues/suggest");
+  return response.data.result;
+};

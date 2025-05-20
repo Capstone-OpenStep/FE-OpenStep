@@ -9,27 +9,18 @@ import { Issue as IssueType } from '../../types/issue';
 interface CardListProps {
   active: boolean;
   setActive: React.Dispatch<React.SetStateAction<boolean>>;
-  repositories: RepoType[];
   issues: IssueType[];
 }
 
-const CardList: React.FC<CardListProps> = ({ active, setActive, repositories, issues }) => {
+const CardList: React.FC<CardListProps> = ({ active, setActive, issues }) => {
   return (
     <div className={styles.cardListContainer}>
-      <ToggleSwitch active={active} setActive={setActive} />
-      {active ? (
+      {/* <ToggleSwitch active={active} setActive={setActive} /> */}
         <>
           {issues.map((issue) => (
             <IssueItem key={issue.issueId} issue={issue} />
           ))}
         </>
-      ) : (
-        <>
-          {repositories.map((repo) => (
-            <Repository key={repo.repoId} repo={repo} />
-          ))}
-        </>
-      )}
     </div>
   );
 };
