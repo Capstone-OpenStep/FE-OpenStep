@@ -83,8 +83,8 @@ const Home: React.FC = () => {
   return (
     <div className={styles.body}>
       <div className={styles.mainContent}>
-        <SearchBar mode={mode} query={query} setMode={setMode} setQuery={setQuery} />
         <InfoText mode={mode} query={query} setMode={setMode} />
+        <SearchBar mode={mode} query={query} setMode={setMode} setQuery={setQuery} />
         <CardList
           active={active}
           setActive={setActive}

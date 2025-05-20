@@ -73,7 +73,7 @@ const IssueItem: React.FC<Props> = ({ issue }) => {
     navigate(`/issue`);
   };
   const repoFullName = extractRepoName(issue.url); // ex: freeCodeCamp/freeCodeCamp
-  const timeAgo = formatTimeAgo(issue.createdAt);
+  const timeAgo = formatTimeAgo(issue.updatedAt);
 
   return (
     <div className={styles.cardContainer} onClick={onClickContainer}>
@@ -95,6 +95,7 @@ const IssueItem: React.FC<Props> = ({ issue }) => {
         <div className={styles.footerLeft}>
           <span className={styles.issueFromLabel}>Issue from</span>
           <span className={styles.repositoryLabel}>{repoFullName}</span>
+          <span className={styles.issueFromLabel}>updated</span>
           <span className={styles.issueFromLabel}>{timeAgo}</span>
         </div>
         <div className={styles.footerCenter}>
