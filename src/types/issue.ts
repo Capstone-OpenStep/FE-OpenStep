@@ -3,6 +3,7 @@ export interface Issue {
   title: string;
   body: string;
   summary: string;
+  language: string;
   url: string;
   createdAt: string;
   updatedAt: string;
