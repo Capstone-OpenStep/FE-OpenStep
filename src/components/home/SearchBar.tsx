@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import search from '../../assets/search.svg';
 
-const Container = styled.div<{ isFilter: boolean }>`
+const Container = styled.div.withConfig({
+  shouldForwardProp: (prop) => prop !== 'isFilter',
+})<{ isFilter: boolean }>`
   width: 1139px;
   height: 44px;
   background: white;
