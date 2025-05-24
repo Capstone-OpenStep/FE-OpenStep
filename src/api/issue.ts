@@ -8,7 +8,8 @@ export interface IssueDescriptionResponse {
   result: IssueDescription;
 }
 
-export const getIssueDescription = async (): Promise<IssueDescription> => {
-  const response = await api.get<IssueDescriptionResponse>("/issues/trending");
+export const getIssueDescription = async (issueId : number): Promise<IssueDescription> => {
+  
+  const response = await api.get<IssueDescriptionResponse>(`/issues/${issueId}`);
   return response.data.result;
 };

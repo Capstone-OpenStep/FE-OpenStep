@@ -8,7 +8,7 @@ export interface RepositoryDescriptionResponse {
   result: RepositoryDescription;
 }
 
-export const getRepositoryDescription = async (): Promise<RepositoryDescription> => {
-  const response = await api.get<RepositoryDescriptionResponse>("/repo/trending");
+export const getRepositoryDescription = async (repoId : number): Promise<RepositoryDescription> => {
+  const response = await api.get<RepositoryDescriptionResponse>(`/repo/${repoId}`);
   return response.data.result;
 };
