@@ -1,0 +1,14 @@
+import api from "./client";
+import { RepositoryDescription } from "../types/repository";
+
+export interface RepositoryDescriptionResponse {
+  isSuccess: boolean;
+  code: string;
+  message: string;
+  result: RepositoryDescription;
+}
+
+export const getRepositoryDescription = async (): Promise<RepositoryDescription> => {
+  const response = await api.get<RepositoryDescriptionResponse>("/repo/trending");
+  return response.data.result;
+};
