@@ -25,18 +25,21 @@ const markdownContent: string = `
 `;
 
 interface IssueDescriptionProps {
+    title: string
+    issueSummary : string
+    issueContent : string
     stage: number
     setStage: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const IssueDescription: React.FC<IssueDescriptionProps> = ({ stage, setStage }) => {
+const IssueDescription: React.FC<IssueDescriptionProps> = ({ title, issueSummary, issueContent, stage, setStage }) => {
     const onClickButton = () => {
         setStage(stage + 1);
     }
 
     return (
         <div style={{ width: 680, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 10, display: 'inline-flex' }}>
-            <div style={{ alignSelf: 'stretch', height: 40, justifyContent: 'center', display: 'flex', flexDirection: 'column', color: '#5353FF', fontSize: 24, fontFamily: 'Inter', fontWeight: '600', wordWrap: 'break-word' }}>[CI] ILMHistoryItemTests testTruncateLongError failing</div>
+            <div style={{ alignSelf: 'stretch', height: 40, justifyContent: 'center', display: 'flex', flexDirection: 'column', color: '#5353FF', fontSize: 24, fontFamily: 'Inter', fontWeight: '600', wordWrap: 'break-word' }}>{title}</div>
             <div style={{ alignSelf: 'stretch', height: 37, justifyContent: 'center', display: 'flex', flexDirection: 'column', color: 'black', fontSize: 16, fontFamily: 'Noto Sans KR', fontWeight: '500', lineHeight: 24, wordWrap: 'break-word' }}>이슈 내용을 요약했어요</div>
             <div style={{
                 background: '#fff',
@@ -49,13 +52,13 @@ const IssueDescription: React.FC<IssueDescriptionProps> = ({ stage, setStage }) 
                 alignItems: 'center',
                 gap: 10,
             }}>
-                <div style={{ maxWidth: 653, margin: 14, color: 'black', fontSize: 16, fontFamily: 'Noto Sans KR', fontWeight: '400', lineHeight: 1.4, wordWrap: 'break-word' }}>Elasticsearch 8.12에서 max_concurrent_shard_requests 설정이 비동기 검색(async search)에서 적용되지 않아, 설정했음에도 제한 없이 샤드 요청이 발생하는 문제입니다. 현재 이 설정은 동기 검색에만 영향을 미칩니다.</div>
+                <div style={{ maxWidth: 653, margin: 14, color: 'black', fontSize: 16, fontFamily: 'Noto Sans KR', fontWeight: '400', lineHeight: 1.4, wordWrap: 'break-word' }}>{issueSummary}</div>
             </div>
             <div style={{ alignSelf: 'stretch', height: 37, justifyContent: 'center', display: 'flex', flexDirection: 'column', color: 'black', fontSize: 16, fontFamily: 'Noto Sans KR', fontWeight: '500', lineHeight: 24, wordWrap: 'break-word' }}>상세 내용은 다음과 같아요</div>
             <div style={{ width: 680, minHeight: 521, paddingLeft: 20, paddingRight: 20, paddingTop: 26, paddingBottom: 26, background: 'white', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.10)', borderRadius: 10, justifyContent: 'center', alignItems: 'center', gap: 10, display: 'inline-flex' }}>
                 <div className={`markdown-body ${styles.markdownBody}`} style={{ width: 653, minHeight: 450, color: 'black', fontSize: 16, fontFamily: 'Noto Sans KR', fontWeight: '400', wordWrap: 'break-word' }}>
                     <ReactMarkdown
-                        children={markdownContent}
+                        children={issueContent}
                         remarkPlugins={[remarkGfm]}
                         rehypePlugins={[rehypeRaw]}
                     />

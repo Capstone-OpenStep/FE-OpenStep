@@ -4,38 +4,50 @@ import star from '../../assets/starEmpty.svg';
 import eye from '../../assets/eye.svg';
 import readMe from '../../assets/readMe.svg';
 import branch from '../../assets/branch.svg';
+import { RepositoryDescription } from '../../types/repositoryDescription';
 
-const Summary: React.FC = () => {
+interface SummaryProps {
+  repository: RepositoryDescription,
+}
+
+
+const Summary: React.FC<SummaryProps> = ({ repository }) => {
+
+  const formatnumbers = (count: number) => {
+    return count >= 1000 ? `${(count / 1000).toFixed(1)}k` : count.toString();
+  };
+
   return (
     <div className={styles.body}>
       <div className={styles.cardContainer}>
         <div className={styles.cardBackground} />
         <div className={styles.cardContent}>
-          <div className={styles.title}>netlify/cli</div>
+          <a className={styles.title} href={repository.githubUrl}>{repository.repoName}</a>
           <div className={styles.details}>
-            <div className={styles.detailRowStart}>
-              <img src={readMe} alt="Readme" />
-              <div className={styles.detailTextBlue}>Readme</div>
-            </div>
+            {repository.readmeUrl ?
+              (<a className={styles.detailRowStart} href={repository.readmeUrl} >
+                <img src={readMe} alt="Readme" />
+                <div className={styles.detailTextBlue}>Readme</div>
+              </a>) : (<></>)}
             <div className={styles.detailRow}>
               <img src={star} alt="Stars" />
-              <div className={styles.detailTextGray}>3.5k stars</div>
+              <div className={styles.detailTextGray}>{formatnumbers(repository.stars)} stars</div>
             </div>
             <div className={styles.detailRow}>
               <img src={eye} alt="Watching" />
-              <div className={styles.detailTextGray}>131 watching</div>
+              <div className={styles.detailTextGray}>{formatnumbers(repository.watchers)} watching</div>
             </div>
             <div className={styles.detailRow}>
               <img src={branch} alt="Forks" />
-              <div className={styles.detailTextGray}>735 forks</div>
+              <div className={styles.detailTextGray}>{formatnumbers(repository.forks)} forks</div>
             </div>
             <div className={styles.detailRow}>
               <img src={branch} alt="Open Issues" />
-              <div className={styles.detailTextGray}>191 open issues</div>
+              <div className={styles.detailTextGray}>{formatnumbers(repository.openIssues)} open issues</div>
             </div>
             <div className={styles.detailRowSpaceBetween}>
               <img src={branch} alt="Closed Issues" />
-              <div className={styles.detailTextGray}>1152 closed issues</div>
+              <div className={styles.detailTextGray}>{formatnumbers(repository.closedIssues)} closed issues</div>
             </div>
           </div>
         </div>
