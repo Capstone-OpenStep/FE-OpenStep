@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import Task from './Task'
 import star from '../../assets/starGold.svg'
+import { GroupedTasks, TaskItem } from '../../types/task';
+
+interface RepositoryProps {
+    tasks : GroupedTasks
+};
 
 const Repository: React.FC = () => {
 
