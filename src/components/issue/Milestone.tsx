@@ -3,10 +3,11 @@ import styled from 'styled-components';
 
 const Container = styled.div`
   position: relative;
-  top: 50px;
+  margin-top: 50px;
   width: 372px;
   height: 156px;
-  margin: 0 auto;
+  margin-left: auto;
+  margin-right: auto;
 `;
 
 // 각 원(circle)의 스타일 (좌표와 상태에 따라 스타일 변경)
