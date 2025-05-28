@@ -17,10 +17,10 @@ export interface TaskListResponse {
   isSuccess: boolean;
   code: string;
   message: string;
-  result: GroupedTasks;
+  result: GroupedTasks[];
 }
 
-export const getTaskList = async (): Promise<GroupedTasks> => {
+export const getTaskList = async (): Promise<GroupedTasks[]> => {
   const response = await api.get<TaskListResponse>(`/tasks/recent`);
   return response.data.result;
 };

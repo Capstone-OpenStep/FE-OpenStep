@@ -15,7 +15,15 @@ export interface Task {
   }
 }
 
-export type GroupedTasks = Record<string, TaskItem[]>;
+export interface GroupedTasks {
+  repoId: number,
+  repository: string,
+  description: string,
+  language: string,
+  starCount: number,
+  last_github_update: string,
+  tasks: TaskItem[]
+};
 
 export interface TaskItem {
   taskId: number;
