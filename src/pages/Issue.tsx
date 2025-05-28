@@ -125,6 +125,9 @@ const Project: React.FC = () => {
     const onClickButton = async () => {
         const result = await assignTask(issueId);
         setStage(stage + 1);
+        const query = location.search;
+        const searchParams = new URLSearchParams(query);
+        searchParams.set('taskId',  String(result.taskId));
     }
 
     return (
