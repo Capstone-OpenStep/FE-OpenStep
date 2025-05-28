@@ -29,10 +29,10 @@ export interface AssignTaskResponse {
   isSuccess: boolean;
   code: string;
   message: string;
-  result: GroupedTasks;
+  result: TaskAssignResult;
 }
 
 export const assignTask = async (issueId : number): Promise<TaskAssignResult> => {
-  const response = (await api.post<TaskAssignResult>(`/issues/${issueId}/assign`));
+  const response = (await api.post<AssignTaskResponse>(`/issues/${issueId}/assign`));
   return response.request;
 };
