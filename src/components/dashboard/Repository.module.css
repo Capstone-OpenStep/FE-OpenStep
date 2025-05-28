@@ -1,6 +1,6 @@
 .container {
   width: 763px;
-  min-height: 288px;
+  min-height: 250px;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -14,7 +14,7 @@
 
 .header {
   width: 100%;
-  top: 18px;
+  margin-top: 18px;
   position: relative;
 }
 
@@ -30,27 +30,31 @@
 
 .subHeader {
   left: 20px;
-  top: 6px;
-  width: 100%;
-  height: 20px;
+  margin-top: 6px;
+  width: 95%;
+  min-height: 20px;
   position: relative;
   display: flex;
   flex-direction: row;
   align-items: center;
+  flex-wrap: wrap; /* 핵심! 줄바꿈 허용 */
+  gap: 4px 4px;
 }
 
 .description {
-  position: absolute;
+  position: relative;
+  /* width: 350px; */
   color: rgba(0, 0, 0, 0.49);
-  font-size: 18px;
+  font-size: 16px;
   font-family: 'Noto Sans KR';
   font-weight: 700;
   word-wrap: break-word;
 }
 
 .info {
-  position: absolute;
-  right: 50px;
+  position: relative;
+  margin-left: auto;
+  margin-right: 15px;
   display: flex;
   flex-direction: row;
   gap: 8px;
@@ -65,18 +69,18 @@
 }
 
 .languageText {
-  width: 48px;
+  min-width: 48px;
   color: #737373;
-  font-size: 16px;
+  font-size: 15px;
   font-family: 'Noto Sans KR';
   font-weight: 600;
   word-wrap: break-word;
 }
 
 .starCount {
-  width: 40px;
+  min-width: 40px;
   color: #7E7E7E;
-  font-size: 16px;
+  font-size: 15px;
   font-family: 'Noto Sans KR';
   font-weight: 600;
   word-wrap: break-word;
@@ -91,7 +95,8 @@
 }
 
 .taskGrid {
-  top: 50px;
+  margin-top: 30px;
+  margin-bottom: 20px;
   position: relative;
   display: grid;
   grid-template-columns: auto auto auto;
@@ -101,10 +106,9 @@
 }
 
 .moreButton {
-  top: 72px;
   width: 104px;
   height: 28px;
-  margin-bottom: 90px;
+  margin-bottom: 20px;
   position: relative;
   padding: 11px 20px;
   border-radius: 20px;
