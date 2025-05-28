@@ -1,5 +1,5 @@
 import api from "./client";
-import { Task, GroupedTasks, TaskItem } from "../types/task";
+import { Task, GroupedTasks, TaskItem, TaskAssignResult } from "../types/task";
 
 export interface TaskResponse {
   isSuccess: boolean;
@@ -20,9 +20,19 @@ export interface TaskListResponse {
   result: GroupedTasks;
 }
 
-
-
 export const getTaskList = async (): Promise<GroupedTasks> => {
   const response = await api.get<TaskListResponse>(`/tasks/recent`);
   return response.data.result;
+};
+
+export interface AssignTaskResponse {
+  isSuccess: boolean;
+  code: string;
+  message: string;
+  result: GroupedTasks;
+}
+
+export const assignTask = async (issueId : number): Promise<TaskAssignResult> => {
+  const response = (await api.post<TaskAssignResult>(`/issues/${issueId}/assign`));
+  return response.request;
 };

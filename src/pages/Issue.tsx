@@ -10,10 +10,12 @@ import { getIssueDescription } from '../api/issue'
 import { getRepositoryDescription } from '../api/repository'
 import { IssueDescription } from '../types/issueDescription';
 import { RepositoryDescription } from '../types/repositoryDescription'
+import { assignTask } from '../api/task'
 import axios from 'axios';
 
 const Project: React.FC = () => {
     const [stage, setStage] = useState<number>(1);
+    const [issueId, setIssueId] = useState<number>(-1);
     const location = useLocation();
     const navigate = useNavigate();
     const [issue, setIssue] = useState<IssueDescription>({
@@ -61,6 +63,7 @@ const Project: React.FC = () => {
                     if (fetchedIssue && fetchedIssue.repoId) {
                         const fetchedRepository = await getRepositoryDescription(fetchedIssue.repoId);
                         setRepository(fetchedRepository);
+                        setIssueId(+issueId);
                     } else if (fetchedIssue) {
                         console.error("RepoId missing from issue data");
                     }
@@ -77,10 +80,12 @@ const Project: React.FC = () => {
                 }
             };
             fetchData();
+
         }
     }, [location, navigate]);
 
-    const onClickButton = () => {
+    const onClickButton = async () => {
+        const result = await assignTask(issueId);
         setStage(stage + 1);
     }
 
