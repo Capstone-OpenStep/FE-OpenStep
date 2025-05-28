@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useAuth } from '../components/AuthContext'
 import styles from './Issue.module.css';
 import Summary from '../components/project/Summary';
 import logo from '../assets/projectLogo.svg'
-import Descrption from '../components/issue/IssueDescription'
+import Descrption from '../components/issue/IssueDescription' // Note: Typo in original, should be "Description"
 import Milestone from '../components/issue/Milestone';
 import Guide from '../components/issue/Guide'
 import { getIssueDescription } from '../api/issue'
@@ -47,23 +46,24 @@ const Project: React.FC = () => {
         readmeUrl: '',
     });
 
-
-
     useEffect(() => {
         const query = location.search;
         const searchParams = new URLSearchParams(query);
-
         const issueId = searchParams.get('issueId');
+
         if (issueId === null) {
             navigate('/');
-        }
-        else {
+        } else {
             const fetchData = async () => {
                 try {
-                    const issue = await getIssueDescription(+issueId);
-                    setIssue(issue);
-                    const repository = await getRepositoryDescription(issue.repoId);
-                    setRepository(repository);
+                    const fetchedIssue = await getIssueDescription(+issueId);
+                    setIssue(fetchedIssue);
+                    if (fetchedIssue && fetchedIssue.repoId) {
+                        const fetchedRepository = await getRepositoryDescription(fetchedIssue.repoId);
+                        setRepository(fetchedRepository);
+                    } else if (fetchedIssue) {
+                        console.error("RepoId missing from issue data");
+                    }
                 } catch (error) {
                     if (axios.isAxiosError(error)) {
                         if (error.response?.status === 401) {
@@ -78,21 +78,31 @@ const Project: React.FC = () => {
             };
             fetchData();
         }
+    }, [location, navigate]);
 
-    }, [location])
+    const onClickButton = () => {
+        setStage(stage + 1);
+    }
 
     return (
         <div className={styles.body}>
-            <div className={`${styles.section} ${styles.sectionLeft}`}>
-                <img style={{ width: 250, height: 250 }} src={logo} />
-                <Summary repository={repository}/>
-            </div>
-            <div className={`${styles.section} ${styles.sectionMiddle}`}>
-                <Descrption title={issue?.title} issueSummary={issue?.summary} issueContent={issue?.body} stage={stage} setStage={setStage} />
-            </div>
-            <div className={`${styles.section} ${styles.sectionRight}`}>
-                <Milestone currentStage={stage} />
-                <Guide title={''} text={''} />
+            <div className={styles.contentWrapper}> {/* New wrapper div */}
+                <div className={`${styles.section} ${styles.sectionLeft}`}>
+                    <img className={styles.projectLogo} src={logo} alt="Project Logo" />
+                    <Summary repository={repository} />
+                </div>
+                <div className={`${styles.section} ${styles.sectionMiddle}`}>
+                    <Descrption title={issue?.title} issueSummary={issue?.summary} issueContent={issue?.body} stage={stage} setStage={setStage} />
+                </div>
+                <div className={`${styles.section} ${styles.sectionRight}`}>
+                    <Milestone currentStage={stage} />
+                    <Guide title={''} text={''} />
+                    {stage === 1 ? (
+                        <div className={styles.startButton} onClick={onClickButton}>
+                            <div className={styles.startButtonText}>기여 시작</div>
+                        </div>
+                    ) : null}
+                </div>
             </div>
         </div>
     );
