@@ -11,7 +11,7 @@ import { GroupedTasks } from '../../types/task';
 
 const Board: React.FC = () => {
   const [select, setSelect] = useState<number>(0);
-  const [taskGroup, setTaskGroup] = useState<GroupedTasks>();
+  const [taskGroup, setTaskGroup] = useState<GroupedTasks[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {

@@ -6,10 +6,10 @@ import Repository from './Repository';
 import { GroupedTasks, TaskItem } from '../../types/task';
 
 interface TaskListProps {
-  tasks: GroupedTasks,
+  tasks: GroupedTasks[];
 }
 
-const TaskList: React.FC<TaskListProps> = ( tasks ) => {
+const TaskList: React.FC<TaskListProps> = ( { tasks } ) => {
     const [timeSortOpen, setTimeSortOpen] = useState(false);
     const [statusSortOpen, setStatusSortOpen] = useState(false);
     const [selectedTime, setSelectedTime] = useState('시간순');
@@ -95,10 +95,7 @@ const TaskList: React.FC<TaskListProps> = ( tasks ) => {
                 </div>
             </div>
             <div className={styles.repositoryList}>
-                <Repository />
-                <Repository />
-                <Repository />
-                <Repository />
+                {tasks.map((repository) => (<Repository tasks={repository}/>))}
             </div>
         </div>
     );

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Task from './Task';
 import star from '../../assets/starGold.svg';
 import styles from './Repository.module.css';
@@ -9,11 +9,12 @@ interface RepositoryProps {
 }
 
 const Repository: React.FC<RepositoryProps> = ({ tasks }) => {
+  const [showAll, setShowAll] = useState(false);
 
   const formatTimeAgo = (dateString: string): string => {
     const now = new Date();
     const date = new Date(dateString);
-    const diff = Math.floor((now.getTime() - date.getTime()) / 1000); // 초 단위
+    const diff = Math.floor((now.getTime() - date.getTime()) / 1000);
 
     const units = [
       { label: 'year', seconds: 60 * 60 * 24 * 365 },
@@ -36,6 +37,8 @@ const Repository: React.FC<RepositoryProps> = ({ tasks }) => {
     return count >= 1000 ? `${(count / 1000).toFixed(1)}k` : count.toString();
   };
 
+  const visibleTasks = showAll ? tasks.tasks : tasks.tasks.slice(0, 3);
+
   return (
     <div>
       <div className={styles.container}>
@@ -52,17 +55,22 @@ const Repository: React.FC<RepositoryProps> = ({ tasks }) => {
             </div>
           </div>
         </div>
+
         <div className={styles.taskGrid}>
-          <Task />
-          <Task />
-          <Task />
+          {visibleTasks.map((task) => (
+            <Task key={task.title} taskName={task.title} branch='' status={task.status} />
+          ))}
         </div>
-        <div
-          data-option="새로고침+포인트"
-          className={styles.moreButton}
-        >
-          <div className={styles.moreText}>MORE</div>
-        </div>
+
+        {tasks.tasks.length > 3 && (
+          <div
+            data-option="새로고침+포인트"
+            className={styles.moreButton}
+            onClick={() => setShowAll(prev => !prev)}
+          >
+            <div className={styles.moreText}>{showAll ? 'LESS' : 'MORE'}</div>
+          </div>
+        )}
       </div>
     </div>
   );
