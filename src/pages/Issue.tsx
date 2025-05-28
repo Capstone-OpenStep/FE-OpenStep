@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import styles from './Issue.module.css';
 import Summary from '../components/project/Summary';
 import logo from '../assets/projectLogo.svg'
@@ -10,13 +10,15 @@ import { getIssueDescription } from '../api/issue'
 import { getRepositoryDescription } from '../api/repository'
 import { IssueDescription } from '../types/issueDescription';
 import { RepositoryDescription } from '../types/repositoryDescription'
-import { Task } from '../types/task'
+import { Task, TaskAssignResult } from '../types/task'
 import { assignTask, getTask } from '../api/task'
 import axios from 'axios';
 
 const Project: React.FC = () => {
     const [stage, setStage] = useState<number>(1);
     const [issueId, setIssueId] = useState<number>(-1);
+    // const [loadedTaskId, setLoadedTaskId] = useState<number | null>(null);
+    const [searchParams, setSearchParams] = useSearchParams();
     const location = useLocation();
     const navigate = useNavigate();
     const [issue, setIssue] = useState<IssueDescription>({
@@ -128,6 +130,7 @@ const Project: React.FC = () => {
         const query = location.search;
         const searchParams = new URLSearchParams(query);
         searchParams.set('taskId',  String(result.taskId));
+        setSearchParams(searchParams);
     }
 
     return (

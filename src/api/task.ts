@@ -34,5 +34,5 @@ export interface AssignTaskResponse {
 
 export const assignTask = async (issueId : number): Promise<TaskAssignResult> => {
   const response = (await api.post<AssignTaskResponse>(`/issues/${issueId}/assign`));
-  return response.request;
+  return response.data.result;
 };
