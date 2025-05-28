@@ -1,18 +1,13 @@
 export interface Task {
-  isSuccess: boolean;
-  code: string;
-  message: string;
-  result: {
-    taskId: number;
-    title: string;
-    forkedUrl: string;
-    status: "NOTSTARTED" | "FORKED" | "PR" | "review" | "Approve" | "Closed";
-    branchName: string;
-    createdAt: string;
-    updatedAt: string;
-    issueId: number;
-    issueUrl: string;
-  }
+  taskId: number;
+  title: string;
+  forkedUrl: string;
+  status: "NOTSTARTED" | "FORKED" | "PR" | "review" | "Approve" | "Closed";
+  branchName: string;
+  createdAt: string;
+  updatedAt: string;
+  issueId: number;
+  issueUrl: string;
 }
 
 export interface GroupedTasks {
