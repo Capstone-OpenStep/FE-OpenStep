@@ -4,16 +4,17 @@ import styles from './Task.module.css';
 import check from '../../assets/check.svg';
 
 interface TaskProps {
+    taskId: number,
     taskName: string,
     branch: string,
     status: string,
 }
 
 
-const Task: React.FC<TaskProps> = ({ taskName, branch, status }) => {
+const Task: React.FC<TaskProps> = ({ taskId, taskName, branch, status }) => {
     const navigate = useNavigate();
     const onClickTask = () => {
-        navigate(`/issue`);
+        navigate(`/issue/?taskId=${taskId}`);
     };
 
     return (
