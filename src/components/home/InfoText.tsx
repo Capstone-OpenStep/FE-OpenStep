@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import { useAuth } from "../AuthContext"; 
 import styles from './InfoText.module.css';
 import SwitchIcon from '../../assets/switch.svg';
-
+import ErrorModal from '../ErrorModal';
 
 interface InfoTextProps {
   mode: number;
@@ -11,13 +12,28 @@ interface InfoTextProps {
 
 
 const InfoText: React.FC<InfoTextProps> = ({ mode, query, setMode }) => {
+  // 로그인 여부
+  const { isLoggedIn } = useAuth();
+  // 에러 모달
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+
   const switchMode = () => {
-    if (mode === 0)
+    if (mode === 0) {
       setMode(1);
-    else if (mode === 1)
+    }
+    else if (mode === 1) {
+      if (isLoggedIn == true) {
+        setMode(0);
+      }
+      else {
+        setShowModal(true);
+        setModalMessage("추천 서비스는 로그인 후 이용 가능합니다")
+      }
+    }
+    else {
       setMode(0);
-    else
-      setMode(0);
+    }
   }
 
 
@@ -64,6 +80,13 @@ const InfoText: React.FC<InfoTextProps> = ({ mode, query, setMode }) => {
 
       </div>
       {mode <= 1 ? (<span className={styles.subText}>첫 기여, 아래 프로젝트로 시작해보세요!</span>) : (<></>)}
+      <ErrorModal
+          show={showModal}
+          title="오류"
+          message={modalMessage}
+          confirmText="확인"
+          onConfirm={() => setShowModal(false)}
+      />
     </div>
   );
 };

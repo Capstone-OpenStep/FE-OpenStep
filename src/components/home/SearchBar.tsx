@@ -2,9 +2,12 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import search from '../../assets/search.svg';
 
-const Container = styled.div<{ isFilter: boolean }>`
+const Container = styled.div.withConfig({
+  shouldForwardProp: (prop) => prop !== 'isFilter',
+})<{ isFilter: boolean }>`
   width: 1139px;
   height: 44px;
+  margin-top: 30px;
   background: white;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
@@ -62,10 +65,11 @@ const ToggleText = styled.div`
 
 const FilterContainer = styled.div`
   width: 1139px;
-  height: 120px;
+  min-height: 120px;
   padding-left: 18px;
   padding-top: 11px;
-  gap: 10px;
+  padding-bottom: 10px;
+  gap: 15px;
   display: flex;
   flex-direction: column;
   background: white;
@@ -76,6 +80,7 @@ const FilterContainer = styled.div`
 
 const Row = styled.div`
   display: inline-flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: flex-start;
   gap: 14px;
@@ -152,81 +157,58 @@ const RemoveIcon = styled.div`
   justify-content: center;
 `;
 
+const languages: string[] = [
+  'c', 'c++', 'java', 'javascript', 'python',
+  'rust', 'go', 'typescript', 'ruby', 'c#',
+  'perl', 'swift', 'kotlin', 'php', 'R',
+  'sql', 'matlab', 'scratch'
+];
+
 const Filter = () => {
-  // 상태로 선택된 필터 값을 관리합니다.
-  const [selectedType, setSelectedType] = useState<string | null>(null);
+  const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
   const [selectedUpdate, setSelectedUpdate] = useState<string | null>(null);
 
-  // 타입 필터 클릭 핸들러
-  const handleTypeClick = (value: string) => {
-    setSelectedType((prev) => (prev === value ? null : value));
+  const handleLanguageClick = (value: string) => {
+    setSelectedLanguages((prev) =>
+      prev.includes(value)
+        ? prev.filter((lang) => lang !== value)
+        : [...prev, value]
+    );
   };
 
-  // 업데이트 필터 클릭 핸들러
   const handleUpdateClick = (value: string) => {
     setSelectedUpdate((prev) => (prev === value ? null : value));
   };
+  
 
   return (
     <FilterContainer>
-      {/* 유형 필터 */}
+      {/* 언어 필터 */}
       <Row>
-        <Label style={{ width: 39, height: 25 }}>유형</Label>
-        <Capsule
-          selected={selectedType === '레포지토리'}
-          onClick={() => handleTypeClick('레포지토리')}
-        >
-          <CapsuleText>레포지토리</CapsuleText>
-        </Capsule>
-        <Capsule
-          selected={selectedType === '이슈'}
-          onClick={() => handleTypeClick('이슈')}
-        >
-          <CapsuleText>이슈</CapsuleText>
-        </Capsule>
+        <Label style={{ width: 39, height: 25 }}>언어</Label>
+        {languages.map((lang) => (
+          <Capsule
+            key={lang}
+            selected={selectedLanguages.includes(lang)}
+            onClick={() => handleLanguageClick(lang)}
+          >
+            <CapsuleText>{lang}</CapsuleText>
+          </Capsule>
+        ))}
       </Row>
+
       {/* 마지막 업데이트 필터 */}
       <Row>
         <Label style={{ width: 125, height: 26 }}>마지막 업데이트</Label>
-        <Capsule
-          selected={selectedUpdate === '1주'}
-          onClick={() => handleUpdateClick('1주')}
-        >
-          <CapsuleText>1주</CapsuleText>
-        </Capsule>
-        <Capsule
-          selected={selectedUpdate === '1개월'}
-          onClick={() => handleUpdateClick('1개월')}
-        >
-          <CapsuleText>1개월</CapsuleText>
-        </Capsule>
-        <Capsule
-          selected={selectedUpdate === '3개월'}
-          onClick={() => handleUpdateClick('3개월')}
-        >
-          <CapsuleText>3개월</CapsuleText>
-        </Capsule>
-        <Capsule
-          selected={selectedUpdate === '1년'}
-          onClick={() => handleUpdateClick('1년')}
-        >
-          <CapsuleText>1년</CapsuleText>
-        </Capsule>
-      </Row>
-      {/* 선택된 필터 항목 표시 */}
-      <Row>
-        {selectedType && (
-          <ActiveFilter onClick={() => setSelectedType(null)}>
-            <CapsuleText>{selectedType}</CapsuleText>
-            <RemoveIcon>x</RemoveIcon>
-          </ActiveFilter>
-        )}
-        {selectedUpdate && (
-          <ActiveFilter onClick={() => setSelectedUpdate(null)}>
-            <CapsuleText>{selectedUpdate}</CapsuleText>
-            <RemoveIcon>x</RemoveIcon>
-          </ActiveFilter>
-        )}
+        {['1주', '1개월', '3개월', '1년'].map((period) => (
+          <Capsule
+            key={period}
+            selected={selectedUpdate === period}
+            onClick={() => handleUpdateClick(period)}
+          >
+            <CapsuleText>{period}</CapsuleText>
+          </Capsule>
+        ))}
       </Row>
     </FilterContainer>
   );
