@@ -22,7 +22,7 @@ const Home: React.FC = () => {
   // 추천 관련 state
   const [recommendedIssues, setRecommendedIssues] = useState<Issue[]>([]);
   // 검색 관련 state
-  const [searchedIssues] = useState<Issue[]>([]);
+  const [searchedIssues, setSearchedIssues] = useState<Issue[]>([]);
   // 트랜딩 관련 state
   const [trendingIssues, setTrendingIssues] = useState<Issue[]>([]);
 
@@ -83,8 +83,10 @@ const Home: React.FC = () => {
   return (
     <div className={styles.body}>
       <div className={styles.mainContent}>
+        {mode != 0 ? (
+          <SearchBar mode={mode} query={query} setMode={setMode} setQuery={setQuery} />
+        ) : (null)}
         <InfoText mode={mode} query={query} setMode={setMode} />
-        <SearchBar mode={mode} query={query} setMode={setMode} setQuery={setQuery} />
         <CardList
           active={active}
           setActive={setActive}
