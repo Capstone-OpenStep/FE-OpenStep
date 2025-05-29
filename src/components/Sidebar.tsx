@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from './AuthContext';
 import styles from './Sidebar.module.css';
 import classNames from 'classnames';
 
@@ -10,13 +11,17 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
+  const { isLoggedIn, setIsLoggedIn } = useAuth();
+
   const onClickDashboard = () => {
     onClose();
     navigate(`/dashboard`);
   };
   const onClickLogOut = () => {
     onClose();
-    navigate(`/login`);
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('github_oauth_processed');
+    setIsLoggedIn(false);
   };
 
 

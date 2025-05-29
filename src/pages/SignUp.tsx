@@ -3,9 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import styles from './SignUp.module.css';
 import SelectableList from '../components/signUp/SeletableList';
 import WorkCounter from '../components/signUp/WorkCounter';
+import api from '../api/client'
 
 const languages: string[] = [
-  'c', 'c++', 'java', 'java script', 'python',
+  'c', 'c++', 'java', 'javascript', 'python',
   'rust', 'go', 'typescript', 'ruby', 'c#',
   'perl', 'swift', 'kotlin', 'php', 'R',
   'sql', 'matlab', 'scratch'
@@ -14,7 +15,7 @@ const languages: string[] = [
 const domains: string[] = [
   '3D', 'Android', 'Arduino', 'Bootstrap', 'Php',
   'Database', 'Deep Learning', 'Docker', 'Kotlin',
-  'Gradle', 'GraphQl', 'GraphQI', 'Linux',
+  'Gradle', 'GraphQl', 'Linux',
   'MySql', 'React', 'Server', 'Spring Boot',
   'Terminal', 'Tensorflow', 'Unity'
 ];
@@ -34,26 +35,49 @@ const SignUp: React.FC = () => {
   const navigate = useNavigate();
 
   const toggleLanguage = (lang: string) => {
-    setSelectedLanguages((prev) =>
-      prev.includes(lang) ? prev.filter((l) => l !== lang) : [...prev, lang]
-    );
+    setSelectedLanguages((prev) => {
+      if (prev.includes(lang)) {
+        return prev.filter((l) => l !== lang);
+      } else if (prev.length < 4) {
+        return [...prev, lang];
+      }
+      return prev;
+    });
   };
 
   const toggleDomain = (domain: string) => {
-    setSelectedDomains((prev) =>
-      prev.includes(domain) ? prev.filter((d) => d !== domain) : [...prev, domain]
-    );
+    setSelectedDomains((prev) => {
+      if (prev.includes(domain)) {
+        return prev.filter((d) => d !== domain);
+      } else if (prev.length < 4) {
+        return [...prev, domain];
+      }
+      return prev;
+    });
   };
 
-  const handleNextButtonClick = () => {
+
+  
+  const handleNextButtonClick = async () => {
     if (step === SignUpStep.Language) {
-      setStep(SignUpStep.Domain);
+      try {
+        const response = await api.post('/member/select/languages', {
+          languages: selectedLanguages
+        });
+        setStep(SignUpStep.Domain);
+      } catch (error) {
+        console.error('Error posting languages:', error);
+      }
     } else if (step === SignUpStep.Domain) {
-      setStep(SignUpStep.WorkCount);
-    } else if (step === SignUpStep.WorkCount) {
-      navigate(`/`);
+      try {
+        const response = await api.post('/member/select/domains', {
+          domains: selectedDomains
+        });
+        navigate(`/`);
+      } catch (error) {
+        console.error('Error posting languages:', error);
+      }
     }
-    // WorkCount 단계에서는 추가 동작을 연결할 수 있습니다.
   };
 
   const getInfoText = () => {
