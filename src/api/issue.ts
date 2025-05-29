@@ -13,7 +13,7 @@ export const getIssueDescription = async (issueId : number): Promise<IssueDescri
   
   const response = await api.get<IssueDescriptionResponse>(`/issues/${issueId}`);
   return response.data.result;
-
+}
 
 interface TrendingIssueResponse {
   isSuccess: boolean;

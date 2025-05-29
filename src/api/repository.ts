@@ -10,7 +10,8 @@ export interface RepositoryDescriptionResponse {
 
 export const getRepositoryDescription = async (repoId : number): Promise<RepositoryDescription> => {
   const response = await api.get<RepositoryDescriptionResponse>(`/repo/${repoId}`);
-
+  return response.data.result;
+};
 
 interface TrendingRepositoryResponse {
   isSuccess: boolean;
