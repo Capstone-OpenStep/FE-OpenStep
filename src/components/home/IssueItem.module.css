@@ -1,6 +1,6 @@
 .cardContainer {
   width: 1056px;
-  height: 200px;
+  min-height: 150px;
   position: relative;
   box-shadow: 4px 4px 2px rgba(0, 0, 0, 0.10);
   cursor: pointer;
@@ -12,9 +12,9 @@
 .cardFooter {
   width: 1056px;
   height: 40px;
-  position: absolute;
+  position: relative;
   left: 0;
-  top: 160px;
+  margin-top: 30px;
   background: rgba(217, 217, 217, 0.43);
   display: flex;
   align-items: center;
@@ -85,10 +85,10 @@
 
 /* 기존 다른 요소들은 위치 유지 */
 .openedInfo {
-  position: absolute;
+  position: relative;
   margin-left: 18px;
   width: 95%;
-  top: 50px;
+  margin-top: 10px;
   color: #000;
   font-family: "Noto Sans KR";
   font-size: 16px;
@@ -98,9 +98,9 @@
 }
 
 .issueTitle {
-  position: absolute;
+  position: relative;
   left: 18px;
-  top: 14px;
+  margin-top: 14px;
   color: #5353FF;
   font-size: 18px;
   font-family: 'noto sans kr', sans-serif;
@@ -108,9 +108,9 @@
 }
 
 .tagContainer {
-  position: absolute;
+  position: relative;
   left: 18px;
-  top: 122px;
+  top: 10px;
   display: inline-flex;
   align-items: center;
   gap: 16px;

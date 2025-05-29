@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Repository.module.css';
 import star from '../../assets/star.svg'
+import { Repository as RepoType } from '../../types/repository';
 
 
 const SvgToggleFill: React.FC = () => {
@@ -32,12 +33,17 @@ const SvgToggleFill: React.FC = () => {
   );
 };
 
+interface Props {
+  repo: RepoType;
+}
 
-
-const Repostory = () => {
+const Repository: React.FC<Props> = ({ repo }) => {
   const navigate = useNavigate();
   const onClickContainer = () => {
     navigate(`/project`);
+  };
+  const formatStars = (stars: number) => {
+    return stars >= 1000 ? `${(stars / 1000).toFixed(1)}k` : stars.toString();
   };
 
   return (
@@ -46,22 +52,21 @@ const Repostory = () => {
         <div className={styles.bg}></div>
         <div className={styles.header}>
           <div className={styles.headerTop}>
-            <div className={styles.title}>jestjs/jest</div>
+            <div className={styles.title}>{repo.repoName}</div>
             <SvgToggleFill></SvgToggleFill>
           </div>
           <div className={styles.description}>
-            표준 웹 기술(HTML, CSS, JS, WASM)을 최대로 활용하는 새로운 웹 프레임워크입니다.<br /><br />
-            복잡한 도구 없이 작고 빠른 웹앱을 만들 수 있어요.
+            {repo.summary}
           </div>
         </div>
         <div className={styles.footer}>
           <div className={styles.footerLeft}>
             <div className={styles.languageIcon}></div>
-            <div className={styles.language}>Typescript</div>
+            <div className={styles.language}>{repo.language}</div>
           </div>
           <div className={styles.footerMiddle}>
             <img src={star}></img>
-            <div className={styles.stars}>44.6k</div>
+            <div className={styles.stars}>{formatStars(repo.stars)}</div>
             <div className={styles.builtBy}>Built by</div>
           </div>
           <div className={styles.footerRight}>
@@ -76,4 +81,4 @@ const Repostory = () => {
   );
 };
 
-export default Repostory;
+export default Repository;
