@@ -14,16 +14,41 @@
     /* hover 시 배경 변경 */
 }
 
-.title {
+
+.titleWrapper {
     position: absolute;
     left: 18px;
     top: 20px;
-    color: rgba(0, 0, 0, 0.64);
+    width: 180px;
+    overflow: hidden;
+    height: 20px;
+}
+
+.title {
+    display: inline-block;
+    white-space: nowrap;
     font-size: 15px;
     font-family: 'Noto Sans KR';
     font-weight: 700;
-    word-wrap: break-word;
+    color: rgba(0, 0, 0, 0.64);
+    transition: color 0.3s ease;
+    will-change: transform;
 }
+
+.taskCard:hover .title {
+    animation: scroll-text 5s linear infinite;
+    color: #fff9e9;
+}
+
+@keyframes scroll-text {
+    0% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
 
 .branch {
     position: absolute;

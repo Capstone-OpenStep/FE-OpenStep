@@ -1,5 +1,19 @@
 import api from "./client";
-import { Issue } from "../types/issue";
+
+import { Issue, IssueDescription } from "../types/issue";
+
+export interface IssueDescriptionResponse {
+  isSuccess: boolean;
+  code: string;
+  message: string;
+  result: IssueDescription;
+}
+
+export const getIssueDescription = async (issueId : number): Promise<IssueDescription> => {
+  
+  const response = await api.get<IssueDescriptionResponse>(`/issues/${issueId}`);
+  return response.data.result;
+
 
 interface TrendingIssueResponse {
   isSuccess: boolean;

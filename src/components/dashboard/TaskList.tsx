@@ -3,8 +3,13 @@ import styles from './TaskList.module.css';
 import arrow from '../../assets/arrowDown.svg';
 import setting from '../../assets/setting.svg';
 import Repository from './Repository';
+import { GroupedTasks, TaskItem } from '../../types/task';
 
-const TaskList: React.FC = () => {
+interface TaskListProps {
+  tasks: GroupedTasks[];
+}
+
+const TaskList: React.FC<TaskListProps> = ( { tasks } ) => {
     const [timeSortOpen, setTimeSortOpen] = useState(false);
     const [statusSortOpen, setStatusSortOpen] = useState(false);
     const [selectedTime, setSelectedTime] = useState('시간순');
@@ -90,10 +95,7 @@ const TaskList: React.FC = () => {
                 </div>
             </div>
             <div className={styles.repositoryList}>
-                <Repository />
-                <Repository />
-                <Repository />
-                <Repository />
+                {tasks.map((repository) => (<Repository tasks={repository}/>))}
             </div>
         </div>
     );

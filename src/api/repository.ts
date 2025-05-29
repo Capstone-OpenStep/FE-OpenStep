@@ -1,5 +1,16 @@
 import api from "./client";
-import { Repository } from "../types/repository";
+import { RepositoryDescription, Repository } from "../types/repository";
+
+export interface RepositoryDescriptionResponse {
+  isSuccess: boolean;
+  code: string;
+  message: string;
+  result: RepositoryDescription;
+}
+
+export const getRepositoryDescription = async (repoId : number): Promise<RepositoryDescription> => {
+  const response = await api.get<RepositoryDescriptionResponse>(`/repo/${repoId}`);
+
 
 interface TrendingRepositoryResponse {
   isSuccess: boolean;
