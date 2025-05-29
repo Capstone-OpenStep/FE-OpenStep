@@ -36,7 +36,10 @@ const Header = () => {
           const token = res.data.result.accessToken;
           sessionStorage.setItem('token', token);
           setIsLoggedIn(true);
-          navigate('/');
+          if (res.data.result.isNewMember === true)
+            navigate('/signup')
+          else
+            navigate('/');
         })
         .catch((err) => {
           console.error('OAuth 처리 실패', err);
