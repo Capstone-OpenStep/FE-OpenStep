@@ -70,7 +70,7 @@ const getLanguageColor = (language: string | null | undefined): string => {
 const IssueItem: React.FC<Props> = ({ issue }) => {
   const navigate = useNavigate();
   const onClickContainer = () => {
-    navigate(`/issue`);
+    navigate(`/issue?issueId=${issue.issueId}`);
   };
   const repoFullName = extractRepoName(issue.url); // ex: freeCodeCamp/freeCodeCamp
   const timeAgo = formatTimeAgo(issue.updatedAt);
