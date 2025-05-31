@@ -36,6 +36,11 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
     setIsLoggedIn(false);
   };
 
+  const onClickSetting = () => {
+    onClose();
+    navigate('/signup');
+  };
+
   return (
     <div
       className={classNames(styles.overlay, { [styles.overlayVisible]: isOpen })}
@@ -59,7 +64,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
         <nav className={styles.menu}>
           <div onClick={onClickHome}><img style={{width:30, height:30}} src={home}></img>Home</div>
           <div onClick={onClickDashboard}><img style={{width:30, height:30}} src={dashboard}></img>Dashboard</div>
-          <div><img style={{width:30, height:30}} src={setting}></img>Settings</div>
+          <div onClick={onClickSetting}><img style={{width:30, height:30}} src={setting}></img>Settings</div>
           <div><img style={{width:30, height:30}} src={github}></img>To Github</div>
         </nav>
 
