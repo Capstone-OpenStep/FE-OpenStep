@@ -77,7 +77,7 @@ interface getBookmarkIssueResponse {
 }
 
 export const getBookmarkIssue = async (): Promise<IssueBookmarked[]> => {
-  const response = await api.get<getBookmarkIssueResponse>(`/bookmark/list`);
+  const response = await api.get<getBookmarkIssueResponse>(`/bookmark/list/`);
   return response.data.result.bookmarkList;
 }
 

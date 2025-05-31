@@ -8,15 +8,20 @@ import BookmarkList from './BookmarkList';
 import Overview from './Overview'
 import { getTaskList } from '../../api/task';
 import { GroupedTasks } from '../../types/task';
+import { getBookmarkIssue } from '../../api/issue';
+import { IssueBookmarked } from '../../types/issue'
 
 const Board: React.FC = () => {
   const [select, setSelect] = useState<number>(0);
   const [taskGroup, setTaskGroup] = useState<GroupedTasks[]>([]);
+  const [bookmarkList, setBookmarkList] = useState<IssueBookmarked[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       const tasks = await getTaskList();
       setTaskGroup(tasks);
+      const bookmarks = await getBookmarkIssue();
+      setBookmarkList(bookmarks);
     };
 
     fetchData();
@@ -57,7 +62,7 @@ const Board: React.FC = () => {
       </div>
       {select === 0 && <Overview />}
       {select === 1 && <TaskList tasks={taskGroup}/>}
-      {select === 2 && <BookmarkList />}
+      {select === 2 && <BookmarkList bookmarkList={bookmarkList}/>}
     </div>
   );
 };
