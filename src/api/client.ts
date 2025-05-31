@@ -9,7 +9,6 @@ api.interceptors.request.use(
   (config) => {
     const excludedPaths = [
       "/github/auth/callback",
-      "/issues/trending",
     ];
 
     const isExcluded = excludedPaths.some(path =>
