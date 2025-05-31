@@ -4,6 +4,8 @@ import styles from './IssueItem.module.css';
 import star from '../../assets/star.svg'
 import { Issue as IssueType } from '../../types/issue';
 import { setBookmarkIssue, delBookmarkIssue } from '../../api/issue'
+import { useAuth } from '../AuthContext'
+import ErrorModal from '../ErrorModal'
 
 const extractRepoName = (url: string): string => {
   const match = url.match(/github\.com\/([^/]+\/[^/]+)\//);
@@ -72,12 +74,20 @@ interface BookmarkLogoProps {
   issueId: number;
   isbookmarked: boolean;
   setIsBookmarked: React.Dispatch<React.SetStateAction<boolean>>;
+  setModalMessage: React.Dispatch<React.SetStateAction<string>>;
+  setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const SvgToggleFill: React.FC<BookmarkLogoProps> = ({ issueId, isbookmarked, setIsBookmarked }) => {
 
+const SvgToggleFill: React.FC<BookmarkLogoProps> = ({ issueId, isbookmarked, setIsBookmarked, setModalMessage, setShowModal }) => {
+  const { isLoggedIn, setIsLoggedIn } = useAuth();
 
   const onclickBookmark = async () => {
+    if (isLoggedIn == false) {
+      setModalMessage("북마크는 로그인 후 이용가능합니다");
+      setShowModal(true);
+      return;
+    }
     if (isbookmarked == false) {
       const response = await setBookmarkIssue(issueId);
       if (response == true)
@@ -114,11 +124,12 @@ const SvgToggleFill: React.FC<BookmarkLogoProps> = ({ issueId, isbookmarked, set
   );
 };
 
-
 const IssueItem: React.FC<Props> = ({ issue }) => {
   const [isBookmarked, setIsBookmarked] = useState<boolean>(false);
   const navigate = useNavigate();
-
+  // 에러 모달
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
 
   useEffect(() => {
     setIsBookmarked(issue.bookmarked);
@@ -130,12 +141,23 @@ const IssueItem: React.FC<Props> = ({ issue }) => {
   const repoFullName = extractRepoName(issue.url); // ex: freeCodeCamp/freeCodeCamp
   const timeAgo = formatTimeAgo(issue.updatedAt);
 
+  const handleModalClose = (e?: React.MouseEvent) => {
+    e?.stopPropagation?.();
+    setShowModal(false);
+  };
+
   return (
     <div className={styles.cardContainer} onClick={onClickContainer}>
 
       <div className={styles.issueTitle}>
         {issue.title}
-        <SvgToggleFill issueId={issue.issueId} isbookmarked={isBookmarked} setIsBookmarked={setIsBookmarked} />
+        <SvgToggleFill
+          issueId={issue.issueId}
+          isbookmarked={isBookmarked}
+          setIsBookmarked={setIsBookmarked}
+          setModalMessage={setModalMessage}
+          setShowModal={setShowModal}
+        />
       </div>
       <div className={styles.openedInfo}>
         {issue.summary}
@@ -162,6 +184,13 @@ const IssueItem: React.FC<Props> = ({ issue }) => {
           <span className={styles.languageLabel}>{issue.language}</span>
         </div>
       </div>
+      <ErrorModal
+        show={showModal}
+        title="오류"
+        message={modalMessage}
+        confirmText="확인"
+        onConfirm={handleModalClose}
+      />
     </div>
   );
 };
