@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './IssueItem.module.css';
 import star from '../../assets/star.svg'
 import { Issue as IssueType } from '../../types/issue';
+import { setBookmarkIssue, delBookmarkIssue } from '../../api/issue'
 
 const extractRepoName = (url: string): string => {
   const match = url.match(/github\.com\/([^/]+\/[^/]+)\//);
@@ -67,15 +68,33 @@ const getLanguageColor = (language: string | null | undefined): string => {
   return colorMap[normalized] || '#FF9D48';
 };
 
-const SvgToggleFill: React.FC = () => {
-  const [isFilled, setIsFilled] = useState<boolean>(false);
+interface BookmarkLogoProps {
+  issueId: number;
+  isbookmarked: boolean;
+  setIsBookmarked: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const SvgToggleFill: React.FC<BookmarkLogoProps> = ({ issueId, isbookmarked, setIsBookmarked }) => {
+
+
+  const onclickBookmark = async () => {
+    if (isbookmarked == false) {
+      const response = await setBookmarkIssue(issueId);
+      if (response == true)
+        setIsBookmarked(true);
+    } else {
+      const response = await delBookmarkIssue(issueId);
+      if (response == true)
+        setIsBookmarked(false);
+    }
+  };
 
   return (
     <div
-      className={`${styles.svgWrapper} ${isFilled ? styles.filled : ''}`}
+      className={`${styles.svgWrapper} ${isbookmarked ? styles.filled : ''}`}
       onClick={(e) => {
         e.stopPropagation();
-        setIsFilled((prev) => !prev);
+        onclickBookmark();
       }}
     >
       <svg
@@ -97,7 +116,14 @@ const SvgToggleFill: React.FC = () => {
 
 
 const IssueItem: React.FC<Props> = ({ issue }) => {
+  const [isBookmarked, setIsBookmarked] = useState<boolean>(false);
   const navigate = useNavigate();
+
+
+  useEffect(() => {
+    setIsBookmarked(issue.bookmarked);
+  }, [issue])
+
   const onClickContainer = () => {
     navigate(`/issue?issueId=${issue.issueId}`);
   };
@@ -109,7 +135,7 @@ const IssueItem: React.FC<Props> = ({ issue }) => {
 
       <div className={styles.issueTitle}>
         {issue.title}
-        <SvgToggleFill></SvgToggleFill>
+        <SvgToggleFill issueId={issue.issueId} isbookmarked={isBookmarked} setIsBookmarked={setIsBookmarked} />
       </div>
       <div className={styles.openedInfo}>
         {issue.summary}
