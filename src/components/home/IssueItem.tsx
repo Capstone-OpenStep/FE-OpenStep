@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './IssueItem.module.css';
 import star from '../../assets/star.svg'
@@ -67,6 +67,35 @@ const getLanguageColor = (language: string | null | undefined): string => {
   return colorMap[normalized] || '#FF9D48';
 };
 
+const SvgToggleFill: React.FC = () => {
+  const [isFilled, setIsFilled] = useState<boolean>(false);
+
+  return (
+    <div
+      className={`${styles.svgWrapper} ${isFilled ? styles.filled : ''}`}
+      onClick={(e) => {
+        e.stopPropagation();
+        setIsFilled((prev) => !prev);
+      }}
+    >
+      <svg
+        className={styles.svgIcon}
+        width="35"
+        height="35"
+        viewBox="0 0 35 35"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M27.7083 30.625L17.5 23.3333L7.29163 30.625V7.29167C7.29163 6.51812 7.59892 5.77625 8.1459 5.22927C8.69288 4.68229 9.43474 4.375 10.2083 4.375H24.7916C25.5652 4.375 26.307 4.68229 26.854 5.22927C27.401 5.77625 27.7083 6.51812 27.7083 7.29167V30.625Z"
+          className={styles.svgPath}
+        />
+      </svg>
+    </div>
+  );
+};
+
+
 const IssueItem: React.FC<Props> = ({ issue }) => {
   const navigate = useNavigate();
   const onClickContainer = () => {
@@ -80,6 +109,7 @@ const IssueItem: React.FC<Props> = ({ issue }) => {
 
       <div className={styles.issueTitle}>
         {issue.title}
+        <SvgToggleFill></SvgToggleFill>
       </div>
       <div className={styles.openedInfo}>
         {issue.summary}
