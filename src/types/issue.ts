@@ -9,6 +9,7 @@ export interface Issue {
   updatedAt: string;
   author: string;
   labels: string[];
+  bookmarked: boolean;
 }
 
 export interface IssueDescription {
@@ -25,4 +26,21 @@ export interface IssueDescription {
   labels: [
     string
   ]
+  bookmarked: boolean;
+}
+
+export interface IssueBookmarked {
+  memberId: number,
+  bookmarkId: number,
+  issueId: number,
+  repoId: number,
+  repoName: string,
+  ownerName: string,
+  issueTitle: string,
+  language: string,
+  stars: number,
+  githubUrl: string,
+  createdAt: string,
+  updatedAt: string,
+  bookmarked: boolean,
 }

@@ -1,6 +1,6 @@
 import api from "./client";
 
-import { Issue, IssueDescription } from "../types/issue";
+import { Issue, IssueDescription, IssueBookmarked } from "../types/issue";
 
 export interface IssueDescriptionResponse {
   isSuccess: boolean;
@@ -19,7 +19,9 @@ interface TrendingIssueResponse {
   isSuccess: boolean;
   code: string;
   message: string;
-  result: Issue[];
+  result: {
+    issueList: Issue[];
+  };
 }
 
 interface RecommendedIssueResponse {
@@ -33,7 +35,7 @@ interface RecommendedIssueResponse {
 
 export const getTrendingIssues = async (): Promise<Issue[]> => {
   const response = await api.get<TrendingIssueResponse>("/issues/trending");
-  return response.data.result;
+  return response.data.result.issueList;
 };
 
 export const getRecommendedIssues = async (): Promise<Issue[]> => {
@@ -45,3 +47,50 @@ export const getRecommendedIssues = async (): Promise<Issue[]> => {
   }
   return response.data.result.issueList;
 };
+
+interface setBookmarkIssueResponse {
+  isSuccess: boolean;
+  code: string;
+  message: string;
+  result: {
+    bookmarkId: number,
+    memberId: number,
+    repoId: number,
+    issueId: number,
+    issueTitle: string,
+    createdAt: string,
+  };
+}
+
+export const setBookmarkIssue = async (issueId : number): Promise<boolean> => {
+  const response = await api.post<setBookmarkIssueResponse>(`/bookmark/add/${issueId}`);
+  return response.data.isSuccess;
+}
+
+interface getBookmarkIssueResponse {
+  isSuccess: boolean;
+  code: string;
+  message: string;
+  result: {
+    bookmarkList: IssueBookmarked[];
+  };
+}
+
+export const getBookmarkIssue = async (): Promise<IssueBookmarked[]> => {
+  const response = await api.get<getBookmarkIssueResponse>(`/bookmark/list`);
+  return response.data.result.bookmarkList;
+}
+
+interface delBookmarkIssueResponse {
+  isSuccess: boolean;
+  code: string;
+  message: string;
+  result: {
+    bookmarkId: number;
+  };
+}
+
+export const delBookmarkIssue = async (issueId : number): Promise<boolean> => {
+  const response = await api.delete<delBookmarkIssueResponse>(`/bookmark/delete/${issueId}`);
+  return response.data.isSuccess;
+}
