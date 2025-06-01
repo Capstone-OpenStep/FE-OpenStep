@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import search from '../../assets/search.svg';
+import { searchIssue } from '../../api/issue'
+import { Issue } from '../../types/issue'
 
 const Container = styled.div.withConfig({
   shouldForwardProp: (prop) => prop !== 'isFilter',
-})<{ isFilter: boolean }>`
+}) <{ isFilter: boolean }>`
   width: 1139px;
   height: 44px;
   margin-top: 30px;
@@ -164,9 +166,15 @@ const languages: string[] = [
   'sql', 'matlab', 'scratch'
 ];
 
-const Filter = () => {
-  const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
-  const [selectedUpdate, setSelectedUpdate] = useState<string | null>(null);
+interface FilterProps {
+  selectedLanguages: string[];
+  selectedUpdate: string | null;
+  setSelectedLanguages: React.Dispatch<React.SetStateAction<string[]>>;
+  setSelectedUpdate: React.Dispatch<React.SetStateAction<string | null>>;
+}
+
+const Filter: React.FC<FilterProps> = ({ selectedLanguages, selectedUpdate, setSelectedLanguages, setSelectedUpdate }) => {
+
 
   const handleLanguageClick = (value: string) => {
     setSelectedLanguages((prev) =>
@@ -179,7 +187,7 @@ const Filter = () => {
   const handleUpdateClick = (value: string) => {
     setSelectedUpdate((prev) => (prev === value ? null : value));
   };
-  
+
 
   return (
     <FilterContainer>
@@ -219,17 +227,42 @@ interface SearchBarProps {
   query: string;
   setMode: React.Dispatch<React.SetStateAction<number>>;
   setQuery: React.Dispatch<React.SetStateAction<string>>;
+  setSearchedIssues: React.Dispatch<React.SetStateAction<Issue[]>>;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ mode, query, setMode, setQuery }) => {
+const SearchBar: React.FC<SearchBarProps> = ({ mode, query, setMode, setQuery, setSearchedIssues }) => {
   const [isFilter, setIsFilter] = useState<boolean>(false);
   const [searchText, setSearchText] = useState<string>("");
+  const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
+  const [selectedUpdate, setSelectedUpdate] = useState<string | null>(null);
+
   const toggle = () => {
     setIsFilter((prev) => !prev);
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
+      let updateForApi: string | null = null;
+
+      switch (selectedUpdate) {
+        case '1주':
+          updateForApi = 'ONE_WEEK';
+          break;
+        case '1개월':
+          updateForApi = 'ONE_MONTH';
+          break;
+        case '3개월':
+          updateForApi = 'THREE_MONTHS';
+          break;
+        case '1년':
+          updateForApi = 'ONE_YEAR';
+          break;
+        default:
+          updateForApi = null;
+          break;
+      }
+      const result = await searchIssue(searchText, selectedLanguages, updateForApi);
+      setSearchedIssues(result);
       setQuery(searchText);
       setMode(2);
     }
@@ -270,7 +303,12 @@ const SearchBar: React.FC<SearchBarProps> = ({ mode, query, setMode, setQuery })
           <ToggleText>필터</ToggleText>
         </FilterToggle>
       </Container>
-      {isFilter && <Filter />}
+      {isFilter && <Filter
+        selectedLanguages={selectedLanguages}
+        selectedUpdate={selectedUpdate}
+        setSelectedLanguages={setSelectedLanguages}
+        setSelectedUpdate={setSelectedUpdate}
+      />}
     </>
   );
 };

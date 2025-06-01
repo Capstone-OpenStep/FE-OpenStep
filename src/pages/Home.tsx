@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { IsSessionFunction, useNavigate } from "react-router-dom";
 import { getTrendingRepositories } from "../api/repository";
 import { getRecommendedIssues, getTrendingIssues } from "../api/issue";
 import { Repository } from "../types/repository";
@@ -8,17 +8,16 @@ import styles from './Home.module.css';
 import SearchBar from '../components/home/SearchBar';
 import InfoText from '../components/home/InfoText';
 import CardList from '../components/home/CardList';
-import { useAuth } from "../components/AuthContext"; 
+import { useAuth } from "../components/AuthContext";
 import ErrorModal from "../components/ErrorModal";
 
 const Home: React.FC = () => {
   const { isLoggedIn } = useAuth(); // 로그인 상태 확인
   const navigate = useNavigate();
 
-  const [active, setActive] = useState<boolean>(false);
-  const [mode, setMode] = useState<number>(0);
+  const [mode, setMode] = useState<number>(1);
   const [query, setQuery] = useState<string>("");
-  
+
   // 추천 관련 state
   const [recommendedIssues, setRecommendedIssues] = useState<Issue[]>([]);
   // 검색 관련 state
@@ -31,35 +30,33 @@ const Home: React.FC = () => {
   const [modalMessage, setModalMessage] = useState("");
   const [modalShouldNavigate, setModalShouldNavigate] = useState(false);
 
+  const [isTrendingLoading, setIsTrendingLoading] = useState(true);
+  const [isRecommendedLoading, setIsRecommendedLoading] = useState(true);
+
   useEffect(() => {
     const fetchData = async () => {
+      setIsTrendingLoading(true);
       const trending = await getTrendingIssues();
       setTrendingIssues(trending);
+      setIsTrendingLoading(false);
 
       if (isLoggedIn) {
+        setIsRecommendedLoading(true);
         try {
           const recommended = await getRecommendedIssues();
           setRecommendedIssues(recommended);
+          setMode(0); // 추천 모드로 전환
         } catch (error: any) {
-            const backendMessage = error.response?.data?.message;
-
-          if (backendMessage) {
-            setModalMessage(backendMessage);
-          } else {
-            setModalMessage("추천 이슈를 불러오는 중 오류가 발생했습니다.");
-          }
-          console.log(error);
+          const backendMessage = error.response?.data?.message;
+          setModalMessage(backendMessage || "추천 이슈를 불러오는 중 오류가 발생했습니다.");
           setShowModal(true);
-          if (error.response?.status === 404) {
-            setModalShouldNavigate(true);
-          } else {
-            setModalShouldNavigate(false);
-          }
+          setModalShouldNavigate(error.response?.status === 404);
+          setMode(1); // fallback to 트렌딩
+        } finally {
+          setIsRecommendedLoading(false);
         }
-        setMode(0);
-      }
-      else {
-        setMode(1);
+      } else {
+        setMode(1); // 로그인 안 했으면 트렌딩 모드
       }
     };
 
@@ -76,7 +73,7 @@ const Home: React.FC = () => {
   const handleModalClose = () => {
     setShowModal(false);
     if (modalShouldNavigate) {
-      // navigate("/signup");
+      navigate("/signup");
     }
   };
 
@@ -84,23 +81,22 @@ const Home: React.FC = () => {
     <div className={styles.body}>
       <div className={styles.mainContent}>
         {mode != 0 ? (
-          <SearchBar mode={mode} query={query} setMode={setMode} setQuery={setQuery} />
+          <SearchBar mode={mode} query={query} setMode={setMode} setQuery={setQuery} setSearchedIssues={setSearchedIssues} />
         ) : (null)}
         <InfoText mode={mode} query={query} setMode={setMode} />
         <CardList
-          active={active}
-          setActive={setActive}
           issues={getCurrentIssues()}
+          isLoading={mode === 0 ? (isTrendingLoading) : (isRecommendedLoading)}
         />
         {showModal && (
-        <ErrorModal
-          show={showModal}
-          title="오류"
-          message={modalMessage}
-          confirmText="확인"
-          onConfirm={handleModalClose}
-        />
-      )}
+          <ErrorModal
+            show={showModal}
+            title="오류"
+            message={modalMessage}
+            confirmText="확인"
+            onConfirm={handleModalClose}
+          />
+        )}
       </div>
     </div>
   );
