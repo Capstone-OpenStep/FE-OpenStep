@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { IsSessionFunction, useNavigate } from "react-router-dom";
 import { getTrendingRepositories } from "../api/repository";
 import { getRecommendedIssues, getTrendingIssues } from "../api/issue";
+import {getDomains} from '../api/user'
 import { Repository } from "../types/repository";
 import { Issue } from "../types/issue";
 import styles from './Home.module.css';
@@ -17,6 +18,9 @@ const Home: React.FC = () => {
 
   const [mode, setMode] = useState<number>(1);
   const [query, setQuery] = useState<string>("");
+
+  // 유저 정보
+  const [domains, setDomains] = useState<string[]>([]);
 
   // 추천 관련 state
   const [recommendedIssues, setRecommendedIssues] = useState<Issue[]>([]);
@@ -43,6 +47,8 @@ const Home: React.FC = () => {
       if (isLoggedIn) {
         setIsRecommendedLoading(true);
         try {
+          const domains = await getDomains();
+          setDomains(domains);
           const recommended = await getRecommendedIssues();
           setRecommendedIssues(recommended);
           setMode(0); // 추천 모드로 전환
@@ -83,7 +89,7 @@ const Home: React.FC = () => {
         {mode != 0 ? (
           <SearchBar mode={mode} query={query} setMode={setMode} setQuery={setQuery} setSearchedIssues={setSearchedIssues} />
         ) : (null)}
-        <InfoText mode={mode} query={query} setMode={setMode} />
+        <InfoText mode={mode} query={query} setMode={setMode} domains={domains}/>
         <CardList
           issues={getCurrentIssues()}
           isLoading={mode === 0 ? (isTrendingLoading) : (isRecommendedLoading)}
