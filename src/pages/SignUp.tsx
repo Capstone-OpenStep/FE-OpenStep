@@ -13,11 +13,11 @@ const languages: string[] = [
 ];
 
 const domains: string[] = [
-  '3D', 'Android', 'Arduino', 'Bootstrap', 'Php',
-  'Database', 'Deep Learning', 'Docker', 'Kotlin',
-  'Gradle', 'GraphQl', 'Linux',
-  'MySql', 'React', 'Server', 'Spring Boot',
-  'Terminal', 'Tensorflow', 'Unity'
+  'Frontend', 'Backend', 'Spring Boot',
+  'React', 'UI/UX', 'DevOps', 'Cloud',
+  'Docker', 'Database', 'MySQL', 'AI', 'Deep Learning',
+  'Mobile', 'Security', 'Embedded', 'Game Development',
+  'Blockchain', 'Data Science', 'Linux', 'GraphQL'
 ];
 
 enum SignUpStep {
@@ -57,7 +57,7 @@ const SignUp: React.FC = () => {
   };
 
 
-  
+
   const handleNextButtonClick = async () => {
     if (step === SignUpStep.Language) {
       try {
