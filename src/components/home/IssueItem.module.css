@@ -99,7 +99,9 @@
 
 .issueTitle {
   position: relative;
-  left: 18px;
+  display: flex;
+  flex-direction: row;
+  margin-left: 18px;
   margin-top: 14px;
   color: #5353FF;
   font-size: 18px;
@@ -141,7 +143,7 @@
 
 
 .cardContainer:hover {
-  background-color: #5F44F8;
+  background-color: rgba(83, 83, 255, 0.1);
   transition: background-color 0.2s ease-in-out;
   box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.25);
   transform: translateY(-1px);
@@ -154,15 +156,51 @@
 .cardContainer:hover .languageLabel,
 .cardContainer:hover .starCount,
 .cardContainer:hover .tagText {
-  color: #FFFFFF;
+  /* color: #FFFFFF; */
 }
 
 /* footer 배경도 어두운 배경에 어울리게 투명도 제거 */
 .cardContainer:hover .cardFooter {
-  background-color: rgba(255, 255, 255, 0.15);
+  background-color: rgba(255, 255, 255, 0.6);
 }
 
 /* 태그 배경도 흰색에 가까운 보라색 계열로 명도 조정 */
 .cardContainer:hover .tag {
-  background: rgba(255, 255, 255, 0.3);
+  /* background: rgba(255, 255, 255, 0.1); */
+}
+
+
+
+/* 북마크 svg */
+
+.svgWrapper {
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+  position: relative;
+  margin-left: auto;
+  margin-right: 15px;
+}
+
+.svgPath {
+  fill: transparent;
+  stroke: #1E1E1E;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: fill 0.3s ease;
+}
+
+/* hover 시 색상 변경 */
+.svgWrapper:hover .svgPath {
+  fill: #FFF2B2; /* 연하고 부드러운 hover 색 */
+}
+
+/* 클릭 상태일 때 색상 유지 */
+.filled .svgPath {
+  fill: #FFDC4E;
+}
+
+.filled:hover .svgPath {
+  fill: #FFDC4E;
 }

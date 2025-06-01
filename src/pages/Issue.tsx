@@ -39,6 +39,7 @@ const Project: React.FC = () => {
         repoName: '',
         summary: '',
         ownerName: '',
+        ownerAvatarUrl: '',
         description: '',
         language: '',
         stars: 0,
@@ -137,7 +138,7 @@ const Project: React.FC = () => {
         <div className={styles.body}>
             <div className={styles.contentWrapper}> {/* New wrapper div */}
                 <div className={`${styles.section} ${styles.sectionLeft}`}>
-                    <img className={styles.projectLogo} src={logo} alt="Project Logo" />
+                    <img className={styles.projectLogo} src={repository.ownerAvatarUrl} />
                     <Summary repository={repository} />
                 </div>
                 <div className={`${styles.section} ${styles.sectionMiddle}`}>

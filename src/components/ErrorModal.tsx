@@ -1,7 +1,7 @@
+// ErrorModal.tsx
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import ReactDOM from 'react-dom';
 import styles from './Sidebar.module.css';
-import classNames from 'classnames';
 
 interface ErrorModalProps {
   show: boolean;
@@ -22,7 +22,7 @@ const ErrorModal: React.FC<ErrorModalProps> = ({
 }) => {
   if (!show) return null;
 
-  return (
+  return ReactDOM.createPortal(
     <div className="modal show d-block" tabIndex={-1} role="dialog" style={{ backgroundColor: "rgba(0,0,0,0.5)" }}>
       <div className="modal-dialog" role="document">
         <div className="modal-content">
@@ -42,7 +42,8 @@ const ErrorModal: React.FC<ErrorModalProps> = ({
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body // body에 바로 렌더링되므로 항상 동일한 위치에 렌더링
   );
 };
 

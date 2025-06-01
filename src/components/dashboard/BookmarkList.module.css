@@ -38,27 +38,46 @@
 }
 
 .card:hover {
-    background: #5F44F8;
+    /* background: #f0f0f0; */
+    background: rgba(0, 4, 255, 0.1)
 }
 
 .contentWrapper {
     position: absolute;
+    overflow: hidden;
     top: 18px;
     left: 18px;
     width: 355px;
     display: inline-flex;
     flex-direction: column;
-    gap: 9px;
+    gap: 7px;
 }
 
 .title {
-    align-self: stretch;
-    height: 22px;
+        display: inline-block;
+    white-space: nowrap;
+    /* align-self: stretch; */
+    height: 26px;
     color: #5353FF;
     font-size: 18px;
     font-family: Inter;
     font-weight: 600;
-    word-wrap: break-word;
+    will-change: transform;
+    /* word-wrap: break-word; */
+}
+
+.card:hover .title {
+    animation: scroll-text 5s linear infinite;
+    /* color: #fff9e9; */
+}
+
+@keyframes scroll-text {
+    0% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
 }
 
 .subtitle {
@@ -98,7 +117,7 @@
 .languageText {
     height: 22px;
     color: #737373;
-    font-size: 16px;
+    font-size: 14px;
     font-family: Inter;
     font-weight: 600;
     word-wrap: break-word;
@@ -138,12 +157,12 @@
 }
 
 .card:hover .title{
-    color: #FFFFFF;
+    /* color: #FFFFFF; */
 }
 
 .card:hover .subtitle,
 .card:hover .languageText,
 .card:hover .starCount,
 .card:hover .updated {
-  color: #d9d9d9;
+  /* color: #d9d9d9; */
 }

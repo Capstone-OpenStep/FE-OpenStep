@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
 interface AuthContextType {
   isLoggedIn: boolean;
@@ -12,11 +12,17 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => {
+    const token = sessionStorage.getItem('token');
+    return !!token;
+  });
+
 
   useEffect(() => {
     const token = sessionStorage.getItem('token');
-    setIsLoggedIn(!!token);
+    if (isLoggedIn !== !!token) {
+        setIsLoggedIn(!!token);
+    }
   }, []);
 
   const value: AuthContextType = { isLoggedIn, setIsLoggedIn };

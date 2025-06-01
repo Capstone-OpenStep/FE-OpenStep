@@ -26,9 +26,7 @@ const Task: React.FC<TaskProps> = ({ taskId, taskName, branch, status }) => {
             <div className={styles.issueButton}>
                 <div className={styles.issueText}>{status}</div>
             </div>
-            <div className={styles.checkIcon}>
-                <img src={check} />
-            </div>
+            <img className={styles.checkIcon} src={check} />
         </div>
     );
 };
