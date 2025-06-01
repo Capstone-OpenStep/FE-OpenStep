@@ -23,9 +23,12 @@ export interface IssueDescription {
   createdAt: string,
   updatedAt: string,
   author: string,
+  authorAvatarUrl: string,
   labels: [
     string
   ]
+  repoName: string,
+  repoUrl: string,
   bookmarked: boolean;
 }
 

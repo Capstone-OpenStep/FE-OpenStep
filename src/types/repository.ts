@@ -18,6 +18,7 @@ export interface RepositoryDescription {
   repoName: string;
   summary: string;
   ownerName: string;
+  ownerAvatarUrl: string;
   description: string;
   language: string;
   stars: number;
