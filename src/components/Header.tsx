@@ -34,7 +34,9 @@ const Header = () => {
         })
         .then((res) => {
           const token = res.data.result.accessToken;
+          const username = res.data.result.githubId;
           sessionStorage.setItem('token', token);
+          sessionStorage.setItem('username', username);
           setIsLoggedIn(true);
           if (res.data.result.isNewMember === true)
             navigate('/signup')
