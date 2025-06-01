@@ -84,7 +84,7 @@ const Home: React.FC = () => {
     <div className={styles.body}>
       <div className={styles.mainContent}>
         {mode != 0 ? (
-          <SearchBar mode={mode} query={query} setMode={setMode} setQuery={setQuery} />
+          <SearchBar mode={mode} query={query} setMode={setMode} setQuery={setQuery} setSearchedIssues={setSearchedIssues} />
         ) : (null)}
         <InfoText mode={mode} query={query} setMode={setMode} />
         <CardList

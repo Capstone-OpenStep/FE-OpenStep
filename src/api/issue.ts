@@ -2,6 +2,32 @@ import api from "./client";
 
 import { Issue, IssueDescription, IssueBookmarked } from "../types/issue";
 
+
+export interface IssueSearchResponse {
+  isSuccess: boolean;
+  code: string;
+  message: string;
+  result: {
+    issueList: Issue[];
+  };
+}
+
+export const searchIssue = async (searchKeyword: string, language: string[], period: string | null) => {
+  const params = new URLSearchParams();
+  params.append("search", searchKeyword);
+
+  if (language && language.length > 0) {
+    language.forEach(lang => {
+      params.append("languages", lang.toUpperCase());
+    });
+  }
+  if (period) {
+    params.append("updatePeriod", period);
+  }
+  const response = await api.get<TrendingIssueResponse>(`/issues/search/keyword?${params.toString()}`);
+  return response.data.result.issueList;
+};
+
 export interface IssueDescriptionResponse {
   isSuccess: boolean;
   code: string;
