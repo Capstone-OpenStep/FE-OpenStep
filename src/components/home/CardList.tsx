@@ -42,7 +42,7 @@ const CardList: React.FC<CardListProps> = ({
   const observerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!isSearchMode || !onLoadMore || !hasMore) return;
+    if (!onLoadMore || !hasMore) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -58,7 +58,7 @@ const CardList: React.FC<CardListProps> = ({
     }
 
     return () => observer.disconnect();
-  }, [isSearchMode, onLoadMore, hasMore, isLoadingMore]);
+  }, [onLoadMore, hasMore, isLoadingMore]);
 
   return (
     <div className={styles.cardListContainer}>
@@ -74,12 +74,12 @@ const CardList: React.FC<CardListProps> = ({
             <IssueItem key={`${issue.issueId}-${index}`} issue={issue} />
           ))}
           {/* 무한 스크롤을 위한 관찰 요소 */}
-          {isSearchMode && hasMore && (
+          {hasMore && (
             <>
               {isLoadingMore && (
                 <>
                   {Array.from({ length: 5 }).map((_, index) => (
-                    <SkeletonIssueItem key={index} />
+                    <SkeletonIssueItem key={`loading-${index}`} />
                   ))}
                 </>
               )}

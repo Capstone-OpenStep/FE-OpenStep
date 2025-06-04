@@ -24,16 +24,24 @@ const Home: React.FC = () => {
 
   // 추천 관련 state
   const [recommendedIssues, setRecommendedIssues] = useState<Issue[]>([]);
+  const [recommendedState, setRecommendedState] = useState({
+    page: 0,
+    hasMore: true
+  });
+
   // 검색 관련 state
   const [searchedIssues, setSearchedIssues] = useState<Issue[]>([]);
-  // 트랜딩 관련 state
-  const [trendingIssues, setTrendingIssues] = useState<Issue[]>([]);
-
-  // 검색 상태 관리
   const [searchState, setSearchState] = useState({
     text: "",
     languages: [] as string[],
     update: null as string | null,
+    page: 0,
+    hasMore: true
+  });
+
+  // 트렌딩 관련 state
+  const [trendingIssues, setTrendingIssues] = useState<Issue[]>([]);
+  const [trendingState, setTrendingState] = useState({
     page: 0,
     hasMore: true
   });
@@ -50,8 +58,12 @@ const Home: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       setIsTrendingLoading(true);
-      const trending = await getTrendingIssues();
+      const trending = await getTrendingIssues(0);
       setTrendingIssues(trending);
+      setTrendingState({
+        page: 0,
+        hasMore: trending.length > 0
+      });
       setIsTrendingLoading(false);
 
       if (isLoggedIn) {
@@ -59,8 +71,12 @@ const Home: React.FC = () => {
         try {
           const domains = await getDomains();
           setDomains(domains);
-          const recommended = await getRecommendedIssues();
+          const recommended = await getRecommendedIssues(0);
           setRecommendedIssues(recommended);
+          setRecommendedState({
+            page: 0,
+            hasMore: recommended.length > 0
+          });
           setMode(0); // 추천 모드로 전환
         } catch (error: any) {
           const backendMessage = error.response?.data?.message;
@@ -79,7 +95,59 @@ const Home: React.FC = () => {
     fetchData();
   }, [isLoggedIn]);
 
-  // 무한 스크롤 로딩 함수
+  // 추천 이슈 무한 스크롤 로딩 함수
+  const loadMoreRecommendedResults = async () => {
+    if (!recommendedState.hasMore || isRecommendedLoading || recommendedState.page >= 3) return;
+
+    setIsRecommendedLoading(true);
+    try {
+      const nextPage = recommendedState.page + 1;
+      const newResults = await getRecommendedIssues(nextPage);
+
+      if (newResults.length === 0) {
+        setRecommendedState(prev => ({ ...prev, hasMore: false }));
+      } else {
+        setRecommendedIssues(prev => [...prev, ...newResults]);
+        setRecommendedState(prev => ({ 
+          ...prev, 
+          page: nextPage,
+          hasMore: newResults.length > 0 && nextPage < 3
+        }));
+      }
+    } catch (error) {
+      console.error("Failed to load more recommended results:", error);
+    } finally {
+      setIsRecommendedLoading(false);
+    }
+  };
+
+  // 트렌딩 이슈 무한 스크롤 로딩 함수
+  const loadMoreTrendingResults = async () => {
+    if (!trendingState.hasMore || isTrendingLoading || trendingState.page >= 3) return;
+
+    setIsTrendingLoading(true);
+    try {
+      const nextPage = trendingState.page + 1;
+      const newResults = await getTrendingIssues(nextPage);
+
+      if (newResults.length === 0) {
+        setTrendingState(prev => ({ ...prev, hasMore: false }));
+      } else {
+        setTrendingIssues(prev => [...prev, ...newResults]);
+        setTrendingState(prev => ({ 
+          ...prev, 
+          page: nextPage,
+          hasMore: newResults.length > 0 && nextPage < 3
+        }));
+      }
+    } catch (error) {
+      console.error("Failed to load more trending results:", error);
+    } finally {
+      setIsTrendingLoading(false);
+    }
+  };
+
+  // 검색 이슈 무한 스크롤 로딩 함수
   const loadMoreSearchResults = async () => {
     if (!searchState.hasMore || isSearchLoading || searchState.page >= 3) return;
 
@@ -94,10 +162,8 @@ const Home: React.FC = () => {
       );
 
       if (newResults.length === 0) {
-        // 더 이상 결과가 없음
         setSearchState(prev => ({ ...prev, hasMore: false }));
       } else {
-        // 새로운 결과를 기존 결과에 추가
         setSearchedIssues(prev => [...prev, ...newResults]);
         setSearchState(prev => ({ 
           ...prev, 
@@ -119,6 +185,34 @@ const Home: React.FC = () => {
     return [];
   };
 
+  const getCurrentLoadMoreFunction = () => {
+    if (mode === 0) return loadMoreRecommendedResults;
+    if (mode === 1) return loadMoreTrendingResults;
+    if (mode === 2) return loadMoreSearchResults;
+    return undefined;
+  };
+
+  const getCurrentHasMore = (): boolean => {
+    if (mode === 0) return recommendedState.hasMore;
+    if (mode === 1) return trendingState.hasMore;
+    if (mode === 2) return searchState.hasMore;
+    return false;
+  };
+
+  const getCurrentLoadingState = (): boolean => {
+    if (mode === 0) return isRecommendedLoading && recommendedIssues.length === 0;
+    if (mode === 1) return isTrendingLoading && trendingIssues.length === 0;
+    if (mode === 2) return isSearchLoading && searchedIssues.length === 0;
+    return false;
+  };
+
+  const getCurrentLoadingMoreState = (): boolean => {
+    if (mode === 0) return isRecommendedLoading && recommendedIssues.length > 0;
+    if (mode === 1) return isTrendingLoading && trendingIssues.length > 0;
+    if (mode === 2) return isSearchLoading && searchedIssues.length > 0;
+    return false;
+  };
+
   // mode가 변경될 때 검색 결과 초기화
   useEffect(() => {
     if (mode !== 2) {
@@ -132,13 +226,6 @@ const Home: React.FC = () => {
       });
     }
   }, [mode]);
-
-  const getCurrentLoadingState = (): boolean => {
-    if (mode === 0) return isRecommendedLoading;
-    if (mode === 1) return isTrendingLoading;
-    if (mode === 2) return isSearchLoading && searchedIssues.length === 0;
-    return false;
-  };
 
   const handleModalClose = () => {
     setShowModal(false);
@@ -164,10 +251,10 @@ const Home: React.FC = () => {
         <CardList
           issues={getCurrentIssues()}
           isLoading={getCurrentLoadingState()}
-          onLoadMore={mode === 2 ? loadMoreSearchResults : undefined}
-          hasMore={mode === 2 ? searchState.hasMore : false}
-          isSearchMode={mode === 2}
-          isLoadingMore={isSearchLoading}
+          onLoadMore={getCurrentLoadMoreFunction()}
+          hasMore={getCurrentHasMore()}
+          isSearchMode={true} // 모든 모드에서 무한 스크롤 활성화
+          isLoadingMore={getCurrentLoadingMoreState()}
         />
         {showModal && (
           <ErrorModal
