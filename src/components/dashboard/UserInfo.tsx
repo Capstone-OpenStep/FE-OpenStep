@@ -4,16 +4,24 @@ import users from '../../assets/users.svg';
 import location from '../../assets/location.svg';
 import email from '../../assets/email.svg';
 import chain from '../../assets/chain.svg';
+import { Level } from '../../types/user'
 
-const UserInfo: React.FC = () => {
+interface UserInfoProps {
+  level: Level;
+}
+
+const UserInfo: React.FC<UserInfoProps> = ({ level }) => {
+
+  const username: string | null = sessionStorage.getItem('username');
+
   return (
     <div>
       <div className={styles.userInfoContainer}>
         <div className={styles.profilePicture} />
-        <div className={styles.username}>allorak333</div>
+        <div className={styles.username}>{username}</div>
         <div className={styles.levelBarContainer}>
-          <div className={styles.levelProgressBar} />
-          <div className={styles.levelText}>level 10 - 78%</div>
+          <div className={styles.levelProgressBar} style={{ width: `${level.levelPercent}%` }}/>
+          <div className={styles.levelText}>level {level.level} - {level.levelPercent}%</div>
         </div>
         <div className={styles.editProfileButton}>
           <div className={styles.editProfileText}>Edit profile</div>
