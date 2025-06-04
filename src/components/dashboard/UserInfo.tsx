@@ -5,6 +5,15 @@ import location from '../../assets/location.svg';
 import email from '../../assets/email.svg';
 import chain from '../../assets/chain.svg';
 import { Level } from '../../types/user'
+import bugHunter from '../../assets/ achievements/bugHunter.png'
+import consistentDev from '../../assets/ achievements/consistentDev.png'
+import docWriter from '../../assets/ achievements/docWriter.png'
+import ExplorerLv1 from '../../assets/ achievements/ExplorerLv1.png'
+import ExplorerLv2 from '../../assets/ achievements/ExplorerLv2.png'
+import ExplorerLv3 from '../../assets/ achievements/ExplorerLv3.png'
+import firstCommit from '../../assets/ achievements/firstCommit.png'
+import Mentor from '../../assets/ achievements/Mentor.png'
+import PRMaster from '../../assets/ achievements/PRMaster.png'
 
 interface UserInfoProps {
   level: Level;
@@ -46,6 +55,17 @@ const UserInfo: React.FC<UserInfoProps> = ({ level }) => {
         <div className={styles.infoRow}>
           <img src={chain} alt="chain icon" className={styles.infoIcon} />
           <div className={styles.infoText}>in/userprofile</div>
+        </div>
+        <div className={styles.archivementList}>
+          <img className={styles.archivement} src={bugHunter}></img>
+          <img className={styles.archivement} src={consistentDev}></img>
+          <img className={styles.archivement} src={docWriter}></img>
+          <img className={styles.archivement} src={ExplorerLv1}></img>
+          <img className={styles.archivement} src={ExplorerLv2}></img>
+          <img className={styles.archivement} src={ExplorerLv3}></img>
+          <img className={styles.archivement} src={firstCommit}></img>
+          <img className={styles.archivement} src={Mentor}></img>
+          <img className={styles.archivement} src={PRMaster}></img>
         </div>
       </div>
     </div>

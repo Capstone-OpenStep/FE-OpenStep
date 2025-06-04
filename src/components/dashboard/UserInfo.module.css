@@ -129,3 +129,16 @@
   font-weight: 500;
   word-wrap: break-word;
 }
+
+.archivementList {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  gap: 12px;
+}
+
+.archivement { 
+  width: 50px;
+  height: 65px;
+}
