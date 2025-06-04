@@ -204,6 +204,8 @@ const Overview: React.FC<OverviewProps> = ({ taskStatistic }) => {
     value,
   }));
 
+  const username: string | null = sessionStorage.getItem('username');
+
   return (
     <div className={styles.boardBody}>
       <div className={styles.circleGraph}>
@@ -211,7 +213,7 @@ const Overview: React.FC<OverviewProps> = ({ taskStatistic }) => {
         <IssueDetails data={formattedTaskData} />
       </div>
       <div className={styles.githubCalendar}>
-        <GitHubCalendar username="allorak333" colorScheme='light' blockSize={11} />
+        {username === null ? (null) : (<GitHubCalendar username={username} colorScheme='light' blockSize={11} />)}
       </div>
     </div>
   );
