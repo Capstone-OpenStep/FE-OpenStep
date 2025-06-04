@@ -24,6 +24,7 @@ export interface TaskItem {
   taskId: number;
   title: string;
   status: "NOTSTARTED" | "FORKED" | "PR" | "review" | "Approve" | "Closed";
+  branchName: string,
   createdAt: string;
   updatedAt: string;
 }
@@ -38,4 +39,13 @@ export interface TaskAssignResult {
   isAssigned: boolean,
   createdAt: string;
   updatedAt: string;
+}
+
+export interface TaskStatistic {
+  "feature": number,
+  "bug": number,
+  "refactor": number,
+  "good first issue": number,
+  "chore": number,
+  "other": number
 }

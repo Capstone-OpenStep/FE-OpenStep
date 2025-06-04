@@ -18,17 +18,17 @@
 }
 
 .selectButton.selected {
-    background-color: #87B1FF;
-    border-color: #007bff;
+    background-color: rgba(0, 4, 255, 0.1);
+    border-color: rgba(0, 4, 255, 0.5);
     
 }
 
 .selectButton.selected:hover {
-    background-color: #87B1FF;
+    background-color: rgba(0, 4, 255, 0.1);
 }
 
 .selectButton:hover {
-    background-color: #f0f0f0;
+    background-color: rgba(0, 4, 255, 0.1);
 }
 
 .buttonDescription {

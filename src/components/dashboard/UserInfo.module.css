@@ -1,0 +1,131 @@
+.userInfoContainer {
+  width: 300px;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 19px;
+  display: inline-flex;
+}
+
+.profilePicture {
+  width: 250px;
+  height: 250px;
+  background: #967b7b;
+  border-radius: 9999px;
+}
+
+.username {
+  align-self: stretch;
+  height: 28px;
+  text-align: center;
+  color: black;
+  font-size: 30px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 600;
+  word-wrap: break-word;
+}
+
+.levelBarContainer {
+  width: 300px;
+  height: 30px;
+  background: #206b5d;
+  border-radius: 5px;
+  position: relative; /* Added for absolute positioning of children */
+}
+
+.levelProgressBar {
+  position: absolute;
+  width: 225.41px;
+  height: 30px;
+  background: #48d3ba;
+  border-radius: 5px;
+  z-index: 1;
+}
+
+.levelText {
+  position: absolute;
+  width: 300px;
+  height: 30px;
+  text-align: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  color: white;
+  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  word-wrap: break-word;
+  z-index: 2;
+}
+
+.editProfileButton {
+  width: 300px;
+  height: 30px;
+  position: relative;
+  background: #dfe7ec;
+  overflow: hidden;
+  border-radius: 5px;
+  outline: 1px rgba(0, 0, 0, 0.06) solid;
+  outline-offset: -1px;
+  display: flex; /* Added to center text */
+  justify-content: center; /* Added to center text */
+  align-items: center; /* Added to center text */
+}
+
+.editProfileText {
+  color: rgba(0, 0, 0, 0.62);
+  font-size: 13px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 600;
+  word-wrap: break-word;
+  /* Removed absolute positioning since parent is now flex */
+}
+
+.infoRow {
+  width: 100%;
+  height: 20px;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  overflow: hidden;
+}
+
+.infoIcon {
+  /* Assuming icons are 20x20 based on data-size="20" in original code */
+  width: 20px;
+  height: 20px;
+}
+
+.followersFollowing {
+  height: 19px;
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  align-items: center;
+}
+
+.count {
+  color: #4e4c4c;
+  font-size: 14px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 700;
+  word-wrap: break-word;
+}
+
+.label {
+  color: #4e4c4c;
+  font-size: 14px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 500;
+  word-wrap: break-word;
+}
+
+.infoText {
+  color: #4e4c4c;
+  font-size: 14px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 500;
+  word-wrap: break-word;
+}

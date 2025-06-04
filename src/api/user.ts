@@ -1,6 +1,7 @@
 import api from "./client";
 import {  } from "../types/issue";
 import { RankUser } from "../types/rank"
+import { Level } from "../types/user"
 
 export interface getDomainResponse {
   isSuccess: boolean;
@@ -16,6 +17,7 @@ export const getDomains = async (): Promise<string[]> => {
   return response.data.result.domains;
 };
 
+
 export interface getRanksResponse {
   isSuccess: boolean;
   code: string;
@@ -29,3 +31,15 @@ export const getRanks = async (): Promise<RankUser[]> => {
   const response = await api.get<getRanksResponse>(`/rank/all`);
   return response.data.result.ranks;
 }
+
+export interface getLevelResponse {
+  isSuccess: boolean;
+  code: string;
+  message: string;
+  result: Level;
+}
+
+export const getLevel = async (): Promise<Level> => {
+  const response = await api.get<getLevelResponse>(`/rank/level`);
+  return response.data.result;
+};
