@@ -85,3 +85,32 @@
   font-weight: 400;
   word-wrap: break-word;
 }
+
+/* 공통 pulse 애니메이션 */
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.skeleton {
+  animation: pulse 1.5s infinite;
+  background: #e0e0e0;
+  border-radius: 6px;
+}
+
+/* 스켈레톤 박스들 */
+.imageSkeleton {
+  width: 250px;
+  height: 250px;
+  background: #e0e0e0;
+}
+

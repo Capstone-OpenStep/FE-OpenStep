@@ -1,6 +1,7 @@
 import api from "./client";
 
 import { Issue, IssueDescription, IssueBookmarked } from "../types/issue";
+import { RepositoryDescription } from "../types/repository";
 
 
 export interface IssueSearchResponse {
@@ -39,6 +40,22 @@ export interface IssueDescriptionResponse {
 export const getIssueDescription = async (issueId : number): Promise<IssueDescription> => {
   
   const response = await api.get<IssueDescriptionResponse>(`/issues/${issueId}`);
+  return response.data.result;
+}
+
+export interface IssueDescriptionFromUrlResponse {
+  isSuccess: boolean;
+  code: string;
+  message: string;
+  result: {
+    issue: IssueDescription,
+    repo: RepositoryDescription,
+  };
+}
+
+export const getIssueDescriptionFromUrl = async (githubUrl : string): Promise<{ issue: IssueDescription, repo: RepositoryDescription }> => {
+
+  const response = await api.get<IssueDescriptionFromUrlResponse>(`/issues/detail-by-url?url=${encodeURIComponent(githubUrl)}`);
   return response.data.result;
 }
 

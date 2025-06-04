@@ -93,3 +93,34 @@
   font-weight: 400;
   word-wrap: break-word;
 }
+
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.4; }
+  100% { opacity: 1; }
+}
+
+.skeleton {
+  background: #e0e0e0;
+  animation: pulse 1.5s infinite;
+  border-radius: 6px;
+}
+
+.titleSkeleton {
+  width: 50%;
+  height: 32px;
+  margin-bottom: 10px;
+}
+
+.summarySkeleton {
+  width: 90%;
+  height: 20px;
+  margin: 14px;
+}
+
+.contentSkeleton {
+  width: 100%;
+  height: 400px;
+  margin: 0 auto;
+}
