@@ -12,9 +12,10 @@ export interface IssueSearchResponse {
   };
 }
 
-export const searchIssue = async (searchKeyword: string, language: string[], period: string | null) => {
+export const searchIssue = async (searchKeyword: string, language: string[], period: string | null, page: number = 0) => {
   const params = new URLSearchParams();
   params.append("search", searchKeyword);
+  params.append("page", page.toString());
 
   if (language && language.length > 0) {
     language.forEach(lang => {
