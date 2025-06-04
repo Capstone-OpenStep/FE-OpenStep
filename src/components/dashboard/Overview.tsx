@@ -3,46 +3,41 @@ import styles from './Overview.module.css';
 import GitHubCalendar from 'react-github-calendar';
 import { Pie } from "@visx/shape";
 import { Group } from "@visx/group";
+import { TaskStatistic } from '../../types/task';
 
-const issueData = [
-  { label: "bug", value: 35 },
-  { label: "feature", value: 20 },
-  { label: "documentation", value: 10 },
-  { label: "enhancement", value: 15 },
-  { label: "question", value: 5 },
-  { label: "help wanted", value: 5 },
-  { label: "good first issue", value: 3 },
-  { label: "wontfix", value: 2 },
-  { label: "duplicate", value: 3 },
-  { label: "invalid", value: 2 },
-];
 
 const labelColors = {
-  bug: "#c53030",             
-  feature: "#60c6d2",         
-  documentation: "#005fa3",   
-  enhancement: "#42b7c4",     
-  question: "#b072cc",        
-  "help wanted": "#00745c",   
-  "good first issue": "#573bff", 
-  wontfix: "#6e7781",        
-  duplicate: "#a0a4a8",       
-  invalid: "#c0b800",         
+  bug: "#D32F2F", // Dark Red
+  feature: "#1976D2", // Deep Blue
+  refactor: "#388E3C", // Forest Green
+  "good first issue": "#FBC02D", // Goldenrod
+  chore: "#7B1FA2", // Dark Grayish Blue
+  other: "#546E7A", // Deep Purple
 };
 
-const getColor = (label) => {
+const getColor = (label: string): string => {
   return labelColors[label] || "#ccc";
 };
 
+interface ChartDataItem {
+  label: string;
+  value: number;
+}
 
-function DonutChart({ width = 190, height = 190 }) {
+interface DonutChartProps {
+  width?: number;
+  height?: number;
+  data: ChartDataItem[];
+}
+
+function DonutChart({ width = 190, height = 190, data }: DonutChartProps) {
   const radius = Math.min(width, height) / 2;
   const innerRadius = radius * 0.6;
 
-  const [hoveredLabel, setHoveredLabel] = useState(null);
+  const [hoveredLabel, setHoveredLabel] = useState<string | null>(null);
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
 
-  const handleMouseMove = (event, label) => {
+  const handleMouseMove = (event: React.MouseEvent<SVGPathElement>, label: string) => {
     const rect = event.currentTarget.getBoundingClientRect();
     setHoveredLabel(label);
     setTooltipPos({
@@ -51,31 +46,38 @@ function DonutChart({ width = 190, height = 190 }) {
     });
   };
 
+  const total = data.reduce((sum, item) => sum + item.value, 0);
+
   return (
-    <div style={{ position: "relative", width, height, left:35, top: 45}}>
+    <div style={{ position: "relative", width, height, left: 35, top: 45 }}>
       <svg width={width} height={height}>
         <Group top={height / 2} left={width / 2}>
-          <Pie
-            data={issueData}
-            pieValue={(d) => d.value}
-            outerRadius={radius}
-            innerRadius={innerRadius}
-            cornerRadius={3}
-          >
-            {(pie) =>
-              pie.arcs.map((arc, i) => (
-                <path
-                  key={`arc-${arc.data.label}`}
-                  d={pie.path(arc) || ""}
-                  fill={getColor(arc.data.label)}
-                  stroke="#fff"
-                  strokeWidth={1}
-                  onMouseMove={(e) => handleMouseMove(e, arc.data.label)}
-                  onMouseLeave={() => setHoveredLabel(null)}
-                />
-              ))
-            }
-          </Pie>
+          {total === 0 ? (
+            // 기여 이력이 없을 시 회색으로 렌더
+            <circle r={radius} fill="#e0e0e0" stroke="#ccc" strokeWidth={1} />
+          ) : (
+            <Pie<ChartDataItem>
+              data={data}
+              pieValue={(d) => d.value}
+              outerRadius={radius}
+              innerRadius={innerRadius}
+              cornerRadius={3}
+            >
+              {(pie) =>
+                pie.arcs.map((arc, i) => (
+                  <path
+                    key={`arc-${arc.data.label}`}
+                    d={pie.path(arc) || ""}
+                    fill={getColor(arc.data.label)}
+                    stroke="#fff"
+                    strokeWidth={1}
+                    onMouseMove={(e) => handleMouseMove(e, arc.data.label)}
+                    onMouseLeave={() => setHoveredLabel(null)}
+                  />
+                ))
+              }
+            </Pie>
+          )}
           <circle r={innerRadius - 5} fill="#fff" />
         </Group>
       </svg>
@@ -98,11 +100,33 @@ function DonutChart({ width = 190, height = 190 }) {
           {hoveredLabel}
         </div>
       )}
+      {total === 0 && (
+        <div style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          textAlign: 'center',
+          fontSize: '12px',
+          color: '#888',
+        }}>
+          데이터 없음
+        </div>
+      )}
     </div>
   );
 }
 
-function IssueDetails({ data }) {
+interface IssueDetailsDataItem {
+  label: string;
+  value: number;
+}
+
+interface IssueDetailsProps {
+  data: IssueDetailsDataItem[];
+}
+
+function IssueDetails({ data }: IssueDetailsProps) {
   const [expanded, setExpanded] = useState(false);
 
   const sortedData = [...data].sort((a, b) => b.value - a.value);
@@ -124,7 +148,6 @@ function IssueDetails({ data }) {
         left: 50,
       }}
     >
-      {/* 제목과 버튼을 flex로 나란히 배치 */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
         <h3 style={{ margin: 0 }}>레벨</h3>
         {sortedData.length > 6 && (
@@ -147,7 +170,7 @@ function IssueDetails({ data }) {
 
       <table style={{ width: '100%', borderCollapse: 'collapse' }}>
         <thead>
-        <tr style={{ borderBottom: '1px solid #ddd' }}>
+          <tr style={{ borderBottom: '1px solid #ddd' }}>
             <th align="left">Label</th>
             <th align="right">수</th>
             <th align="right">비율</th>
@@ -158,7 +181,11 @@ function IssueDetails({ data }) {
             <tr key={item.label} style={{ borderBottom: '1px solid #eee' }}>
               <td style={{ color: getColor(item.label), padding: '8px 0' }}>{item.label}</td>
               <td align="right">{item.value}</td>
-              <td align="right">{((item.value / total) * 100).toFixed(1)}%</td>
+              <td align="right">
+                {total === 0 // NAN 방지
+                  ? "0%"
+                  : `${((item.value / total) * 100).toFixed(1)}%`}
+              </td>
             </tr>
           ))}
         </tbody>
@@ -167,17 +194,24 @@ function IssueDetails({ data }) {
   );
 }
 
-const Overview: React.FC = () => {
+interface OverviewProps {
+  taskStatistic: TaskStatistic;
+}
+
+const Overview: React.FC<OverviewProps> = ({ taskStatistic }) => {
+  const formattedTaskData = Object.entries(taskStatistic).map(([label, value]) => ({
+    label,
+    value,
+  }));
 
   return (
     <div className={styles.boardBody}>
-      {/* <span className={styles.title}>태그 분포</span> */}
       <div className={styles.circleGraph}>
-        <DonutChart/>
-        <IssueDetails data={issueData} />
+        <DonutChart data={formattedTaskData} />
+        <IssueDetails data={formattedTaskData} />
       </div>
       <div className={styles.githubCalendar}>
-        <GitHubCalendar username="allorak333" colorScheme='light' blockSize={11}/>
+        <GitHubCalendar username="allorak333" colorScheme='light' blockSize={11} />
       </div>
     </div>
   );

@@ -6,8 +6,8 @@ import bookmark from '../../assets/bookmark.svg'
 import TaskList from './TaskList'
 import BookmarkList from './BookmarkList';
 import Overview from './Overview'
-import { getTaskList } from '../../api/task';
-import { GroupedTasks } from '../../types/task';
+import { getTaskList, getTaskStatistic } from '../../api/task';
+import { GroupedTasks, TaskStatistic } from '../../types/task';
 import { getBookmarkIssue } from '../../api/issue';
 import { IssueBookmarked } from '../../types/issue'
 
@@ -15,6 +15,14 @@ const Board: React.FC = () => {
   const [select, setSelect] = useState<number>(0);
   const [taskGroup, setTaskGroup] = useState<GroupedTasks[]>([]);
   const [bookmarkList, setBookmarkList] = useState<IssueBookmarked[]>([]);
+  const [TaskStatistic, setTaskStatistic] = useState<TaskStatistic>({
+    "feature": 0,
+    "bug": 0,
+    "refactor": 0,
+    "good first issue": 0,
+    "chore": 0,
+    "other": 0
+  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,6 +30,8 @@ const Board: React.FC = () => {
       setTaskGroup(tasks);
       const bookmarks = await getBookmarkIssue();
       setBookmarkList(bookmarks);
+      const taskStatistic = await getTaskStatistic();
+      setTaskStatistic(taskStatistic);
     };
 
     fetchData();
@@ -60,7 +70,7 @@ const Board: React.FC = () => {
           </div>
         </div>
       </div>
-      {select === 0 && <Overview />}
+      {select === 0 && <Overview taskStatistic={TaskStatistic}/>}
       {select === 1 && <TaskList tasks={taskGroup}/>}
       {select === 2 && <BookmarkList bookmarkList={bookmarkList}/>}
     </div>
