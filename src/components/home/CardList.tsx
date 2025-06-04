@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import styles from './CardList.module.css';
 import ToggleSwitch from './ToggleSwitch';
 import Repository from './Repository';
@@ -25,12 +25,44 @@ const SkeletonIssueItem: React.FC = () => {
 interface CardListProps {
   issues: IssueType[];
   isLoading: boolean;
+  onLoadMore?: () => void;
+  hasMore?: boolean;
+  isSearchMode?: boolean;
+  isLoadingMore?: boolean;
 }
 
-const CardList: React.FC<CardListProps> = ({ issues, isLoading }) => {
+const CardList: React.FC<CardListProps> = ({
+  issues,
+  isLoading,
+  onLoadMore,
+  hasMore = false,
+  isSearchMode = false,
+  isLoadingMore = false
+}) => {
+  const observerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!isSearchMode || !onLoadMore || !hasMore) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !isLoadingMore) {
+          onLoadMore();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (observerRef.current) {
+      observer.observe(observerRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [isSearchMode, onLoadMore, hasMore, isLoadingMore]);
+
   return (
     <div className={styles.cardListContainer}>
-      {isLoading ? (
+      {isLoading && issues.length === 0 ? (
         <>
           {Array.from({ length: 5 }).map((_, index) => (
             <SkeletonIssueItem key={index} />
@@ -38,9 +70,23 @@ const CardList: React.FC<CardListProps> = ({ issues, isLoading }) => {
         </>
       ) : (
         <>
-          {issues.map((issue) => (
-            <IssueItem key={issue.issueId} issue={issue} />
+          {issues.map((issue, index) => (
+            <IssueItem key={`${issue.issueId}-${index}`} issue={issue} />
           ))}
+          {/* 무한 스크롤을 위한 관찰 요소 */}
+          {isSearchMode && hasMore && (
+            <>
+              {isLoadingMore && (
+                <>
+                  {Array.from({ length: 5 }).map((_, index) => (
+                    <SkeletonIssueItem key={index} />
+                  ))}
+                </>
+              )}
+              <div ref={observerRef} style={{ height: '20px' }} key="scroll-observer">
+              </div>
+            </>
+          )}
         </>
       )}
     </div>

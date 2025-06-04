@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { IsSessionFunction, useNavigate } from "react-router-dom";
 import { getTrendingRepositories } from "../api/repository";
-import { getRecommendedIssues, getTrendingIssues } from "../api/issue";
+import { getRecommendedIssues, getTrendingIssues, searchIssue } from "../api/issue";
 import {getDomains} from '../api/user'
 import { Repository } from "../types/repository";
 import { Issue } from "../types/issue";
@@ -29,6 +29,15 @@ const Home: React.FC = () => {
   // 트랜딩 관련 state
   const [trendingIssues, setTrendingIssues] = useState<Issue[]>([]);
 
+  // 검색 상태 관리
+  const [searchState, setSearchState] = useState({
+    text: "",
+    languages: [] as string[],
+    update: null as string | null,
+    page: 0,
+    hasMore: true
+  });
+
   // 에러 모달
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
@@ -36,6 +45,7 @@ const Home: React.FC = () => {
 
   const [isTrendingLoading, setIsTrendingLoading] = useState(true);
   const [isRecommendedLoading, setIsRecommendedLoading] = useState(true);
+  const [isSearchLoading, setIsSearchLoading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -69,11 +79,65 @@ const Home: React.FC = () => {
     fetchData();
   }, [isLoggedIn]);
 
+  // 무한 스크롤 로딩 함수
+  const loadMoreSearchResults = async () => {
+    if (!searchState.hasMore || isSearchLoading || searchState.page >= 3) return;
+
+    setIsSearchLoading(true);
+    try {
+      const nextPage = searchState.page + 1;
+      const newResults = await searchIssue(
+        searchState.text,
+        searchState.languages,
+        searchState.update,
+        nextPage
+      );
+
+      if (newResults.length === 0) {
+        // 더 이상 결과가 없음
+        setSearchState(prev => ({ ...prev, hasMore: false }));
+      } else {
+        // 새로운 결과를 기존 결과에 추가
+        setSearchedIssues(prev => [...prev, ...newResults]);
+        setSearchState(prev => ({ 
+          ...prev, 
+          page: nextPage,
+          hasMore: newResults.length > 0 && nextPage < 3
+        }));
+      }
+    } catch (error) {
+      console.error("Failed to load more search results:", error);
+    } finally {
+      setIsSearchLoading(false);
+    }
+  };
+
   const getCurrentIssues = (): Issue[] => {
     if (mode === 0) return recommendedIssues;
     if (mode === 1) return trendingIssues;
     if (mode === 2) return searchedIssues;
     return [];
+  };
+
+  // mode가 변경될 때 검색 결과 초기화
+  useEffect(() => {
+    if (mode !== 2) {
+      setSearchedIssues([]);
+      setSearchState({
+        text: "",
+        languages: [],
+        update: null,
+        page: 0,
+        hasMore: true
+      });
+    }
+  }, [mode]);
+
+  const getCurrentLoadingState = (): boolean => {
+    if (mode === 0) return isRecommendedLoading;
+    if (mode === 1) return isTrendingLoading;
+    if (mode === 2) return isSearchLoading && searchedIssues.length === 0;
+    return false;
   };
 
   const handleModalClose = () => {
@@ -87,12 +151,23 @@ const Home: React.FC = () => {
     <div className={styles.body}>
       <div className={styles.mainContent}>
         {mode != 0 ? (
-          <SearchBar mode={mode} query={query} setMode={setMode} setQuery={setQuery} setSearchedIssues={setSearchedIssues} />
+          <SearchBar 
+            mode={mode} 
+            query={query} 
+            setMode={setMode} 
+            setQuery={setQuery} 
+            setSearchedIssues={setSearchedIssues}
+            setSearchState={setSearchState}
+          />
         ) : (null)}
         <InfoText mode={mode} query={query} setMode={setMode} domains={domains}/>
         <CardList
           issues={getCurrentIssues()}
-          isLoading={mode === 0 ? (isTrendingLoading) : (isRecommendedLoading)}
+          isLoading={getCurrentLoadingState()}
+          onLoadMore={mode === 2 ? loadMoreSearchResults : undefined}
+          hasMore={mode === 2 ? searchState.hasMore : false}
+          isSearchMode={mode === 2}
+          isLoadingMore={isSearchLoading}
         />
         {showModal && (
           <ErrorModal
