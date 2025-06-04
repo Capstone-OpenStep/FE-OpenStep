@@ -39,3 +39,12 @@ export interface TaskAssignResult {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface TaskStatistic {
+  "feature": number,
+  "bug": number,
+  "refactor": number,
+  "good first issue": number,
+  "chore": number,
+  "other": number
+}
