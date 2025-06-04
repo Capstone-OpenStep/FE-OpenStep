@@ -228,9 +228,16 @@ interface SearchBarProps {
   setMode: React.Dispatch<React.SetStateAction<number>>;
   setQuery: React.Dispatch<React.SetStateAction<string>>;
   setSearchedIssues: React.Dispatch<React.SetStateAction<Issue[]>>;
+  setSearchState: React.Dispatch<React.SetStateAction<{
+    text: string;
+    languages: string[];
+    update: string | null;
+    page: number;
+    hasMore: boolean;
+  }>>;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ mode, query, setMode, setQuery, setSearchedIssues }) => {
+const SearchBar: React.FC<SearchBarProps> = ({ mode, query, setMode, setQuery, setSearchedIssues, setSearchState }) => {
   const [isFilter, setIsFilter] = useState<boolean>(false);
   const [searchText, setSearchText] = useState<string>("");
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
@@ -261,10 +268,20 @@ const SearchBar: React.FC<SearchBarProps> = ({ mode, query, setMode, setQuery, s
           updateForApi = null;
           break;
       }
-      const result = await searchIssue(searchText, selectedLanguages, updateForApi);
+      
+      const result = await searchIssue(searchText, selectedLanguages, updateForApi, 0);
       setSearchedIssues(result);
       setQuery(searchText);
       setMode(2);
+      
+      // 검색 상태 업데이트
+      setSearchState({
+        text: searchText,
+        languages: selectedLanguages,
+        update: updateForApi,
+        page: 0,
+        hasMore: result.length > 0
+      });
     }
   };
 
