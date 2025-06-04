@@ -3,3 +3,13 @@ export interface Level {
     levelPercent: number,
     percentRemaining: number,
 }
+
+export interface UserProfile {
+  githubId: string;
+  email: string;
+  avatarUrl: string;
+  location: string;
+  profileUrl: string;
+  followersCount: number;
+  followingCount: number;
+}

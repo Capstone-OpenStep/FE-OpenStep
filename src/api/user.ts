@@ -1,7 +1,7 @@
 import api from "./client";
 import {  } from "../types/issue";
 import { RankUser } from "../types/rank"
-import { Level } from "../types/user"
+import { Level, UserProfile } from "../types/user"
 
 export interface getDomainResponse {
   isSuccess: boolean;
@@ -41,5 +41,18 @@ export interface getLevelResponse {
 
 export const getLevel = async (): Promise<Level> => {
   const response = await api.get<getLevelResponse>(`/rank/level`);
+  return response.data.result;
+};
+
+
+export interface getUserProfileResponse {
+  isSuccess: boolean;
+  code: string;
+  message: string;
+  result: UserProfile;
+}
+
+export const getProfile = async (): Promise<UserProfile> => {
+  const response = await api.get<getUserProfileResponse>(`/member/github/profile/realtime`);
   return response.data.result;
 };
