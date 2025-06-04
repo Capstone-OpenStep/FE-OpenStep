@@ -60,13 +60,13 @@ interface RecommendedIssueResponse {
   };
 }
 
-export const getTrendingIssues = async (): Promise<Issue[]> => {
-  const response = await api.get<TrendingIssueResponse>("/issues/trending");
+export const getTrendingIssues = async (page: number = 0): Promise<Issue[]> => {
+  const response = await api.get<TrendingIssueResponse>(`/issues/trending?page=${page}`);
   return response.data.result.issueList;
 };
 
-export const getRecommendedIssues = async (): Promise<Issue[]> => {
-  const response = await api.get<RecommendedIssueResponse>("/issues/suggest");
+export const getRecommendedIssues = async (page: number = 0): Promise<Issue[]> => {
+  const response = await api.get<RecommendedIssueResponse>(`/issues/suggest?page=${page}`);
   if (!response.data.isSuccess) {
     const err = new Error(response.data.message);
     (err as any).code = response.data.code;
