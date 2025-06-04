@@ -24,6 +24,7 @@ export interface TaskItem {
   taskId: number;
   title: string;
   status: "NOTSTARTED" | "FORKED" | "PR" | "review" | "Approve" | "Closed";
+  branchName: string,
   createdAt: string;
   updatedAt: string;
 }

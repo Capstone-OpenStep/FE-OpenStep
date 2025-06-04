@@ -58,7 +58,7 @@ const Repository: React.FC<RepositoryProps> = ({ tasks }) => {
 
         <div className={styles.taskGrid}>
           {visibleTasks.map((task) => (
-            <Task key={task.title} taskId={task.taskId} taskName={task.title} branch='' status={task.status} />
+            <Task key={task.title} taskId={task.taskId} taskName={task.title} branch={task.branchName} status={task.status} />
           ))}
         </div>
 
