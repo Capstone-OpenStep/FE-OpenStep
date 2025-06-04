@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { RankUser } from '../types/rank'
+import { getRanks } from '../api/user'
 import styles from './Ranking.module.css';
 import questionMark from '../assets/questionMark.svg'
 
@@ -27,6 +29,38 @@ const RankingRow: React.FC<UserProps> = ({ rank, name, xp, highlight, me, color 
 };
 
 const Ranking: React.FC = () => {
+  const [rankData, setRankData] = useState<RankUser[]>([]);
+  const [currentUsername, setCurrentUsername] = useState<string | null>(null);
+
+  useEffect(() => {
+    const username = sessionStorage.getItem('username');
+    setCurrentUsername(username);
+
+    const fetchData = async () => {
+      const data: RankUser[] = await getRanks();
+      setRankData(data);
+    };
+
+    fetchData();
+  }, [])
+
+  // 유저 순위(인덱스) 검색
+  const currentUserIndex = rankData.findIndex(user => user.githubId === currentUsername);
+
+  // 유저의 위 5명 까지 출력
+  const startIdx = currentUserIndex === -1 ? 0 : Math.max(0, currentUserIndex - 5);
+  // 유저의 아래 5명 까지 출력
+  const endIdx = currentUserIndex === -1 ? Math.min(rankData.length, 10) : Math.min(rankData.length, currentUserIndex + 6);
+
+
+  // Get the subset of rank data to display
+  const displayedRankData = rankData.slice(startIdx, endIdx);
+
+  // 상위 유저
+  const firstUser = rankData[0];
+  const secondUser = rankData[1];
+  const thirdUser = rankData[2];
+
   return (
     <div className={styles.body}>
       <div className={styles.titleBox}>
@@ -35,7 +69,7 @@ const Ranking: React.FC = () => {
 
       <div className={styles.tooltipContainer}>
         <div className={styles.questionBox}>
-          <img className={styles.checkIcon} src={questionMark} />
+          <img className={styles.checkIcon} src={questionMark} alt="Question Mark" />
           <div className={styles.helpText}>기여 포인트는 어떻게 얻나요?</div>
         </div>
         <div className={styles.tooltipBox}>
@@ -44,43 +78,63 @@ const Ranking: React.FC = () => {
       </div>
 
       <div className={styles.topThreeContainer}>
-        <div className={styles.secondCard}>
-          <div className={styles.topRank}>2nd</div>
-          <div className={styles.userInfo}>
-            <div className={styles.avatarSpecial} />
-            <div className={styles.username}>재혀니</div>
+        {/* 2위 카드 */}
+        {secondUser && (
+          <div className={styles.secondCard}>
+            <div className={styles.topRank}>2nd</div>
+            <div className={styles.userInfo}>
+              <div className={styles.avatarSpecial} />
+              <div className={styles.username}>{secondUser.githubId}</div>
+            </div>
+            <div className={styles.score}>{secondUser.xp}xp</div>
           </div>
-          <div className={styles.score}>25000xp</div>
-        </div>
+        )}
 
-        <div className={styles.thirdCard}>
-          <div className={styles.topRank}>3rd</div>
-          <div className={styles.userInfo}>
-            <div className={styles.avatarSpecial} />
-            <div className={styles.username}>재혀니</div>
+        {/* 3위 카드 */}
+        {thirdUser && (
+          <div className={styles.thirdCard}>
+            <div className={styles.topRank}>3rd</div>
+            <div className={styles.userInfo}>
+              <div className={styles.avatarSpecial} />
+              <div className={styles.username}>{thirdUser.githubId}</div>
+            </div>
+            <div className={styles.score}>{thirdUser.xp}xp</div>
           </div>
-          <div className={styles.score}>25000xp</div>
-        </div>
+        )}
 
-        <div className={styles.firstCard}>
-          <div className={styles.topTitle}>기여최공</div>
-          <div className={styles.userBlock}>
-            <div className={styles.avatarLarge} />
-            <div className={styles.usernameLarge}>재혀니</div>
+        {/* 1위 카드 */}
+        {firstUser && (
+          <div className={styles.firstCard}>
+            <div className={styles.topTitle}>기여최공</div>
+            <div className={styles.userBlock}>
+              <div className={styles.avatarLarge} />
+              <div className={styles.usernameLarge}>{firstUser.githubId}</div>
+            </div>
+            <div className={styles.scoreLarge}>{firstUser.xp}xp</div>
           </div>
-          <div className={styles.scoreLarge}>25000xp</div>
-        </div>
+        )}
       </div>
 
 
       <div className={styles.rankingCard}>
-        <RankingRow rank={4} name="송마이노" xp={25000} />
-        <RankingRow rank={5} name="송마이노" xp={25000} />
-        <RankingRow rank={6} name="상윤쓰" xp={25000} color="#967B7B" highlight me />
-        <RankingRow rank={7} name="상윤쓰" xp={25000} />
-        <RankingRow rank={8} name="송마이노" xp={25000} />
-        <RankingRow rank={9} name="송마이노" xp={25000} />
-        <RankingRow rank={10} name="재혀니" xp={25000} />
+        {displayedRankData.map((user, index) => {
+          const isCurrentUser = currentUsername === user.githubId;
+          const actualRank = rankData.indexOf(user) + 1;
+
+          // 상위 3명을 제외 한다면 다음 라인을 주석 해제
+          // if (actualRank <= 3) return null;
+
+          return (
+            <RankingRow
+              key={user.githubId}
+              rank={actualRank}
+              name={user.githubId}
+              xp={user.xp}
+              highlight={isCurrentUser}
+              me={isCurrentUser}
+            />
+          );
+        })}
       </div>
     </div>
   );
