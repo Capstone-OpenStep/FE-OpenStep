@@ -10,7 +10,7 @@
 }
 
 .taskCard:hover {
-    background: #5F44F8;
+    background: rgba(0, 4, 255, 0.1);
     /* hover 시 배경 변경 */
 }
 
@@ -37,7 +37,7 @@
 
 .taskCard:hover .title {
     animation: scroll-text 5s linear infinite;
-    color: #fff9e9;
+    /* color: #fff9e9; */
 }
 
 @keyframes scroll-text {
@@ -55,7 +55,7 @@
     left: 18px;
     top: 51px;
     color: black;
-    font-size: 10px;
+    font-size: 12px;
     font-family: 'Noto Sans KR';
     font-weight: 500;
     word-wrap: break-word;
@@ -97,9 +97,9 @@
 
 .taskCard:hover .title,
 .taskCard:hover .branch {
-    color: #fff9e9;
+    /* color: #fff9e9; */
 }
 
 .taskCard:hover .issueText {
-    color: #5F44F8;
+    /* color: rgba(0, 4, 255, 0.5); */
 }
