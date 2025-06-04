@@ -136,7 +136,12 @@ const IssueItem: React.FC<Props> = ({ issue }) => {
   }, [issue])
 
   const onClickContainer = () => {
-    navigate(`/issue?issueId=${issue.issueId}`);
+    if (issue.issueId == null) {
+      window.location.href = issue.url;
+    }
+    else {
+      navigate(`/issue?issueId=${issue.issueId}`);
+    }
   };
   const repoFullName = extractRepoName(issue.url); // ex: freeCodeCamp/freeCodeCamp
   const timeAgo = formatTimeAgo(issue.updatedAt);
