@@ -6,7 +6,7 @@ import logo from '../assets/projectLogo.svg'
 import Descrption from '../components/issue/IssueDescription' // Note: Typo in original, should be "Description"
 import Milestone from '../components/issue/Milestone';
 import Guide from '../components/issue/Guide'
-import { getIssueDescription } from '../api/issue'
+import { getIssueDescription, getIssueDescriptionFromUrl } from '../api/issue'
 import { getRepositoryDescription } from '../api/repository'
 import { IssueDescription } from '../types/issueDescription';
 import { RepositoryDescription } from '../types/repositoryDescription'
@@ -55,6 +55,7 @@ const Project: React.FC = () => {
     useEffect(() => {
         const query = location.search;
         const searchParams = new URLSearchParams(query);
+        const githubUrl = searchParams.get('githubUrl');
         const issueId = searchParams.get('issueId');
         const taskId = searchParams.get('taskId');
         
@@ -115,7 +116,31 @@ const Project: React.FC = () => {
             }
         }
 
-        if (taskId != null) {
+        const fetchIssueFromUrl = async (githubUrl : string) => {
+            try {
+                const fetchedData = await getIssueDescriptionFromUrl(githubUrl);
+                const fetchedIssue = fetchedData.issue;
+                const fetchedRepository = fetchedData.repo;
+                setIssue(fetchedIssue);
+                setRepository(fetchedRepository);
+                setIssueId(fetchedIssue.issueId);
+            } catch (error) {
+                if (axios.isAxiosError(error)) {
+                    if (error.response?.status === 401) {
+                        console.error("로그인이 필요합니다.");
+                    } else {
+                        console.error("API 오류:", error.response?.data?.message || "알 수 없는 오류");
+                    }
+                } else {
+                    console.error("예상치 못한 오류:", error);
+                }
+            }
+        };
+
+        if (githubUrl != null) {
+            fetchIssueFromUrl(githubUrl);
+        }
+        else if (taskId != null) {
             fetchTask(+taskId);
         }
         else if (issueId != null) {
