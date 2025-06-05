@@ -3,8 +3,8 @@ import styles from './Dashboard.module.css';
 import UserInfo from '../components/dashboard/UserInfo'
 import Board from '../components/dashboard/Board';
 import Repository from '../components/dashboard/Repository'
-import { getLevel } from '../api/user'
-import { Level } from '../types/user'
+import { getLevel, getProfile } from '../api/user'
+import { Level, UserProfile } from '../types/user'
 
 const Dashboard: React.FC = () => {
   const [level, setLevel] = useState<Level>({
@@ -12,11 +12,22 @@ const Dashboard: React.FC = () => {
     levelPercent: 0,
     percentRemaining: 0,
   });
+  const [profile, setProfile] = useState<UserProfile>({
+      githubId: "",
+      email: "",
+      avatarUrl: "",
+      location: "",
+      profileUrl: "",
+      followersCount: 0,
+      followingCount: 0,
+  })
 
   useEffect(() => {
     const fetchData = async () => {
       const data = await getLevel();
       setLevel(data);
+      const profile = await getProfile();
+      setProfile(profile);
     };
 
     fetchData();
@@ -26,7 +37,7 @@ const Dashboard: React.FC = () => {
   return (
     <div className={styles.main}>
       <div className={styles.contents}>
-        <UserInfo level={level}/>
+        <UserInfo level={level} profile={profile}/>
         <Board />
       </div>
     </div>

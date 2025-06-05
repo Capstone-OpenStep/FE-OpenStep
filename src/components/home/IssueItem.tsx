@@ -137,7 +137,7 @@ const IssueItem: React.FC<Props> = ({ issue }) => {
 
   const onClickContainer = () => {
     if (issue.issueId == null) {
-      window.location.href = issue.url;
+      navigate(`/issue?githubUrl=${encodeURIComponent(issue.url)}`);
     }
     else {
       navigate(`/issue?issueId=${issue.issueId}`);

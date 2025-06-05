@@ -6,7 +6,7 @@ import logo from '../assets/projectLogo.svg'
 import Descrption from '../components/issue/IssueDescription' // Note: Typo in original, should be "Description"
 import Milestone from '../components/issue/Milestone';
 import Guide from '../components/issue/Guide'
-import { getIssueDescription } from '../api/issue'
+import { getIssueDescription, getIssueDescriptionFromUrl } from '../api/issue'
 import { getRepositoryDescription } from '../api/repository'
 import { IssueDescription } from '../types/issueDescription';
 import { RepositoryDescription } from '../types/repositoryDescription'
@@ -51,14 +51,16 @@ const Project: React.FC = () => {
         githubUrl: '',
         readmeUrl: '',
     });
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
     useEffect(() => {
         const query = location.search;
         const searchParams = new URLSearchParams(query);
+        const githubUrl = searchParams.get('githubUrl');
         const issueId = searchParams.get('issueId');
         const taskId = searchParams.get('taskId');
-        
-        const fetchIssue = async (issueId : number) => {
+
+        const fetchIssue = async (issueId: number) => {
             try {
                 const fetchedIssue = await getIssueDescription(+issueId);
                 setIssue(fetchedIssue);
@@ -79,12 +81,14 @@ const Project: React.FC = () => {
                 } else {
                     console.error("예상치 못한 오류:", error);
                 }
+            } finally {
+                setIsLoading(false);
             }
         };
 
-        const fetchTask = async (taskId : number) => {
+        const fetchTask = async (taskId: number) => {
             try {
-                const taskInfo : Task = await getTask(taskId);
+                const taskInfo: Task = await getTask(taskId);
                 const issueId = taskInfo.issueId;
                 let newStage = 1; // Default stage
                 switch (taskInfo.status) {
@@ -115,7 +119,33 @@ const Project: React.FC = () => {
             }
         }
 
-        if (taskId != null) {
+        const fetchIssueFromUrl = async (githubUrl: string) => {
+            try {
+                const fetchedData = await getIssueDescriptionFromUrl(githubUrl);
+                const fetchedIssue = fetchedData.issue;
+                const fetchedRepository = fetchedData.repo;
+                setIssue(fetchedIssue);
+                setRepository(fetchedRepository);
+                setIssueId(fetchedIssue.issueId);
+            } catch (error) {
+                if (axios.isAxiosError(error)) {
+                    if (error.response?.status === 401) {
+                        console.error("로그인이 필요합니다.");
+                    } else {
+                        console.error("API 오류:", error.response?.data?.message || "알 수 없는 오류");
+                    }
+                } else {
+                    console.error("예상치 못한 오류:", error);
+                }
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        if (githubUrl != null) {
+            fetchIssueFromUrl(githubUrl);
+        }
+        else if (taskId != null) {
             fetchTask(+taskId);
         }
         else if (issueId != null) {
@@ -130,7 +160,7 @@ const Project: React.FC = () => {
         setStage(stage + 1);
         const query = location.search;
         const searchParams = new URLSearchParams(query);
-        searchParams.set('taskId',  String(result.taskId));
+        searchParams.set('taskId', String(result.taskId));
         setSearchParams(searchParams);
     }
 
@@ -138,11 +168,15 @@ const Project: React.FC = () => {
         <div className={styles.body}>
             <div className={styles.contentWrapper}> {/* New wrapper div */}
                 <div className={`${styles.section} ${styles.sectionLeft}`}>
-                    <img className={styles.projectLogo} src={repository.ownerAvatarUrl} />
-                    <Summary repository={repository} />
+                    {isLoading ? (
+                        <div className={`${styles.imageSkeleton} ${styles.skeleton}`} />
+                    ) : (
+                        <img className={styles.projectLogo} src={repository.ownerAvatarUrl} />
+                    )}
+                    <Summary repository={repository} isLoading={isLoading} />
                 </div>
                 <div className={`${styles.section} ${styles.sectionMiddle}`}>
-                    <Descrption title={issue?.title} issueSummary={issue?.summary} issueContent={issue?.body} stage={stage} setStage={setStage} />
+                    <Descrption title={issue?.title} issueSummary={issue?.summary} issueContent={issue?.body} stage={stage} setStage={setStage} isLoading={isLoading} />
                 </div>
                 <div className={`${styles.section} ${styles.sectionRight}`}>
                     <Milestone currentStage={stage} />
