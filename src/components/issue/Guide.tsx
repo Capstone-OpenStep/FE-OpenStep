@@ -8,6 +8,8 @@ import PRExample2 from '../../assets/examples/PRExample2.png'
 import IssueExample from '../../assets/examples/issueExample.png'
 import copyIcon from '../../assets/copy.svg'
 import shortCutIcon from '../../assets/shortCut.svg'
+import { updatePrUrl } from '../../api/task'
+import ErrorModal from '../ErrorModal'
 
 
 interface CapsuleProps {
@@ -72,12 +74,12 @@ const ForkGuide: React.FC<ForkGuideProps> = ({ task }) => {
     // https://github.com/allorak333/godot -> https://github.com/allorak333/godot.git
     const url = task.forkedUrl;
     const match = url.match(/https:\/\/github\.com\/(.+)$/);
-    
+
     if (match) {
       const repoPath = match[1];
       const cloneUrl = `https://github.com/${repoPath}.git`;
       const folderName = repoPath.split('/')[1];
-      
+
       return {
         cloneUrl,
         folderName
@@ -97,7 +99,7 @@ const ForkGuide: React.FC<ForkGuideProps> = ({ task }) => {
     try {
       await navigator.clipboard.writeText(text);
       setCopiedIndex(index);
-      
+
       // 2초 후에 복사 상태 초기화
       setTimeout(() => {
         setCopiedIndex(null);
@@ -111,7 +113,7 @@ const ForkGuide: React.FC<ForkGuideProps> = ({ task }) => {
       textArea.select();
       document.execCommand('copy');
       document.body.removeChild(textArea);
-      
+
       setCopiedIndex(index);
       setTimeout(() => {
         setCopiedIndex(null);
@@ -222,6 +224,30 @@ interface PRGuideProps {
 };
 
 const PRGuide: React.FC<PRGuideProps> = ({ task }) => {
+  const [prUrl, setPrUrl] = React.useState('');
+  const [showModal, setShowModal] = React.useState(false);
+  const [modalMessage, setModalMessage] = React.useState("");
+
+  const handleModalClose = () => {
+    setShowModal(false);
+  };
+
+  const handleSubmit = async () => {
+    if (!prUrl.trim()) {
+      setModalMessage("PR 링크를 입력해주세요.");
+      setShowModal(true);
+      return;
+    }
+
+    try {
+      await updatePrUrl(task.taskId, prUrl);
+    } catch (error) {
+      console.error('PR URL 업데이트 실패:', error);
+      setModalMessage(error.message);
+      setShowModal(true);
+    }
+  };
+
   return (
     <>
       <span className={styles.content}>
@@ -236,6 +262,8 @@ const PRGuide: React.FC<PRGuideProps> = ({ task }) => {
       <div style={{ display: 'flex', flexDirection: 'column', gap: 11, alignItems: 'center' }}>
         <input
           type="text"
+          value={prUrl}
+          onChange={(e) => setPrUrl(e.target.value)}
           style={{
             width: 361,
             height: 31,
@@ -245,35 +273,46 @@ const PRGuide: React.FC<PRGuideProps> = ({ task }) => {
             border: 'none',
             outline: 'none',
             transition: 'all 0.25s ease',
-            boxShadow: '0 0 0px rgba(83,83,255,0)', // 기본 상태
+            boxShadow: '0 0 0px rgba(83,83,255,0)',
             background: 'rgba(85, 98, 248, 0.41)',
             borderRadius: 5,
           }}
           placeholder='PR 링크를 입력해주세요'
           onFocus={(e) =>
-          (e.currentTarget.style.boxShadow =
-            '0 0 0 3px rgba(85, 98, 248, 0.8)')
+            (e.currentTarget.style.boxShadow = '0 0 0 3px rgba(85, 98, 248, 0.8)')
           }
           onBlur={(e) =>
             (e.currentTarget.style.boxShadow = '0 0 0px rgba(83,83,255,0)')
-          } />
-        <span style={{
-          width: 361,
-          height: 31,
-          fontFamily: 'Noto Sans KR',
-          fontSize: 14,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          background: '#5562F8',
-          borderRadius: 5,
-          color: '#fff',
-          cursor: 'pointer'
-        }}>제출</span>
+          }
+        />
+        <span
+          onClick={handleSubmit}
+          style={{
+            width: 361,
+            height: 31,
+            fontFamily: 'Noto Sans KR',
+            fontSize: 14,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: '#5562F8',
+            borderRadius: 5,
+            color: '#fff',
+            cursor: 'pointer'
+          }}>제출</span>
       </div>
+      {showModal && (
+        <ErrorModal
+          show={showModal}
+          title="오류"
+          message={modalMessage}
+          confirmText="확인"
+          onConfirm={handleModalClose}
+        />
+      )}
     </>
   );
-}
+};
 
 interface IssueGuideProps {
   issueUrl: string,
@@ -295,6 +334,7 @@ const IssueGuide: React.FC<IssueGuideProps> = ({ issueUrl }) => {
 
 
 const Guide: React.FC<CapsuleProps> = ({ stage, task, issueUrl }) => {
+
   const getCurrentGuide = (stage: number) => {
     switch (stage) {
       case 1: return <IssueGuide issueUrl={issueUrl} />;

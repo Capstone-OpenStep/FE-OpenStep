@@ -49,3 +49,15 @@ export interface TaskStatistic {
   "chore": number,
   "other": number
 }
+
+export interface PRRegister {
+  "taskId": number,
+  "title": string,
+  "forkedUrl": string,
+  "status": "NOTSTARTED" | "FORKED" | "PR" | "REVIEW" | "Approve" | "Closed";
+  "branchName": string,
+  "createdAt": string,
+  "updatedAt": string,
+  "issueId": number,
+  "issueUrl": string
+}
