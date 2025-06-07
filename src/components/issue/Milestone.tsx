@@ -52,11 +52,11 @@ const EdgesContainer = styled.div`
   top: 60px;
 `;
 
-// 각 edge의 스타일: active이면 파란색, 아니면 회색, 좌우에 따라 회전 적용
-const Edge = styled.div<{ direction: 'left' | 'right'; active: boolean }>`
+// 각 edge의 스타일: $active를 사용하여 transient prop으로 변경
+const Edge = styled.div<{ direction: 'left' | 'right'; $active: boolean }>`
   width: 61.53px;
   height: 3.17px;
-  background: ${(props) => (props.active ? '#5562F8' : 'rgba(208, 208, 208, 0.72)')};
+  background: ${(props) => (props.$active ? '#5562F8' : 'rgba(208, 208, 208, 0.72)')};
   transform: rotate(${(props) => (props.direction === 'left' ? '45deg' : '-45deg')});
 `;
 
@@ -70,14 +70,11 @@ const circlePositions = [
 
 const labels = ['이슈', '작업', 'PR', '리뷰', '병합'];
 
-
 interface MilestoneProps {
-  currentStage : number
+  currentStage: number;
 }
 
-
 const Milestone: React.FC<MilestoneProps> = ({ currentStage }) => {
-
   return (
     <Container>
       {/* 단계별 원(circle) 렌더링 */}
@@ -103,7 +100,7 @@ const Milestone: React.FC<MilestoneProps> = ({ currentStage }) => {
         {[0, 1, 2, 3].map((edgeIndex) => {
           const active = currentStage > edgeIndex + 1;
           const direction = edgeIndex % 2 === 0 ? 'left' : 'right';
-          return <Edge key={edgeIndex} direction={direction} active={active} />;
+          return <Edge key={edgeIndex} direction={direction} $active={active} />;
         })}
       </EdgesContainer>
     </Container>
