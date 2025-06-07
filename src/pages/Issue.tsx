@@ -51,7 +51,19 @@ const Project: React.FC = () => {
         githubUrl: '',
         readmeUrl: '',
     });
+    const [task, setTask] = useState<Task>({
+        taskId: 0,
+        title: "",
+        forkedUrl: "",
+        status: "NOTSTARTED",
+        branchName: "",
+        createdAt: "",
+        updatedAt: "",
+        issueId: 0,
+        issueUrl: "",
+    });
     const [isLoading, setIsLoading] = useState<boolean>(true);
+
 
     useEffect(() => {
         const query = location.search;
@@ -61,6 +73,7 @@ const Project: React.FC = () => {
         const taskId = searchParams.get('taskId');
 
         const fetchIssue = async (issueId: number) => {
+            console.log("fetch issue")
             try {
                 const fetchedIssue = await getIssueDescription(+issueId);
                 setIssue(fetchedIssue);
@@ -100,7 +113,7 @@ const Project: React.FC = () => {
                         break;
                     case "PR":
                         newStage = 3;
-                    case "review":
+                    case "REVIEW":
                         newStage = 4;
                         break;
                     case "Approve":
@@ -114,12 +127,14 @@ const Project: React.FC = () => {
                 }
                 setStage(newStage);
                 fetchIssue(issueId);
+                setTask(taskInfo);
             } catch (error) {
 
             }
         }
 
         const fetchIssueFromUrl = async (githubUrl: string) => {
+            console.log("fetch from url")
             try {
                 const fetchedData = await getIssueDescriptionFromUrl(githubUrl);
                 const fetchedIssue = fetchedData.issue;
@@ -127,6 +142,19 @@ const Project: React.FC = () => {
                 setIssue(fetchedIssue);
                 setRepository(fetchedRepository);
                 setIssueId(fetchedIssue.issueId);
+                const task: Task = {
+                    taskId: 0,
+                    title: "",
+                    forkedUrl: "",
+                    status: "NOTSTARTED",
+                    branchName: "",
+                    createdAt: "",
+                    updatedAt: "",
+                    issueId: 0,
+                    issueUrl: "",
+                }
+                task.issueUrl = fetchedIssue.url;
+                setTask(task);
             } catch (error) {
                 if (axios.isAxiosError(error)) {
                     if (error.response?.status === 401) {
@@ -144,24 +172,34 @@ const Project: React.FC = () => {
 
         if (githubUrl != null) {
             fetchIssueFromUrl(githubUrl);
-        }
-        else if (taskId != null) {
+        } else if (taskId != null) {
             fetchTask(+taskId);
-        }
-        else if (issueId != null) {
+        } else if (issueId != null && taskId == null) {
             fetchIssue(+issueId);
         } else {
             navigate('/');
         }
     }, [location, navigate]);
 
-    const onClickButton = async () => {
+    const startTask = async () => {
         const result = await assignTask(issueId);
         setStage(stage + 1);
         const query = location.search;
         const searchParams = new URLSearchParams(query);
         searchParams.set('taskId', String(result.taskId));
         setSearchParams(searchParams);
+        const task: Task = {
+            taskId: result.taskId,
+            title: result.title,
+            forkedUrl: result.forkedUrl,
+            status: "FORKED",
+            branchName: result.branchName,
+            createdAt: result.createdAt,
+            updatedAt: result.updatedAt,
+            issueId: result.issueId,
+            issueUrl: '',
+        };
+        setTask(task);
     }
 
     return (
@@ -180,10 +218,15 @@ const Project: React.FC = () => {
                 </div>
                 <div className={`${styles.section} ${styles.sectionRight}`}>
                     <Milestone currentStage={stage} />
-                    <Guide title={''} text={''} />
+                    <Guide stage={stage} task={task} issueUrl={issue.issueUrl} />
                     {stage === 1 ? (
-                        <div className={styles.startButton} onClick={onClickButton}>
+                        <div className={styles.startButton} onClick={startTask}>
                             <div className={styles.startButtonText}>기여 시작</div>
+                        </div>
+                    ) : null}
+                    {stage === 2 ? (
+                        <div className={styles.startButton} onClick={() => { setStage(stage + 1) }}>
+                            <div className={styles.startButtonText}>넘어 가기</div>
                         </div>
                     ) : null}
                 </div>
