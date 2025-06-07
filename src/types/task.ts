@@ -2,7 +2,7 @@ export interface Task {
   taskId: number;
   title: string;
   forkedUrl: string;
-  status: "NOTSTARTED" | "FORKED" | "PR" | "review" | "Approve" | "Closed";
+  status: "NOTSTARTED" | "FORKED" | "PR" | "REVIEW" | "Approve" | "Closed";
   branchName: string;
   createdAt: string;
   updatedAt: string;
@@ -23,7 +23,7 @@ export interface GroupedTasks {
 export interface TaskItem {
   taskId: number;
   title: string;
-  status: "NOTSTARTED" | "FORKED" | "PR" | "review" | "Approve" | "Closed";
+  status: "NOTSTARTED" | "FORKED" | "PR" | "REVIEW" | "Approve" | "Closed";
   branchName: string,
   createdAt: string;
   updatedAt: string;
