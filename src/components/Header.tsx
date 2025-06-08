@@ -1,25 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from './AuthContext';
+import { getProfile } from '../api/user';
+import { UserProfile } from '../types/user'
 import styles from './Header.module.css';
 import logo from '../assets/logo.png';
 import Sidebar from './Sidebar';
 import axios from 'axios';
 
-const Header = () => {                      
+const Header = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
+  const [profile, setProfile] = useState<string>('');
+  const [githubId, setGithubId] = useState<string>('');
   const { isLoggedIn, setIsLoggedIn } = useAuth();
 
   const toggleSidebar = () => setSidebarOpen(prev => !prev);
   const navigate = useNavigate();
-  
+
   const location = useLocation();
   const isLoginPage = location.pathname === '/login';
-  
+
   const onClickImg = () => navigate(`/`);
   const onClickRanking = () => navigate(`/ranking`);
   const onClickLogin = () => navigate(`/login`);
-  
+
   useEffect(() => {
     const code = new URL(window.location.href).searchParams.get("code");
     const backend = import.meta.env.VITE_BACKEND_URL;
@@ -54,6 +58,18 @@ const Header = () => {
     }
   }, []);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const profile = await getProfile();
+      setProfile(profile.avatarUrl);
+      setGithubId(profile.githubId);
+    };
+
+    if (isLoggedIn === true) {
+      fetchData();
+    }
+  }, [isLoggedIn]);
+
 
   return (
     <div className={styles.headerContainer}>
@@ -64,7 +80,7 @@ const Header = () => {
           <>
             <div className={styles.helpText}>도움말</div>
             {isLoggedIn ? (
-              <div className={styles.profileButton} onClick={toggleSidebar}></div>
+              <img className={styles.profileButton} src={profile} onClick={toggleSidebar}></img>
             ) : (
               <button className={styles.helpText} onClick={onClickLogin}>로그인</button>
             )}
@@ -81,7 +97,7 @@ const Header = () => {
         <div className={styles.menuCommunity}>커뮤니티</div>
         <div className={styles.menuRanking} onClick={onClickRanking}>랭킹</div>
       </div>
-      <Sidebar isOpen={isSidebarOpen} onClose={() => setSidebarOpen(false)} />
+      <Sidebar isOpen={isSidebarOpen} onClose={() => setSidebarOpen(false)} profile={profile} githubId={githubId}/>
     </div>
   );
 };
