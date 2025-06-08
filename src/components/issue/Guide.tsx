@@ -259,60 +259,6 @@ const PRGuide: React.FC<PRGuideProps> = ({ task, setStage }) => {
       </span>
       <ShortCut url={task.forkedUrl} name='레포지토리' />
       <Example images={getCurrentImage(2)} />
-      <span className={styles.textLight}>
-        PR을 작성했다면 작성된 PR의 링크를 제출해주세요!
-      </span>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 11, alignItems: 'center' }}>
-        <input
-          type="text"
-          value={prUrl}
-          onChange={(e) => setPrUrl(e.target.value)}
-          style={{
-            width: 361,
-            height: 31,
-            fontFamily: 'Noto Sans KR',
-            fontSize: 14,
-            paddingLeft: 10,
-            border: 'none',
-            outline: 'none',
-            transition: 'all 0.25s ease',
-            boxShadow: '0 0 0px rgba(83,83,255,0)',
-            background: 'rgba(85, 98, 248, 0.41)',
-            borderRadius: 5,
-          }}
-          placeholder='PR 링크를 입력해주세요'
-          onFocus={(e) =>
-            (e.currentTarget.style.boxShadow = '0 0 0 3px rgba(85, 98, 248, 0.8)')
-          }
-          onBlur={(e) =>
-            (e.currentTarget.style.boxShadow = '0 0 0px rgba(83,83,255,0)')
-          }
-        />
-        <span
-          onClick={handleSubmit}
-          style={{
-            width: 361,
-            height: 31,
-            fontFamily: 'Noto Sans KR',
-            fontSize: 14,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            background: '#5562F8',
-            borderRadius: 5,
-            color: '#fff',
-            cursor: 'pointer'
-          }}>제출</span>
-      </div>
-      {showModal && (
-        <ErrorModal
-          show={showModal}
-          title="오류"
-          message={modalMessage}
-          confirmText="확인"
-          onConfirm={handleModalClose}
-        />
-      )}
     </>
   );
 };
