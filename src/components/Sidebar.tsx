@@ -13,9 +13,11 @@ import signout from '../assets/signout.svg'
 interface SidebarProps {
   isOpen: boolean;
   onClose: () => void;
+  profile: string;
+  githubId: string;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
+const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, profile, githubId }) => {
   const navigate = useNavigate();
   const { isLoggedIn, setIsLoggedIn } = useAuth();
 
@@ -54,8 +56,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
         onClick={(e) => e.stopPropagation()}
       >
         <div className={styles.header}>
-          <div className={styles.avatar} />
-          <div className={styles.username}>allorak333</div>
+          <img className={styles.avatar} src={profile}/>
+          <div className={styles.username}>{githubId}</div>
           <div className={styles.closeButton} onClick={onClose}>×</div>
         </div>
 
