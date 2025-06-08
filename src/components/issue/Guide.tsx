@@ -25,7 +25,7 @@ const getCurrentTitle = (stage: number) => {
     case 2: return '프로젝트 기여 단계 : 브랜치 생성 및 작업';
     case 3: return '프로젝트 기여 단계 : PR 생성';
     case 4: return '프로젝트 기여 단계 : 리뷰';
-    case 5: return '프로젝트 기여 단계 : 머지';
+    case 5: return '프로젝트 기여 단계 : 병합';
     default: return '모든 과정이 끝났습니다!';
   }
 }
@@ -290,7 +290,7 @@ const Guide: React.FC<CapsuleProps> = ({ stage, task, issueUrl, setStage }) => {
       case 2: return <ForkGuide task={task} />;
       case 3: return <PRGuide task={task} setStage={setStage} />;
       case 4: return null;
-      case 5: return null;
+      case 5: return (<div className={styles.content}>모든 기여 과정이 완료되었습니다!<br/>이제 다른 이슈들을 찾아 기여를 시작해보세요!</div>);
       default: return null;
     }
   }
