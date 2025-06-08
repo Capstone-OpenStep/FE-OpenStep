@@ -4,7 +4,7 @@
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
-    width: 100dvw;
+    /* width: 100dvw; */
     padding-top: 157px;
     padding-bottom: 20px;
     box-sizing: border-box;

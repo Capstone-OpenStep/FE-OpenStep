@@ -2,7 +2,7 @@ export interface Task {
   taskId: number;
   title: string;
   forkedUrl: string;
-  status: "NOTSTARTED" | "FORKED" | "PR" | "review" | "Approve" | "Closed";
+  status: "NOTSTARTED" | "FORKED" | "PR" | "REVIEW" | "Approve" | "Closed" | "REJECTED" | "MERGED";
   branchName: string;
   createdAt: string;
   updatedAt: string;
@@ -23,7 +23,7 @@ export interface GroupedTasks {
 export interface TaskItem {
   taskId: number;
   title: string;
-  status: "NOTSTARTED" | "FORKED" | "PR" | "review" | "Approve" | "Closed";
+  status: "NOTSTARTED" | "FORKED" | "PR" | "REVIEW" | "Approve" | "Closed" | "REJECTED" | "MERGED";
   branchName: string,
   createdAt: string;
   updatedAt: string;
@@ -48,4 +48,16 @@ export interface TaskStatistic {
   "good first issue": number,
   "chore": number,
   "other": number
+}
+
+export interface PRRegister {
+  "taskId": number,
+  "title": string,
+  "forkedUrl": string,
+  "status": "NOTSTARTED" | "FORKED" | "PR" | "REVIEW" | "Approve" | "Closed" | "REJECTED" | "MERGED";
+  "branchName": string,
+  "createdAt": string,
+  "updatedAt": string,
+  "issueId": number,
+  "issueUrl": string
 }
