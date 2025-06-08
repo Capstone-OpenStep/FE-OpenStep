@@ -113,10 +113,14 @@ const Project: React.FC = () => {
                         break;
                     case "PR":
                         newStage = 3;
+                    case "REJECTED":
+                        newStage = 4;
                     case "REVIEW":
                         newStage = 4;
                         break;
                     case "Approve":
+                        newStage = 5;
+                    case "MERGED":
                         newStage = 5;
                     case "Closed":
                         newStage = 5;
@@ -218,7 +222,7 @@ const Project: React.FC = () => {
                 </div>
                 <div className={`${styles.section} ${styles.sectionRight}`}>
                     <Milestone currentStage={stage} />
-                    <Guide stage={stage} task={task} issueUrl={issue.issueUrl} />
+                    <Guide stage={stage} setStage={setStage} task={task} issueUrl={issue.issueUrl} />
                     {stage === 1 ? (
                         <div className={styles.startButton} onClick={startTask}>
                             <div className={styles.startButtonText}>기여 시작</div>

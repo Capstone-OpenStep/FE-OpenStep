@@ -16,6 +16,7 @@ interface CapsuleProps {
   stage: number;
   task: Task;
   issueUrl: string;
+  setStage: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const getCurrentTitle = (stage: number) => {
@@ -220,10 +221,11 @@ const ShortCut: React.FC<ShortCutProps> = ({ url, name }) => {
 };
 
 interface PRGuideProps {
-  task: Task
+  task: Task;
+  setStage: React.Dispatch<React.SetStateAction<number>>;
 };
 
-const PRGuide: React.FC<PRGuideProps> = ({ task }) => {
+const PRGuide: React.FC<PRGuideProps> = ({ task, setStage }) => {
   const [prUrl, setPrUrl] = React.useState('');
   const [showModal, setShowModal] = React.useState(false);
   const [modalMessage, setModalMessage] = React.useState("");
@@ -241,6 +243,7 @@ const PRGuide: React.FC<PRGuideProps> = ({ task }) => {
 
     try {
       await updatePrUrl(task.taskId, prUrl);
+      setStage(4);
     } catch (error) {
       console.error('PR URL 업데이트 실패:', error);
       setModalMessage(error.message);
@@ -333,13 +336,13 @@ const IssueGuide: React.FC<IssueGuideProps> = ({ issueUrl }) => {
 }
 
 
-const Guide: React.FC<CapsuleProps> = ({ stage, task, issueUrl }) => {
+const Guide: React.FC<CapsuleProps> = ({ stage, task, issueUrl, setStage }) => {
 
   const getCurrentGuide = (stage: number) => {
     switch (stage) {
       case 1: return <IssueGuide issueUrl={issueUrl} />;
       case 2: return <ForkGuide task={task} />;
-      case 3: return <PRGuide task={task} />;
+      case 3: return <PRGuide task={task} setStage={setStage} />;
       case 4: return null;
       case 5: return null;
       default: return null;
@@ -352,7 +355,7 @@ const Guide: React.FC<CapsuleProps> = ({ stage, task, issueUrl }) => {
         <span className={styles.title}>
           {getCurrentTitle(stage)}
         </span>
-        {getCurrentGuide(3)}
+        {getCurrentGuide(stage)}
       </div>
     </>
   );
