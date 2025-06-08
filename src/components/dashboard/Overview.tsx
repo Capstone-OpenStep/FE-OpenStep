@@ -172,8 +172,8 @@ function IssueDetails({ data }: IssueDetailsProps) {
         <thead>
           <tr style={{ borderBottom: '1px solid #ddd' }}>
             <th align="left">Label</th>
-            <th align="right">수</th>
-            <th align="right">비율</th>
+            <th style={{ textAlign: 'right' }}>수</th>
+            <th style={{ textAlign: 'right' }}>비율</th>
           </tr>
         </thead>
         <tbody>
