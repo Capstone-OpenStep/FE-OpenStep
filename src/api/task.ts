@@ -67,3 +67,20 @@ export const updatePrUrl = async (taskId: number, url: string): Promise<PRRegist
   }
   return response.data.result;
 }
+
+export interface GetNotificationResponse {
+  isSuccess: boolean;
+  code: string;
+  message: string;
+  result: TaskItem[];
+};
+
+export const getNotification = async (): Promise<TaskItem[]> => {
+  const response = (await api.get<GetNotificationResponse>(`/tasks/update-status`));
+  if (!response.data.isSuccess) {
+    const err = new Error(response.data.message);
+    (err as any).code = response.data.code;
+    throw err;
+  }
+  return response.data.result;
+}
