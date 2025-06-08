@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { IsSessionFunction, useNavigate } from "react-router-dom";
 import { getTrendingRepositories } from "../api/repository";
 import { getRecommendedIssues, getTrendingIssues, searchIssue } from "../api/issue";
-import {getDomains} from '../api/user'
+import { getDomains } from '../api/user'
 import { Repository } from "../types/repository";
 import { Issue } from "../types/issue";
 import styles from './Home.module.css';
@@ -11,6 +11,7 @@ import InfoText from '../components/home/InfoText';
 import CardList from '../components/home/CardList';
 import { useAuth } from "../components/AuthContext";
 import ErrorModal from "../components/ErrorModal";
+import NotificationPanel from "../components/home/NotificationPanel";
 
 const Home: React.FC = () => {
   const { isLoggedIn } = useAuth(); // 로그인 상태 확인
@@ -108,8 +109,8 @@ const Home: React.FC = () => {
         setRecommendedState(prev => ({ ...prev, hasMore: false }));
       } else {
         setRecommendedIssues(prev => [...prev, ...newResults]);
-        setRecommendedState(prev => ({ 
-          ...prev, 
+        setRecommendedState(prev => ({
+          ...prev,
           page: nextPage,
           hasMore: newResults.length > 0 && nextPage < 3
         }));
@@ -134,8 +135,8 @@ const Home: React.FC = () => {
         setTrendingState(prev => ({ ...prev, hasMore: false }));
       } else {
         setTrendingIssues(prev => [...prev, ...newResults]);
-        setTrendingState(prev => ({ 
-          ...prev, 
+        setTrendingState(prev => ({
+          ...prev,
           page: nextPage,
           hasMore: newResults.length > 0 && nextPage < 3
         }));
@@ -165,8 +166,8 @@ const Home: React.FC = () => {
         setSearchState(prev => ({ ...prev, hasMore: false }));
       } else {
         setSearchedIssues(prev => [...prev, ...newResults]);
-        setSearchState(prev => ({ 
-          ...prev, 
+        setSearchState(prev => ({
+          ...prev,
           page: nextPage,
           hasMore: newResults.length > 0 && nextPage < 3
         }));
@@ -236,18 +237,19 @@ const Home: React.FC = () => {
 
   return (
     <div className={styles.body}>
+      {isLoggedIn === true ? (<NotificationPanel />) : (null)}
       <div className={styles.mainContent}>
         {mode != 0 ? (
-          <SearchBar 
-            mode={mode} 
-            query={query} 
-            setMode={setMode} 
-            setQuery={setQuery} 
+          <SearchBar
+            mode={mode}
+            query={query}
+            setMode={setMode}
+            setQuery={setQuery}
             setSearchedIssues={setSearchedIssues}
             setSearchState={setSearchState}
           />
         ) : (null)}
-        <InfoText mode={mode} query={query} setMode={setMode} domains={domains}/>
+        <InfoText mode={mode} query={query} setMode={setMode} domains={domains} />
         <CardList
           issues={getCurrentIssues()}
           isLoading={getCurrentLoadingState()}
