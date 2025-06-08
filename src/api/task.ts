@@ -59,7 +59,7 @@ export interface UpdatePrUrlResponse {
 
 
 export const updatePrUrl = async (taskId: number, url: string): Promise<PRRegister> => {
-  const response = (await api.get<UpdatePrUrlResponse>(`/tasks/${taskId}/pr?task-id=${taskId}&&url=${url}`));
+  const response = (await api.get<UpdatePrUrlResponse>(`/tasks/${taskId}/pr?url=${encodeURIComponent(url)}`));
   if (!response.data.isSuccess) {
     const err = new Error(response.data.message);
     (err as any).code = response.data.code;
