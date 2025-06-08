@@ -1,31 +1,38 @@
 import React from 'react';
-import styles from './UserInfo.module.css'; // Import the CSS module
+import styles from './UserInfo.module.css';
 import users from '../../assets/users.svg';
 import location from '../../assets/location.svg';
 import email from '../../assets/email.svg';
 import chain from '../../assets/chain.svg';
-import bugHunter from '../../assets/ achievements/bugHunter.png'
-import consistentDev from '../../assets/ achievements/consistentDev.png'
-import docWriter from '../../assets/ achievements/docWriter.png'
-import ExplorerLv1 from '../../assets/ achievements/ExplorerLv1.png'
-import ExplorerLv2 from '../../assets/ achievements/ExplorerLv2.png'
-import ExplorerLv3 from '../../assets/ achievements/ExplorerLv3.png'
-import firstCommit from '../../assets/ achievements/firstCommit.png'
-import Mentor from '../../assets/ achievements/Mentor.png'
-import PRMaster from '../../assets/ achievements/PRMaster.png'
-import { Level, UserProfile } from '../../types/user'
+import bugHunter from '../../assets/achievements/bugHunter.png';
+import consistentDev from '../../assets/achievements/consistentDev.png';
+import docWriter from '../../assets/achievements/docWriter.png';
+import ExplorerLv1 from '../../assets/achievements/ExplorerLv1.png';
+import ExplorerLv2 from '../../assets/achievements/ExplorerLv2.png';
+import ExplorerLv3 from '../../assets/achievements/ExplorerLv3.png';
+import firstCommit from '../../assets/achievements/firstCommit.png';
+import Mentor from '../../assets/achievements/Mentor.png';
+import PRMaster from '../../assets/achievements/PRMaster.png';
+import { Level, UserProfile, Acheievement } from '../../types/user';
 
 interface UserInfoProps {
   level: Level;
   profile: UserProfile;
+  acheivements: Acheievement[];
 }
 
-const UserInfo: React.FC<UserInfoProps> = ({ level, profile }) => {
+const achievementImages: Record<Acheievement["type"], string> = {
+  FIRST_COMMIT: firstCommit,
+  BUF_HUNTER: bugHunter,
+  PR_MASTER: PRMaster,
+  CONSISTENT_DEV: consistentDev,
+  EXPLORER_LV1: ExplorerLv1,
+  EXPLORER_LV2: ExplorerLv2,
+  EXPLORER_LV3: ExplorerLv3,
+  MENTOR: Mentor,
+};
 
-  const onClickProfile = () => {
-
-  }
-
+const UserInfo: React.FC<UserInfoProps> = ({ level, profile, acheivements }) => {
   return (
     <div>
       <div className={styles.userInfoContainer}>
@@ -62,15 +69,14 @@ const UserInfo: React.FC<UserInfoProps> = ({ level, profile }) => {
           <a className={styles.infoText} href={profile.profileUrl}>in/userprofile</a>
         </div>
         <div className={styles.archivementList}>
-          <img className={styles.archivement} src={bugHunter}></img>
-          <img className={styles.archivement} src={consistentDev}></img>
-          <img className={styles.archivement} src={docWriter}></img>
-          <img className={styles.archivement} src={ExplorerLv1}></img>
-          <img className={styles.archivement} src={ExplorerLv2}></img>
-          <img className={styles.archivement} src={ExplorerLv3}></img>
-          <img className={styles.archivement} src={firstCommit}></img>
-          <img className={styles.archivement} src={Mentor}></img>
-          <img className={styles.archivement} src={PRMaster}></img>
+          {acheivements.map((acheivement) => (
+            <img
+              className={styles.archivement}
+              src={achievementImages[acheivement.type]}
+              alt={acheivement.title}
+              title={acheivement.description}
+            />))
+          }
         </div>
       </div>
     </div>
