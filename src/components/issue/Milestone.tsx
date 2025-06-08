@@ -81,7 +81,7 @@ const Milestone: React.FC<MilestoneProps> = ({ currentStage }) => {
       {labels.map((label, index) => {
         let status: 'inactive' | 'current' | 'done';
         if (currentStage === index + 1) {
-          status = 'current';
+          status = (index === 4) ? 'done' : 'current'; // 병합 단계 done
         } else if (currentStage > index + 1) {
           status = 'done';
         } else {

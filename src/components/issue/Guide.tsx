@@ -25,7 +25,7 @@ const getCurrentTitle = (stage: number) => {
     case 2: return '프로젝트 기여 단계 : 브랜치 생성 및 작업';
     case 3: return '프로젝트 기여 단계 : PR 생성';
     case 4: return '프로젝트 기여 단계 : 리뷰';
-    case 5: return '프로젝트 기여 단계 : 머지';
+    case 5: return '프로젝트 기여 단계 : 병합';
     default: return '모든 과정이 끝났습니다!';
   }
 }
@@ -259,60 +259,6 @@ const PRGuide: React.FC<PRGuideProps> = ({ task, setStage }) => {
       </span>
       <ShortCut url={task.forkedUrl} name='레포지토리' />
       <Example images={getCurrentImage(2)} />
-      <span className={styles.textLight}>
-        PR을 작성했다면 작성된 PR의 링크를 제출해주세요!
-      </span>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 11, alignItems: 'center' }}>
-        <input
-          type="text"
-          value={prUrl}
-          onChange={(e) => setPrUrl(e.target.value)}
-          style={{
-            width: 361,
-            height: 31,
-            fontFamily: 'Noto Sans KR',
-            fontSize: 14,
-            paddingLeft: 10,
-            border: 'none',
-            outline: 'none',
-            transition: 'all 0.25s ease',
-            boxShadow: '0 0 0px rgba(83,83,255,0)',
-            background: 'rgba(85, 98, 248, 0.41)',
-            borderRadius: 5,
-          }}
-          placeholder='PR 링크를 입력해주세요'
-          onFocus={(e) =>
-            (e.currentTarget.style.boxShadow = '0 0 0 3px rgba(85, 98, 248, 0.8)')
-          }
-          onBlur={(e) =>
-            (e.currentTarget.style.boxShadow = '0 0 0px rgba(83,83,255,0)')
-          }
-        />
-        <span
-          onClick={handleSubmit}
-          style={{
-            width: 361,
-            height: 31,
-            fontFamily: 'Noto Sans KR',
-            fontSize: 14,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            background: '#5562F8',
-            borderRadius: 5,
-            color: '#fff',
-            cursor: 'pointer'
-          }}>제출</span>
-      </div>
-      {showModal && (
-        <ErrorModal
-          show={showModal}
-          title="오류"
-          message={modalMessage}
-          confirmText="확인"
-          onConfirm={handleModalClose}
-        />
-      )}
     </>
   );
 };
@@ -344,7 +290,7 @@ const Guide: React.FC<CapsuleProps> = ({ stage, task, issueUrl, setStage }) => {
       case 2: return <ForkGuide task={task} />;
       case 3: return <PRGuide task={task} setStage={setStage} />;
       case 4: return null;
-      case 5: return null;
+      case 5: return (<div className={styles.content}>모든 기여 과정이 완료되었습니다!<br/>이제 다른 이슈들을 찾아 기여를 시작해보세요!</div>);
       default: return null;
     }
   }
