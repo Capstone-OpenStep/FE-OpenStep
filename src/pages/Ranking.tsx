@@ -8,18 +8,27 @@ interface UserProps {
   rank: number;
   name: string;
   xp?: number;
+  avatar: string | null;
   highlight?: boolean;
   me?: boolean;
   color?: string;
 }
 
-const RankingRow: React.FC<UserProps> = ({ rank, name, xp, highlight, me, color }) => {
+const RankingRow: React.FC<UserProps> = ({ rank, name, xp, avatar, highlight, me, color }) => {
   const containerClass = highlight ? styles.highlightRow : styles.rankingRow;
+
+  const onClickAvatar = () => {
+    if (name != null) {
+      const url = `https://github.com/${name}`
+      window.location.href = url;
+    }
+  };
+
   return (
     <div className={containerClass}>
-      <div className={highlight ? styles.userHighlight : styles.userInfo}>
+      <div className={highlight ? styles.userHighlight : styles.userInfo} onClick={onClickAvatar} >
         <div className={styles.rank}>{rank}</div>
-        <div className={styles.avatar} style={{ background: color || '#EEEEEE' }} />
+        {avatar ? (<img src={avatar} className={styles.avatar} />) : (<div className={styles.avatar} />)}
         <div className={highlight ? styles.usernameHighlight : styles.username}>{name}</div>
         {me && <div className={styles.meBadge}>me</div>}
       </div>
@@ -61,6 +70,12 @@ const Ranking: React.FC = () => {
   const secondUser = rankData[1];
   const thirdUser = rankData[2];
 
+  const handleAvatarClick = (username: string) => {
+    if (username) {
+      window.location.href = `https://github.com/${username}`;
+    }
+  };
+
   return (
     <div className={styles.body}>
       <div className={styles.titleBox}>
@@ -82,8 +97,9 @@ const Ranking: React.FC = () => {
         {secondUser && (
           <div className={styles.secondCard}>
             <div className={styles.topRank}>2nd</div>
-            <div className={styles.userInfo}>
-              <div className={styles.avatarSpecial} />
+            <div className={styles.userInfo} onClick={() => handleAvatarClick(secondUser.githubId)} >
+              {secondUser.avatarUrl ? (<img src={secondUser.avatarUrl} className={styles.avatarSpecial} />) :
+                (<div className={styles.avatarSpecial} />)}
               <div className={styles.username}>{secondUser.githubId}</div>
             </div>
             <div className={styles.score}>{secondUser.xp}xp</div>
@@ -94,8 +110,9 @@ const Ranking: React.FC = () => {
         {thirdUser && (
           <div className={styles.thirdCard}>
             <div className={styles.topRank}>3rd</div>
-            <div className={styles.userInfo}>
-              <div className={styles.avatarSpecial} />
+            <div className={styles.userInfo} onClick={() => handleAvatarClick(thirdUser.githubId)}>
+              {thirdUser.avatarUrl ? (<img src={thirdUser.avatarUrl} className={styles.avatarSpecial} />) :
+                ((<div className={styles.avatarSpecial} />))}
               <div className={styles.username}>{thirdUser.githubId}</div>
             </div>
             <div className={styles.score}>{thirdUser.xp}xp</div>
@@ -106,8 +123,9 @@ const Ranking: React.FC = () => {
         {firstUser && (
           <div className={styles.firstCard}>
             <div className={styles.topTitle}>기여최공</div>
-            <div className={styles.userBlock}>
-              <div className={styles.avatarLarge} />
+            <div className={styles.userBlock} onClick={() => handleAvatarClick(firstUser.githubId)}>
+              {firstUser.avatarUrl ? (<img src={firstUser.avatarUrl} className={styles.avatarLarge} />) :
+                (<div className={styles.avatarLarge} />)}
               <div className={styles.usernameLarge}>{firstUser.githubId}</div>
             </div>
             <div className={styles.scoreLarge}>{firstUser.xp}xp</div>
@@ -130,6 +148,7 @@ const Ranking: React.FC = () => {
               rank={actualRank}
               name={user.githubId}
               xp={user.xp}
+              avatar={user.avatarUrl}
               highlight={isCurrentUser}
               me={isCurrentUser}
             />
