@@ -2,12 +2,13 @@ export interface Task {
   taskId: number;
   title: string;
   forkedUrl: string;
-  status: "NOTSTARTED" | "FORKED" | "PR" | "REVIEW" | "Approve" | "Closed" | "REJECTED" | "MERGED";
+  status: "NOT_STARTED" | "FORKED" | "PROGRESS" | "PR" | "REVIEW" | "REJECTED" | "MERGED";
   branchName: string;
   createdAt: string;
   updatedAt: string;
   issueId: number;
   issueUrl: string;
+  prUrl: string;
 }
 
 export interface GroupedTasks {
@@ -23,7 +24,7 @@ export interface GroupedTasks {
 export interface TaskItem {
   taskId: number;
   title: string;
-  status: "NOTSTARTED" | "FORKED" | "PR" | "REVIEW" | "Approve" | "Closed" | "REJECTED" | "MERGED";
+  status: "NOT_STARTED" | "FORKED" | "PROGRESS" | "PR" | "REVIEW" | "REJECTED" | "MERGED";
   branchName: string,
   createdAt: string;
   updatedAt: string;
@@ -54,10 +55,19 @@ export interface PRRegister {
   "taskId": number,
   "title": string,
   "forkedUrl": string,
-  "status": "NOTSTARTED" | "FORKED" | "PR" | "REVIEW" | "Approve" | "Closed" | "REJECTED" | "MERGED";
+  "status": "NOT_STARTED" | "FORKED" | "PROGRESS" | "PR" | "REVIEW" | "REJECTED" | "MERGED";
   "branchName": string,
   "createdAt": string,
   "updatedAt": string,
   "issueId": number,
   "issueUrl": string
 }
+
+export type Stage =
+  | 'NOT_STARTED'
+  | 'FORKED'
+  | 'PROGRESS'
+  | 'PR'
+  | 'REVIEW'
+  | 'MERGED'
+  | 'REJECTED';
