@@ -256,12 +256,17 @@ interface ReviewGuideProps {
 const ReviewGuide: React.FC<ReviewGuideProps> = ({ prUrl, isReviewed }) => {
   return (
     <>
+    <span className={styles.grayText}>{isReviewed ?  ("작성된 PR에 대해 코멘트가 남겨진 상태에요") : ("아직 PR에 대한 코멘트가 남겨지지 않았어요")}</span>
       <ShortCut url={prUrl} name='PR' />
-      <span className={styles.content}>
-        아래 이슈 바로가기 버튼을 눌러 댓글로 참여 의사를 남기고, <br />
-        Maintainer의 할당을 기다리세요. <br />
-        할당이 되었다면 기여 시작 버튼을 눌러주세요!
-      </span>
+      {isReviewed ?  
+      (<span className={styles.content} style={{marginTop:10}}>
+        병합을 위해서 maintainer의 리뷰를 받아야 해요<br />
+        코멘트가 남겨질 때까지 기다려주세요<br/>
+      </span>) : 
+      (<span className={styles.content} style={{marginTop:10, lineHeight:1.7}}>
+        PR 바로가기 버튼을 눌러 어떤 코멘트를 받았는지 확인해주세요<br/>
+        만약 수정을 요청 받았다면 기존에 작업하던 브랜치에서 추가로 작업해주세요!
+      </span>)}
     </>
   );
 }
@@ -303,7 +308,7 @@ const Guide: React.FC<CapsuleProps> = ({ stage, task, issueUrl, setStage, refres
     <div className={styles.container}>
       <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
         <span className={styles.title}>{stageTitleMap[stage as Stage]}</span>
-        {(stage === "PROGRESS" || stage === "REVIEW") && (
+        {(stage === "PROGRESS" || stage === "REVIEW" || stage === "PR") && (
           <img
             src={refreshIcon}
             onClick={() => refreshTask(task.taskId)}
