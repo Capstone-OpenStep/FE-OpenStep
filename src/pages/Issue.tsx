@@ -55,12 +55,13 @@ const Project: React.FC = () => {
         taskId: 0,
         title: "",
         forkedUrl: "",
-        status: "NOTSTARTED",
+        status: "NOT_STARTED",
         branchName: "",
         createdAt: "",
         updatedAt: "",
         issueId: 0,
         issueUrl: "",
+        prUrl: "",
     });
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -130,6 +131,7 @@ const Project: React.FC = () => {
                     updatedAt: "",
                     issueId: 0,
                     issueUrl: "",
+                    prUrl: "",
                 }
                 task.issueUrl = fetchedIssue.url;
                 setTask(task);
@@ -176,8 +178,19 @@ const Project: React.FC = () => {
             updatedAt: result.updatedAt,
             issueId: result.issueId,
             issueUrl: '',
+            prUrl: '',
         };
         setTask(task);
+    }
+
+    const refreshTask = async (taskId: number) => {
+        try {
+            const taskInfo: Task = await getTask(taskId);
+            setStage(taskInfo.status);
+            setTask(taskInfo);
+        } catch (error) {
+
+        }
     }
 
     return (
@@ -196,7 +209,7 @@ const Project: React.FC = () => {
                 </div>
                 <div className={`${styles.section} ${styles.sectionRight}`}>
                     <Milestone stage={stage} />
-                    <Guide stage={stage} setStage={setStage} task={task} issueUrl={issue.issueUrl} />
+                    <Guide stage={stage} setStage={setStage} task={task} issueUrl={issue.issueUrl} refreshTask={refreshTask} />
                     {stage === "NOT_STARTED" ? (
                         <div className={styles.startButton} onClick={startTask}>
                             <div className={styles.startButtonText}>기여 시작</div>
