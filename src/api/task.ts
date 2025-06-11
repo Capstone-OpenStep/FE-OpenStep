@@ -84,3 +84,20 @@ export const getNotification = async (): Promise<TaskItem[]> => {
   }
   return response.data.result;
 }
+
+export interface SetStatusProgressResponse {
+  isSuccess: boolean;
+  code: string;
+  message: string;
+  result: {
+    taskId: number,
+    status: string,
+    createdAt : string,
+    updatedAt : string,
+  };
+};
+
+export const setStatusProgress = async (taskId : number): Promise<boolean> => {
+  const response = (await api.patch<SetStatusProgressResponse>(`/tasks/${taskId}/status`));
+  return response.data.isSuccess;
+}

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Copy, Check } from 'lucide-react';
-import { Task } from '../../types/task'
+import { Task, Stage } from '../../types/task'
 import styles from './Guide.module.css';
 import Example, { ImageInfo } from './Example';
 import PRExample1 from '../../assets/examples/PRExample1.png'
@@ -10,25 +10,17 @@ import copyIcon from '../../assets/copy.svg'
 import shortCutIcon from '../../assets/shortCut.svg'
 import { updatePrUrl } from '../../api/task'
 import ErrorModal from '../ErrorModal'
+import refreshIcon from '../../assets/refresh.svg'
 
 
 interface CapsuleProps {
-  stage: number;
+  stage: Stage;
   task: Task;
   issueUrl: string;
-  setStage: React.Dispatch<React.SetStateAction<number>>;
+  setStage: React.Dispatch<React.SetStateAction<Stage>>;
+  refreshTask: (taskId: number) => Promise<void>;
 }
 
-const getCurrentTitle = (stage: number) => {
-  switch (stage) {
-    case 1: return '프로젝트 기여 단계 : 이슈 할당 및 fork';
-    case 2: return '프로젝트 기여 단계 : 브랜치 생성 및 작업';
-    case 3: return '프로젝트 기여 단계 : PR 생성';
-    case 4: return '프로젝트 기여 단계 : 리뷰';
-    case 5: return '프로젝트 기여 단계 : 병합';
-    default: return '모든 과정이 끝났습니다!';
-  }
-}
 
 const getCurrentImage = (stage: number) => {
   if (stage === 1) {
@@ -222,40 +214,15 @@ const ShortCut: React.FC<ShortCutProps> = ({ url, name }) => {
 
 interface PRGuideProps {
   task: Task;
-  setStage: React.Dispatch<React.SetStateAction<number>>;
+  setStage: React.Dispatch<React.SetStateAction<Stage>>;
 };
 
 const PRGuide: React.FC<PRGuideProps> = ({ task, setStage }) => {
-  const [prUrl, setPrUrl] = React.useState('');
-  const [showModal, setShowModal] = React.useState(false);
-  const [modalMessage, setModalMessage] = React.useState("");
-
-  const handleModalClose = () => {
-    setShowModal(false);
-  };
-
-  const handleSubmit = async () => {
-    if (!prUrl.trim()) {
-      setModalMessage("PR 링크를 입력해주세요.");
-      setShowModal(true);
-      return;
-    }
-
-    try {
-      await updatePrUrl(task.taskId, prUrl);
-      setStage(4);
-    } catch (error) {
-      console.error('PR URL 업데이트 실패:', error);
-      setModalMessage(error.message);
-      setShowModal(true);
-    }
-  };
 
   return (
     <>
       <span className={styles.content}>
-        1. 레포지토리 바로가기 버튼을 눌러 PR을 작성해주세요<br />
-        2. 작성이 완료되었다면 PR링크를 입력한 후 제출해주세요
+        레포지토리 바로가기 버튼을 눌러 PR을 작성해주세요<br />
       </span>
       <ShortCut url={task.forkedUrl} name='레포지토리' />
       <Example images={getCurrentImage(2)} />
@@ -281,30 +248,78 @@ const IssueGuide: React.FC<IssueGuideProps> = ({ issueUrl }) => {
   );
 }
 
+interface ReviewGuideProps {
+  prUrl: string,
+  isReviewed: boolean,
+};
 
-const Guide: React.FC<CapsuleProps> = ({ stage, task, issueUrl, setStage }) => {
-
-  const getCurrentGuide = (stage: number) => {
-    switch (stage) {
-      case 1: return <IssueGuide issueUrl={issueUrl} />;
-      case 2: return <ForkGuide task={task} />;
-      case 3: return <PRGuide task={task} setStage={setStage} />;
-      case 4: return null;
-      case 5: return (<div className={styles.content}>모든 기여 과정이 완료되었습니다!<br/>이제 다른 이슈들을 찾아 기여를 시작해보세요!</div>);
-      default: return null;
-    }
-  }
-
+const ReviewGuide: React.FC<ReviewGuideProps> = ({ prUrl, isReviewed }) => {
   return (
     <>
-      <div className={styles.container}>
-        <span className={styles.title}>
-          {getCurrentTitle(stage)}
-        </span>
-        {getCurrentGuide(stage)}
-      </div>
+    <span className={styles.grayText}>{isReviewed ?  ("작성된 PR에 대해 코멘트가 남겨진 상태에요") : ("아직 PR에 대한 코멘트가 남겨지지 않았어요")}</span>
+      <ShortCut url={prUrl} name='PR' />
+      {isReviewed ?  
+      (<span className={styles.content} style={{marginTop:10}}>
+        병합을 위해서 maintainer의 리뷰를 받아야 해요<br />
+        코멘트가 남겨질 때까지 기다려주세요<br/>
+      </span>) : 
+      (<span className={styles.content} style={{marginTop:10, lineHeight:1.7}}>
+        PR 바로가기 버튼을 눌러 어떤 코멘트를 받았는지 확인해주세요<br/>
+        만약 수정을 요청 받았다면 기존에 작업하던 브랜치에서 추가로 작업해주세요!
+      </span>)}
     </>
   );
 }
+
+
+const stageTitleMap: Record<Stage, string> = {
+  NOT_STARTED: '프로젝트 기여 단계 : 이슈 할당 및 fork',
+  FORKED: '프로젝트 기여 단계 : 브랜치 생성 및 작업',
+  PROGRESS: '프로젝트 기여 단계 : PR 생성',
+  PR: '프로젝트 기여 단계 : 리뷰',
+  REVIEW: '프로젝트 기여 단계 : 리뷰',
+  MERGED: '프로젝트 기여 단계 : 머지',
+  REJECTED: '프로젝트 기여 단계 : 머지',
+};
+
+const stageGuideComponent = (
+  stage: Stage,
+  issueUrl: string,
+  task: Task,
+  setStage: React.Dispatch<React.SetStateAction<Stage>>,
+) => {
+  switch (stage) {
+    case 'NOT_STARTED':
+      return <IssueGuide issueUrl={issueUrl} />;
+    case 'FORKED':
+      return <ForkGuide task={task} />;
+    case 'PROGRESS':
+      return <PRGuide task={task} setStage={setStage} />;
+    case 'PR':
+    case 'REVIEW':
+      return <ReviewGuide prUrl={task.prUrl} isReviewed={stage == "REVIEW"} />
+    default:
+      return null;
+  }
+};
+
+const Guide: React.FC<CapsuleProps> = ({ stage, task, issueUrl, setStage, refreshTask }) => {
+  return (
+    <div className={styles.container}>
+      <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+        <span className={styles.title}>{stageTitleMap[stage as Stage]}</span>
+        {(stage === "PROGRESS" || stage === "REVIEW" || stage === "PR") && (
+          <img
+            src={refreshIcon}
+            onClick={() => refreshTask(task.taskId)}
+            style={{ marginLeft: 20, cursor: 'pointer' }}
+            alt="Refresh"
+          />
+        )}
+      </div>
+      {stageGuideComponent(stage as Stage, issueUrl, task, setStage)}
+    </div>
+  );
+};
 
 export default Guide;
