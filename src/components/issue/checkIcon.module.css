@@ -1,0 +1,49 @@
+.container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.icon {
+    margin-top: 204px;
+    height: 225px;
+    width: 225px;
+}
+
+.content {
+    margin-top: 20px;
+    color: #2F2F2F;
+
+    text-align: center;
+    font-family: "Noto Sans KR";
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.questionBox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 45px;
+    cursor: pointer;
+}
+
+.checkIcon {
+    width: 24px;
+    height: 24px;
+}
+
+.helpText {
+    color: #5353FF;
+
+    font-family: "Noto Sans KR";
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}

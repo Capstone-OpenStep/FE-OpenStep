@@ -12,6 +12,7 @@ import { IssueDescription } from '../types/issueDescription';
 import { RepositoryDescription } from '../types/repositoryDescription'
 import { Task, TaskAssignResult, Stage } from '../types/task'
 import { assignTask, getTask } from '../api/task'
+import CheckIcon from '../components/issue/checkIcon';
 import axios from 'axios';
 
 const Project: React.FC = () => {
@@ -64,6 +65,7 @@ const Project: React.FC = () => {
         prUrl: "",
     });
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [showCheckIcon, setShowCheckIcon] = useState<boolean>(false);
 
 
     useEffect(() => {
@@ -164,6 +166,11 @@ const Project: React.FC = () => {
     const startTask = async () => {
         const result = await assignTask(issueId);
         setStage("FORKED");
+
+        // timeout 3 second
+        setShowCheckIcon(true);
+        setTimeout(() => setShowCheckIcon(false), 3000);
+
         const query = location.search;
         const searchParams = new URLSearchParams(query);
         searchParams.set('taskId', String(result.taskId));
@@ -208,18 +215,49 @@ const Project: React.FC = () => {
                     <Descrption title={issue?.title} issueSummary={issue?.summary} issueContent={issue?.body} isLoading={isLoading} />
                 </div>
                 <div className={`${styles.section} ${styles.sectionRight}`}>
-                    <Milestone stage={stage} />
-                    <Guide stage={stage} setStage={setStage} task={task} issueUrl={issue.issueUrl} refreshTask={refreshTask} />
-                    {stage === "NOT_STARTED" ? (
-                        <div className={styles.startButton} onClick={startTask}>
-                            <div className={styles.startButtonText}>기여 시작</div>
-                        </div>
-                    ) : null}
-                    {stage === "FORKED" ? (
-                        <div className={styles.startButton} onClick={() => { setStage("PROGRESS") }}>
-                            <div className={styles.startButtonText}>넘어 가기</div>
-                        </div>
-                    ) : null}
+                    {(stage === "MERGED" || stage === "REJECTED" || showCheckIcon) ? (
+                        <>
+                            {showCheckIcon && (
+                                <CheckIcon
+                                    checked={true}
+                                    content={"포크가 완료되었어요!"}
+                                    isHelp={false}
+                                    help=''
+                                />
+                            )}
+                            {stage === "MERGED" && !showCheckIcon && (
+                                <CheckIcon
+                                    checked={true}
+                                    content={"기여가 완료되었어요!"}
+                                    isHelp={false}
+                                    help=''
+                                />
+                            )}
+                            {stage === "REJECTED" && !showCheckIcon && (
+                                <CheckIcon
+                                    checked={false}
+                                    content={"기여가 반려되었어요.."}
+                                    isHelp={true}
+                                    help='내 태스크가 왜 반려되었나요?'
+                                />
+                            )}
+                        </>
+                    ) : (
+                        <>
+                            <Milestone stage={stage} />
+                            <Guide stage={stage} setStage={setStage} task={task} issueUrl={issue.issueUrl} refreshTask={refreshTask} />
+                            {stage === "NOT_STARTED" && (
+                                <div className={styles.startButton} onClick={startTask}>
+                                    <div className={styles.startButtonText}>기여 시작</div>
+                                </div>
+                            )}
+                            {stage === "FORKED" && (
+                                <div className={styles.startButton} onClick={() => { setStage("PROGRESS") }}>
+                                    <div className={styles.startButtonText}>넘어 가기</div>
+                                </div>
+                            )}
+                        </>
+                    )}
                 </div>
             </div>
         </div>
