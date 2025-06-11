@@ -11,7 +11,7 @@ import { getRepositoryDescription } from '../api/repository'
 import { IssueDescription } from '../types/issueDescription';
 import { RepositoryDescription } from '../types/repositoryDescription'
 import { Task, TaskAssignResult, Stage } from '../types/task'
-import { assignTask, getTask } from '../api/task'
+import { assignTask, getTask, setStatusProgress } from '../api/task'
 import CheckIcon from '../components/issue/checkIcon';
 import axios from 'axios';
 
@@ -200,6 +200,18 @@ const Project: React.FC = () => {
         }
     }
 
+    const setStageProgress = async (taskId: number) => {
+        try {
+            console.log("test")
+            const result : boolean = await setStatusProgress(taskId);
+            if (result == true) {
+                setStage("PROGRESS");
+            }
+        } catch (error) {
+
+        }
+    }
+
     return (
         <div className={styles.body}>
             <div className={styles.contentWrapper}> {/* New wrapper div */}
@@ -252,7 +264,7 @@ const Project: React.FC = () => {
                                 </div>
                             )}
                             {stage === "FORKED" && (
-                                <div className={styles.startButton} onClick={() => { setStage("PROGRESS") }}>
+                                <div className={styles.startButton} onClick={() => { setStageProgress(task.taskId) }}>
                                     <div className={styles.startButtonText}>넘어 가기</div>
                                 </div>
                             )}
