@@ -70,14 +70,25 @@ const circlePositions = [
 
 const labels = ['이슈', '작업', 'PR', '리뷰', '병합'];
 
+const stageMap: Record<string, number> = {
+  NOT_STARTED: 1,
+  FORKED: 2,
+  PROGRESS: 3,
+  PR: 4,
+  REVIEW: 4,
+  REJECTED: 5,
+  MERGED: 5,
+};
+
 interface MilestoneProps {
-  currentStage: number;
+  stage: string;
 }
 
-const Milestone: React.FC<MilestoneProps> = ({ currentStage }) => {
+const Milestone: React.FC<MilestoneProps> = ({ stage }) => {
+  const currentStage = stageMap[stage] || 1; // 기본값은 1 (NOT_STARTED)
+
   return (
     <Container>
-      {/* 단계별 원(circle) 렌더링 */}
       {labels.map((label, index) => {
         let status: 'inactive' | 'current' | 'done';
         if (currentStage === index + 1) {
@@ -95,7 +106,6 @@ const Milestone: React.FC<MilestoneProps> = ({ currentStage }) => {
         );
       })}
 
-      {/* 원들을 잇는 edge 렌더링 */}
       <EdgesContainer>
         {[0, 1, 2, 3].map((edgeIndex) => {
           const active = currentStage > edgeIndex + 1;
