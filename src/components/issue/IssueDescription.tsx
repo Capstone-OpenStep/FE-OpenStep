@@ -9,8 +9,6 @@ interface IssueDescriptionProps {
     title: string;
     issueSummary: string;
     issueContent: string;
-    stage: number;
-    setStage: React.Dispatch<React.SetStateAction<number>>;
     isLoading: boolean;
 }
 
@@ -18,13 +16,9 @@ const IssueDescription: React.FC<IssueDescriptionProps> = ({
     title,
     issueSummary,
     issueContent,
-    stage,
-    setStage,
     isLoading
 }) => {
-    const onClickButton = () => {
-        setStage(stage + 1);
-    };
+
 
     return (
         <div className={styles.container}>
