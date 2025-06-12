@@ -193,8 +193,9 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    width: 1228px;
+    width: 280px;
     margin-top: 10px;
+    margin-left: 948px;
 }
 
 .checkIcon {
@@ -246,8 +247,16 @@
     line-height: 1.2;
 }
 
-.tooltipContainer:hover .tooltipBox {
-    opacity: 1;
+/* 툴팁 보이는 상태 */
+.tooltipVisible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* 툴팁 숨김 상태 (명시적) */
+.tooltipHidden {
+  opacity: 0;
+  pointer-events: none;
 }
 
 
