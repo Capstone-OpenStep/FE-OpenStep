@@ -257,7 +257,7 @@ const Project: React.FC = () => {
                     ) : (
                         <>
                             <Milestone stage={stage} />
-                            <Guide stage={stage} setStage={setStage} task={task} issueUrl={issue.issueUrl} refreshTask={refreshTask} />
+                            <Guide stage={stage} setStage={setStage} task={task} issueUrl={issue.url} refreshTask={refreshTask} />
                             {stage === "NOT_STARTED" && (
                                 <div className={styles.startButton} onClick={startTask}>
                                     <div className={styles.startButtonText}>기여 시작</div>
