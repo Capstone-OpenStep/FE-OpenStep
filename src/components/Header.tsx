@@ -27,10 +27,10 @@ const Header = () => {
   useEffect(() => {
     const code = new URL(window.location.href).searchParams.get("code");
     const backend = import.meta.env.VITE_BACKEND_URL;
-    const processed = sessionStorage.getItem('github_oauth_processed');
+    // const processed = sessionStorage.getItem('github_oauth_processed');
 
-    if (code && !processed) {
-      sessionStorage.setItem('github_oauth_processed', 'true');
+    if (code) {
+      // sessionStorage.setItem('github_oauth_processed', 'true');
 
       axios
         .get(`${backend}/github/auth/callback?code=${code}`, {
